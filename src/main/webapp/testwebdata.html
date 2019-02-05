@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>        
+    <script>
+      $(document).ready(function () {
+
+        let list;
+        async function clearList() {
+          list = []; // A
+        }
+        async function processList(processList) {
+          await clearList(); // B
+          list = list.concat(processList); // C
+        }
+        processList([1, 2, 3]); // D
+        processList([4, 5, 6]) // E
+                .then(() => {
+                  console.log(list); // F
+                });
+
+        async function hello() {
+          return 'Hello Alligator!';
+        }
+
+        hello().then(x => console.log(x)); // Hello Alligator!
+
+        function scaryClown() {
+          return new Promise(resolve => {
+
+            $.ajax("http://localhost:8080/WebRWin/login2", {
+              success: function (data) {
+                console.log('Data: ' + data);
+                resolve('Call WebRWin/login; status: OK');
+              },
+              error: function () {
+                console.log('Error !!!');
+                resolve('Call WebRWin/login; Error');
+              }
+            });
+            /*
+             $.get("http://localhost:8080/WebRWin/login2", function (data, status) {
+             //alert("Data: " + data + "\nStatus: " + status);
+             resolve('Call WebRWin/login; status: ' + status);
+             });
+             */
+          });
+        }
+
+        async function msg() {
+          const msg = await scaryClown();
+          console.log('Message:', msg);
+        }
+
+        msg();
+
+        console.log('Ende');
+
+        /*  
+         var query = window.location.search.substring(1);
+         console.log('queryString: ' + query);
+         var lang = $('#out').attr('id');
+         console.log('lang: ' + lang);
+         
+         var image = document.images[0];
+         //var image = $("#sw");
+         console.log('image.src: ' + image.src);
+         //var downloadingImage = document.images[0];
+         var downloadingImage = $('#sw');
+         var alt = downloadingImage.alt;
+         console.log('downloadingImage.alt: ' + alt);
+         /*
+         var downloadingImage = new Image();* 
+         var downloadingImage = $('<img />', {
+         id: 'Myid',
+         src: 'loading.gif',
+         alt: 'MyAlt'
+         */
+      });
+
+
+      /*
+       downloadingImage.onload = function () {
+       image.src = this.src;
+       };
+       downloadingImage.src = "http://localhost:8080/WebRWin/sigourneyweaver.jpg";
+       
+       * * 
+       //Link für Sigourney Foto
+       //https://en.wikipedia.org/wiki/Sigourney_Weaver#/media/File:Sigourney_Weaver_by_Gage_Skidmore_4.jpg
+       $("#sw").load("sigourneyweaver.jpg", function (response, status, xhr) {
+       console.log('testwebdata.html: response status:' + status);
+       if (status == "error")
+       $("#out").html('Ajax error');
+       });
+       */
+      /*
+       var loadAjax = function () {
+       $("#labour").load("michaeljames.txt", function (response, status, xhr) {
+       if (status == "error")
+       $("#textData").html('Ajax error');
+       });
+       };
+       loadAjax();
+       
+       function printToday() {
+       var today = new Date();
+       document.write(today.toDateString());
+       }
+       function random(a, b) {
+       var result = a + (b - a) * Math.random();
+       document.write(result);
+       }
+       function random2(a, b) {
+       // if only one argument is supplied, assume the lower limit is 1
+       if (b === undefined)
+       b = a, a = 1;
+       var result = (b - a) * Math.random() + a;
+       document.write(result);
+       }
+       
+       });
+       */
+      // end ready        
+    </script>    
+  </head>
+  <body>
+    <div id="out" lang="en" >TODO write content</div>
+    <img id="sw" src="loading.gif" alt="Bild" />
+    <!-- <img id="dnl" class="myimageclass" src="loading.gif" title="downloading" />     -->
+  </body>
+</html>

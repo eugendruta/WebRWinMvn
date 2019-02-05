@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery UI Selectmenu - Product Selection</title>
+    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+    <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+    <style>
+      fieldset {
+        border: 0;
+        margin-left: 300px;
+      }
+      label {
+        display: block;
+        margin: 20px 0 0 0;
+      }
+
+      #circle {
+        float: left;
+        background: yellow;
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(function () {
+          var circle = $("#circle");
+          $("#radius").selectmenu({
+            change: function (event, data) {
+              circle.css({
+                width: data.item.value,
+                height: data.item.value
+              });
+            }
+          });
+          $("#color").selectmenu({
+            change: function (event, data) {
+              circle.css("background", data.item.value);
+            }
+          });
+        });
+      });
+    </script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" /> 
+    <!-- <script src="resources/js/auueb/auueb.js"></script>   -->
+  </head>
+
+  <body>
+    <div  style="width: 650px; background-color: #FAF9F8;">
+      <div id="eingabediv2" >
+        <table id="eingabe2" style="border: none">
+          <tr>
+            <td style="border: none">
+              <label >Auftrag</label>
+            </td>
+            <td style="border: none">
+              <input id="auftrag1" type="text" style="max-width: 70px; margin-left: 10px;">
+            </td>
+            <td style="border: none">
+              <label style="margin-left: 10px;">Land</label>
+            </td>            
+            <td style="border: none">
+              <select id="land1" style="margin-left: 10px;"> </select>        
+            </td>
+            <td style="border: none">
+              <label style="margin-left: 10px;">Kundennr.</label>
+            </td>
+            <td style="border: none">
+              <input id="kundennr1" type="text" style="max-width: 90px; margin-left: 10px;">
+            </td> 
+            <td style="border: none">
+              <input id="anzeigen11" value="Anzeigen" type="submit" style="max-width: 90px; margin-left: 10px;" 
+                     >
+            </td> 
+            <td style="border: none">
+              <button id="reset1" type="button" style="max-width: 90px; margin-left: 10px;">
+                Reset</button>
+            </td>            
+          </tr>
+        </table>          
+      </div>
+
+      <div id="ausgabediv2" >
+        <table>
+          <tr>
+            <td>
+              <table id="table_auueb1" >
+                <thead>
+                  <tr>
+                    <th ><b>Col1</b></th> 
+                    <th ><b>Col2</b></th>
+                    <th ><b>Col3</b></th> 
+                    <th ><b>Col4</b></th>
+                  </tr>            
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>col11 anlnlh</td>
+                    <td>col12</td>
+                    <td>col11</td>
+                    <td>col12</td>              
+                  </tr>
+                  <tr>
+                    <td>col21</td>
+                    <td>col22</td>
+                    <td>col11</td>
+                    <td>col12</td>              
+                  </tr>           
+                  <tr>
+                    <td>col31</td>
+                    <td>col32</td>
+                    <td>col11</td>
+                    <td>col12</td>              
+                  </tr>
+                  <tr>
+                    <td>col41</td>
+                    <td>col42</td>
+                    <td>col11</td>
+                    <td>col12</td>              
+                  </tr>  
+                </tbody>
+              </table>         
+            </td>
+            <td>
+              <!-- button id="shiftbtnr" type="button" >Right</button> -->
+              <input id="shiftbtnr" value="Reset" type="submit" style="width: 90px;" onclick="myshiftright()">
+            </td>
+            <td>
+              <input id="shiftbtnl" value="Reset" type="submit" style="width: 90px;" onclick="myshiftleft()">          
+              <button 
+                id="shiftbtnl2" type="button" 
+                style="background-image: url(left.png);" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+            <td>
+              <table id="table_auueb2" class="display">
+                <thead>
+                  <tr>
+                    <th ><b>                  Col1</b></th> 
+                    <th ><b>                  Col2</b></th>
+                    <th ><b>                  Col3</b></th> 
+                    <th ><b>                  Col4</b></th>
+                  </tr>                     
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>col1                  1 anlnlh</td>
+                    <td>col1                  2</td>
+                    <td>col1                  1</td>
+                    <td>col1                  2</td>              
+                  </tr>
+                  <tr>
+                    <td>col2                  1</td>
+                    <td>col2                  2</td>
+                    <td>col1                  1</td>
+                    <td>col1                  2</td>              
+                  </tr>                     
+                  <tr>
+                    <td>col3                  1</td>
+                    <td>col3                  2</td>
+                    <td>col1                  1</td>
+                    <td>col1                  2</td>              
+                  </tr>
+                  <tr>
+                    <td>col4                  1</td>
+                    <td>col4                  2</td>
+                    <td>col1                  1</td>
+                    <td>col1                  2</td>              
+                  </tr>  
+                </tbody>
+              </table>                  
+            </td>
+          </tr>
+        </table>
+
+        <div id="buttonsdiv2" style=" background-color: white;
+             width: 150px; background-color: lightgray; border: none;">
+          <button id="clearbtn2" type="button" >Anmelden</button>
+        </div> 
+      </div>      
+
+    </div>
+
+    <script>
+      anzclicks = 0;
+      anzdblclicks = 0;
+      var selectedrowdbl;
+      var selectedrowsingle;
+      var firstselectedrow;
+      var clickdelay = 0.0;
+      var click = 0.0;
+      var firstclick = 0.0;
+      var secondclick = 0.0;
+      var wait = true;
+      var timeout = 1000;
+      var table = $('#table_auueb2').DataTable();
+      /*
+       $('#table_auueb2 tbody').on('dblclick', 'tr', function () {
+       if ($(this).hasClass('selected')) {
+       $(this).removeClass('selected');
+       } else {
+       table.$('tr.selected').removeClass('selected');
+       $(this).addClass('selected');
+       }
+       selectedrowdbl = table.row(this).data()[0];
+       anzdblclicks++;
+       
+       if ((anzdblclicks === 1) && (anzclicks === 2)) {
+       console.log('dblclick: anzclicks: ' + anzclicks
+       + '; anzdblclicks: ' + anzdblclicks
+       + '; selectedrowdbl: ' + selectedrowdbl
+       );
+       anzclicks = 0;
+       anzdblclicks = 0;
+       }
+       });
+       
+       
+       $('#table_auueb2 tbody').on('click', 'tr', function () {
+       if ($(this).hasClass('selected')) {
+       $(this).removeClass('selected');
+       } else {
+       table.$('tr.selected').removeClass('selected');
+       $(this).addClass('selected');
+       }
+       selectedrowsingle = table.row(this).data()[0];
+       anzclicks++;
+       setTimeout(function () {
+       if ((anzclicks === 1) && (anzdblclicks === 0)) {
+       console.log('click: anzclicks: ' + anzclicks
+       + '; anzdblclicks: ' + anzdblclicks
+       + '; selectedrowsingle: ' + selectedrowsingle
+       );
+       anzclicks = 0;
+       anzdblclicks = 0;
+       } else if (anzclicks > 2) {
+       anzclicks = 0;
+       }
+       }, 200);
+       });
+       */
+
+      /* Wenn nach dem 1. click innerhalb des timeout noch ein click auf der selben
+       * Zeile kommt: doubleclick, ansonsten singleclick              .
+       */
+      $('#table_auueb2 tbody').on('click', 'tr', function () {
+        console.log('click: ' + Date.now() + '; firstclick: ' + firstclick
+          + '; secondclick: ' + secondclick);
+        if ((firstclick === 0.0) && (secondclick === 0.0)) {
+          //1. click
+          firstclick = Date.now();
+          firstselectedrow = table.row(this).data()[0];
+          console.log('firstclick: ' + firstclick + '; firstselectedrow: ' + firstselectedrow);
+          setTimeout(function () {
+            wait = false;
+            if ((firstclick !== 0.0) && (secondclick === 0)) {
+              console.log('timeOut() ende: singleclick: firstclick: ' + firstclick
+                + '; secondclick: ' + secondclick + '; firstselectedrow: ' + firstselectedrow);
+              firstclick = 0.0;
+              secondclick = 0.0;
+            } else if ((firstclick === 0.0) && (secondclick === 0)) {
+              //2. click bearbeitet
+              console.log('timeOut() ende: 2. click berabeitet: firstclick: ' + firstclick
+                + '; secondclick: ' + secondclick + '; firstselectedrow: ' + firstselectedrow);
+            }
+          }, timeout);
+          wait = true;
+          if (wait) {
+            console.log('Timeout gestartet ...');
+          }
+        } else if ((firstclick !== 0.0)) {
+          //2. click
+          //Wurde die gleiche Yeile selektiert ??
+          if (firstselectedrow === table.row(this).data()[0]) {
+            secondclick = Date.now();
+            //2. click in  der gleichen Zeile: wait: true; firstclick: 1540550848783; secondclick: 1540550848955
+            if (wait) {
+              clickdelay = secondclick - firstclick;
+              console.log('2. click gleiche Zeile: doubleclick: '
+                + '; clickdelay: ' + clickdelay + '; firstselectedrow: ' + firstselectedrow);
+            } else {
+              console.log('singleclick: 2. click: wait: ' + wait + '; firstclick: ' + firstclick
+                + '; secondclick: ' + secondclick);
+            }
+            firstclick = 0.0;
+            secondclick = 0.0;
+          } else {
+            //Click in einer anderen Zeile: single
+            console.log('2. click andere zeile');
+          }
+        }
+
+        /*
+         if ((firstclick !== 0.0) && (secondclick === 0.0)) {
+         //2. click
+         secondclick = Date.now();
+         console.log('secondclick ' + secondclick);
+         clickdelay = secondclick - firstclick;
+         console.log('clickdelay: ' + clickdelay);
+         clickdelay = 0.0;
+         firstclick = 0.0;
+         secondclick = 0.0;
+         }
+         
+         clicktime = new Date();
+         if ($(this).hasClass('selected')) {
+         $(this).removeClass('selected');
+         } else {
+         table.$('tr.selected').removeClass('selected');
+         $(this).addClass('selected');
+         }
+         selectedrowsingle = table.row(this).data()[0];
+         console.log('click: anzclicks: ' + anzclicks
+         + '; anzdblclicks: ' + anzdblclicks
+         + '; selectedrowsingle: ' + selectedrowsingle
+         );
+         */
+      });
+      function myshiftleft() {
+        alert('Click on ButtonLeft');
+      }
+
+      function myshiftright() {
+        alert('Click on Button right');
+      }
+
+      $('#shiftbtnl2').click(function () {
+        alert('selectedRow: ' + table.rows('.selected').data()[0][1]);
+      });
+    </script>
+  </body>
+</html>

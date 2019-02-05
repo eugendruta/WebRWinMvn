@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+  <head>
+    <meta charset="UTF-8"> 
+    <title>Navigator</title>   
+    <link rel="manifest" href="../manifest.json">    
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="../resources/js/plugins/jqTree/tree.jquery.js"></script>   
+    <script src="../resources/js/plugins/jquery.table.selector.js"></script>  
+
+    <script src="../resources/js/w3-include-HTML.js"></script>  
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />    
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.6/css/fixedColumns.dataTables.min.css" /> 
+    <script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>    
+
+    <link rel="stylesheet" href="../resources/css/jquery-ui.css" type="text/css"/>    
+    <link href="../resources/css/jqtree.css" rel="stylesheet">       
+    <link href="../resources/css/dialog.css" rel="stylesheet">  
+    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"  crossorigin="anonymous"/>  -->
+    <link href="../resources/css/fontawesome/css/all.css" rel="stylesheet">
+    <script src="../resources/js/util.js" ></script>
+    <script src="js/webrw.js" ></script>      
+    <!-- <script src="js/min/webrw.js" ></script>   -->
+  </head>
+
+  <body style="height: 100%; min-width: 100px;">  
+    <div id="container" style="height: 100%; background-image: url(../resources/images/wallpaper_dev.png);">
+      <!-- Navigator -->      
+      <table id="navigatortbl" style="border: none">
+        <tr>
+          <td style="vertical-align: top; border: none;">
+            <div id="navigator" title="Navigator"
+                 style="width: 230px; float: left; background-color: #FAF9F8; border: 2px solid black"> 
+            </div>             
+          </td>
+        </tr>
+      </table>
+
+      <!-- Anzeige aktive Windows -->
+      <div id="aktivewindows" style="background: lightblue; width: 200px;">
+        <label style="font-weight: bold;">Aktive Dialoge</label>
+        <ul id="aktwndlst" ></ul>
+      </div>
+
+      <!-- meldungen -->
+      <div id="messages">
+        <p id="messageid"></p>       
+      </div>
+
+      <!-- Login --> 
+      <div id="login" class="ui-widget-content" 
+           style="margin-left: 20px; width: 250px; background-color: lightgray; margin-left: 5px;">
+        <label id="logintitle">ELVIS - Entwicklung Login</label>
+
+        <div id="eingabediv1" >
+          <img src="../resources/images/elvis-logo.PNG" 
+               style="width: 100px; padding-left: 70px;">
+
+          <table id="eingabe1">
+            <tr>
+              <td class="tdlabel"><label>Benutzer</label></td>
+              <td style="border: none">
+                <input id="benutzer" type="text" style="max-width: 95px;" >
+              </td>
+            </tr>      
+            <tr>
+              <td class="tdlabel"><label>Kennwort</label></td>
+              <td style="border: none">
+                <input id="kennwort" type="password" style="max-width: 95px;">
+              </td>
+            </tr>
+            <tr>
+              <td style="border: none">
+                <input id="loginbtn" value="Anmelden" type="submit" 
+                       style="max-width: 90px; margin-left: 10px;" 
+                       onclick="login();"> 
+              </td> 
+              <td style="border: none">
+                <input id="abbrechenbtn" value="Abbrechen" type="submit" style="width: 90px;"> 
+              </td>             
+            </tr>
+          </table>        
+        </div>
+        <div>
+          <table id="device" style="border: none">
+            <tr>
+              <td style="border: none">
+                <label id="ipadresselbl">IP-Adresse</label>
+              </td>
+              <td style="border: none">
+                <input id="ipadresse" type="text" style="max-width: 95px;">                
+              </td>
+            </tr>      
+            <tr>
+              <td style="border: none">
+                <label id="pcnamelbl">PC-name</label>
+              </td>
+              <td style="border: none">
+                <input id="pcname" type="text" style="max-width: 95px;"> 
+              </td>
+            </tr>
+            <tr>
+              <td style="border: none">
+                <input id="devspeichernbtn" value="Speichern" type="submit" 
+                       style="max-width: 90px;" 
+                       onclick="device();"> 
+              </td>            
+            </tr>            
+          </table>    
+        </div>     
+      </div>          
+    </div>
+  </body>
+</html>

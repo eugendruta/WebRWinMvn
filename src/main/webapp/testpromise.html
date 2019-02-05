@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Using Functions</title>
+    <link href="resources/css/site.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>        
+    <script src="myready.js"></script>    
+    <script>
+      $(document).ready(function () {
+        console.log('ready(): Start');
+
+        console.log('# 1 date: ' + Date.parse(new Date()));
+
+        function getImage(url) {
+          return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+              console.log('setTimeout(): ' + Date.parse(new Date()));
+              var img = new Image();
+              img.onload = function () {
+                resolve(url);
+              };
+              img.onerror = function () {
+                reject(url);
+              };
+              img.src = url;
+            }, 1000);
+          });
+        }
+        console.log('# 2 date: ' + Date.parse(new Date()));
+
+        getImage('left.png').then(function (successurl) {
+          console.log('# 5 date: ' + Date.parse(new Date()));
+          $("#playground").append('<img src="' + successurl + '" />');
+        }).catch(function (errorurl) {
+          console.log('# 6 date: ' + Date.parse(new Date()));
+          console.log('Error loading ' + errorurl);
+        });
+        console.log('# 3 date: ' + Date.parse(new Date()));
+        console.log('# 4 date: ' + Date.parse(new Date()));
+
+      }); // end ready
+    </script>
+  </head>
+
+  <body>    
+    <div id="playground">
+      Das ist ein Paragraph mit Bild
+    </div>
+
+  </body>
+</html>
+

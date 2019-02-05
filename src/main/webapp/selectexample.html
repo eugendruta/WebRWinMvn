@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery UI Selectmenu - Product Selection</title>
+    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+    <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+    <style>
+      fieldset {
+        border: 0;
+        margin-left: 300px;
+      }
+      label {
+        display: block;
+        margin: 20px 0 0 0;
+      }
+
+      #circle {
+        float: left;
+        background: yellow;
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+      $(function () {
+        var circle = $("#circle");
+
+        $("#radius").selectmenu({
+          change: function (event, data) {
+            circle.css({
+              width: data.item.value,
+              height: data.item.value
+            });
+          }
+        });
+
+        $("#color").selectmenu({
+          change: function (event, data) {
+            circle.css("background", data.item.value);
+          }
+        });
+      });
+    </script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" /> 
+    <!-- <script src="resources/js/auueb/auueb.js"></script>   -->
+  </head>
+
+  <body>
+    <div id="eingabediv2" style="width: 600px; background-color: lightgray;">
+      <table id="eingabe2" style="border: none">
+        <tr>
+          <td style="border: none">
+            <label >Auftrag</label>
+          </td>
+          <td style="border: none">
+            <input id="auftrag1" type="text" style="max-width: 70px; margin-left: 10px;">
+          </td>
+          <td style="border: none">
+            <label style="margin-left: 10px;">Land</label>
+          </td>            
+          <td style="border: none">
+            <select id="land1" style="margin-left: 10px;"> </select>        
+          </td>
+          <td style="border: none">
+            <label style="margin-left: 10px;">Kundennr.</label>
+          </td>
+          <td style="border: none">
+            <input id="kundennr1" type="text" style="max-width: 90px; margin-left: 10px;">
+          </td> 
+          <td style="border: none">
+            <input id="anzeigen11" value="Anzeigen" type="submit" style="max-width: 90px; margin-left: 10px;" 
+                   >
+          </td> 
+          <td style="border: none">
+            <button id="reset1" type="button" style="max-width: 90px; margin-left: 10px;">
+              Reset</button>
+          </td>            
+        </tr>
+      </table>          
+    </div>
+
+    <div id="ausgabediv2" style="width: 600px; background-color: lightgray;">
+      <table>
+        <tr>
+          <td>
+            <table id="table_auueb1" >
+              <thead>
+                <tr>
+                  <th ><b>Col1</b></th> 
+                  <th ><b>Col2</b></th>
+                  <th ><b>Col3</b></th> 
+                  <th ><b>Col4</b></th>
+                </tr>            
+              </thead>
+              <tbody>
+                <tr>
+                  <td>col11 anlnlh</td>
+                  <td>col12</td>
+                  <td>col11</td>
+                  <td>col12</td>              
+                </tr>
+                <tr>
+                  <td>col21</td>
+                  <td>col22</td>
+                  <td>col11</td>
+                  <td>col12</td>              
+                </tr>           
+                <tr>
+                  <td>col31</td>
+                  <td>col32</td>
+                  <td>col11</td>
+                  <td>col12</td>              
+                </tr>
+                <tr>
+                  <td>col41</td>
+                  <td>col42</td>
+                  <td>col11</td>
+                  <td>col12</td>              
+                </tr>  
+              </tbody>
+            </table>         
+          </td>
+          <td>
+            <!-- button id="shiftbtnr" type="button" >Right</button> -->
+            <input id="shiftbtnr" value="Reset" type="submit" style="width: 90px;" onclick="myshiftright()">
+          </td>
+          <td>
+            <input id="shiftbtnl" value="Reset" type="submit" style="width: 90px;" onclick="myshiftleft()">          
+            <button 
+              id="shiftbtnl2" type="button" 
+              style="background-image: url(left.png);" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+          <td>
+            <table id="table_auueb2" class="display">
+              <thead>
+                <tr>
+                  <th ><b>Col1</b></th> 
+                  <th ><b>Col2</b></th>
+                  <th ><b>Col3</b></th> 
+                  <th ><b>Col4</b></th>
+                </tr>            
+              </thead>
+              <tbody>
+                <tr>
+                  <td>col11 anlnlh</td>
+                  <td>col12</td>
+                  <td>col11</td>
+                  <td>col12</td>              
+                </tr>
+                <tr>
+                  <td>col21</td>
+                  <td>col22</td>
+                  <td>col11</td>
+                  <td>col12</td>              
+                </tr>           
+                <tr>
+                  <td>col31</td>
+                  <td>col32</td>
+                  <td>col11</td>
+                  <td>col12</td>              
+                </tr>
+                <tr>
+                  <td>col41</td>
+                  <td>col42</td>
+                  <td>col11</td>
+                  <td>col12</td>              
+                </tr>  
+              </tbody>
+            </table>          
+          </td>
+        </tr>
+      </table>
+
+      <div id="buttonsdiv2" style=" background-color: white;
+           width: 150px; background-color: lightgray; border: none;">
+        <button id="clearbtn2" type="button" >Anmelden</button>
+      </div> 
+    </div>   
+
+    <script>
+      anzclicks = 0;
+      anzdblclicks = 0;
+      var selectedrowdbl;
+      var selectedrowsingle;
+      var table = $('#table_auueb2').DataTable();
+
+      $('#table_auueb2 tbody').on('dblclick', 'tr', function () {
+        if ($(this).hasClass('selected')) {
+          $(this).removeClass('selected');
+        } else {
+          table.$('tr.selected').removeClass('selected');
+          $(this).addClass('selected');
+        }
+        selectedrowdbl = table.row(this).data()[0];
+        anzdblclicks++;
+
+        if ((anzdblclicks === 1) && (anzclicks === 2)) {
+          console.log('dblclick: anzclicks: ' + anzclicks
+            + '; anzdblclicks: ' + anzdblclicks
+            + '; selectedrowsingle: ' + selectedrowsingle
+            + '; selectedrowdbl: ' + selectedrowdbl
+            );
+        }
+      });
+
+      $('#table_auueb2 tbody').on('click', 'tr', function () {
+        if ($(this).hasClass('selected')) {
+          $(this).removeClass('selected');
+        } else {
+          table.$('tr.selected').removeClass('selected');
+          $(this).addClass('selected');
+        }
+        selectedrowsingle = table.row(this).data()[0];
+        anzclicks++;
+        setTimeout(function () {
+          if ((anzclicks === 1) && (anzdblclicks === 0)) {
+            console.log('click: anzclicks: ' + anzclicks
+              + '; anzdblclicks: ' + anzdblclicks
+              + '; selectedrowsingle: ' + selectedrowsingle
+              + '; selectedrowdbl: ' + selectedrowdbl
+              );
+          }
+          ;
+        }, 1000);
+      });
+
+      function myshiftleft() {
+        alert('Click on ButtonLeft');
+      }
+
+      function myshiftright() {
+        alert('Click on Button right');
+      }
+
+      $('#shiftbtnl2').click(function () {
+        alert('selectedRow: ' + table.rows('.selected').data()[0][1]);
+      });
+    </script>
+  </body>
+</html>

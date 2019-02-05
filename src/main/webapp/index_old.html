@@ -1,0 +1,193 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>4 Ways To Use jQuery Load in Your Website</title>
+    <link rel="icon" type="image/png" href="http://www.yogihosting.com/wp-content/themes/yogi-yogihosting/Images/favicon.ico">
+    <meta charset="utf-8" />
+    <style>
+        body {
+            background: #111 no-repeat;
+            background-image: -webkit-gradient(radial, 50% 0, 150, 50% 0, 300, from(#444), to(#111));
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            color: #FFF;
+        }
+
+            h2 a {
+                color: #0184e3;
+                text-decoration: none;
+            }
+
+                h2 a:hover {
+                    text-decoration: underline;
+                }
+
+            h3 a {
+                color: #00e8ff;
+                text-decoration: none;
+            }
+
+        .container {
+            width: 550px;
+            margin: auto;
+            color: #FFF;
+            font-size: 25px;
+        }
+
+            .container h3 {
+                font-size: 25px;
+                text-decoration: underline;
+                text-align: left;
+            }
+
+            .container #content {
+                border: dashed 2px #CCC;
+                padding: 10px;
+            }
+
+                .container #content #productHtmlDiv table {
+                    border: solid 1px #CCC;
+                    width: 100%;
+                }
+
+                    .container #content #productHtmlDiv table th {
+                        text-align: left;
+                        color: #90e2cc;
+                    }
+
+        #reset {
+            padding: 5px 10px;
+            background: #4CAF50;
+            border: none;
+            color: #FFF;
+            cursor: pointer;
+        }
+
+            #reset:hover {
+                color: #4CAF50;
+                background: #FFF;
+            }
+
+        #textData, #textNoData, #htmlData, #htmlPData, #dbData, #message {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h1>4 Ways To Use jQuery Load in Your Website</h1>
+    <h2><a href="https://www.codeproject.com/Articles/1167409/Ways-To-Use-jQuery-Load-in-Your-Website">Read the tutorial on CODEPROJECT» </a><button id="reset">Reset »</button></h2>
+    <h3>Important Link - <a href="http://www.yogihosting.com/jquery-load/">jQuery Load</a></h3>
+    <div class="container">
+        <div id="content">
+            <h3>1. Get Labor Information from Text File</h3>
+            <button id="labourButton">Try</button>
+            <p class="displayPara" style="display:none">♦ Labour – Mr. Michael James</p>
+            <p class="displayPara" style="display:none">♦ The information about the labour is given below:</p>
+            <div id="labourDiv"></div>
+
+            <h3>2. Get Product Information from JSON File</h3>
+            <button id="productButton">Try</button>
+            <p class="displayParaJs" style="display:none">Product JSON</p>
+            <div id="productJsonDiv"></div>
+            <p class="displayParaJs" style="display:none">Product Information</p>
+            <div id="productHtmlDiv"></div>
+
+            <h3>3. Get Secure Information From Database</h3>
+            <p>(Both username and password) are - admin)</p>
+            <input id="usernameInput" type="text" placeholder="username" /><input id="passwordInput" type="text" placeholder="password" />
+            <button id="databaseButton">Try</button>
+            <div id="databaseDiv"></div>
+
+            <h3>4. Load data from external website like wikipedia</h3>
+            <input type="checkbox" id="tomCheckbox" /><label>Show "Tom Cruise Information"</label><br />
+            <input type="checkbox" id="ajCheckbox" /><label>Show "Angelina Jolie Information"</label>
+            <div id="externalWebsiteDiv"></div>
+        </div>
+    </div>
+    <!—Reference to jQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#reset").click(function (e) {
+                $("#labourDiv").html("");
+                $(".displayPara").css("display", "none");
+                $(".displayParaJs").css("display", "none");
+
+                $("#productJsonDiv").html("");
+                $("#productHtmlDiv").html("");
+                $("#databaseDiv").html("");
+                $("#externalWebsiteDiv").html("");
+                $("#externalWebsiteDiv").css({ "height": "auto", "overflow": "auto" });
+                $("input[type=checkbox]").prop("checked", false);
+
+                $("#usernameInput").val("");
+                $("#passwordInput").val("");
+            });
+
+            $("#labourButton").click(function (e) {
+                $(".displayPara").css("display", "block");
+                $("#labourDiv").load("Michael-James.txt", function (response, status, xhr) {
+                    if (status == "error")
+                        $("#labourDiv").html(response);
+                });
+            });
+
+            $("#productButton").click(function (e) {
+                $("#productJsonDiv").load("product.json", function (response, status, xhr) {
+                    $(".displayParaJs").css("display", "block");
+                    var json = JSON.parse($("#productJsonDiv").html());
+                    var table = $("<table><tr><th>Product</th><th>Color</th><th>Price</th></tr>");
+                    var tr;
+                    for (var i = 0; i < json.length; i++) {
+                        tr = $("<tr>");
+                        tr.append("<td>" + json[i].Product + "</td>");
+                        tr.append("<td>" + json[i].color + "</td>");
+                        tr.append("<td>" + json[i].Price + "</td>");
+                        tr.append("</tr>");
+                        table.append(tr);
+                    }
+                    table.append("</table>");
+                    $("#productHtmlDiv").html(table);
+                    if (status == "error")
+                        $("#textNoData").html("Error: " + xhr.status + ": " + xhr.statusText);
+
+                });
+            });
+
+            $("#databaseButton").click(function (e) {
+                $("#databaseDiv").load("result.aspx #dbInformation", { "username": "" + $("#usernameInput").val() + "", "password": "" + $("#passwordInput").val() + "" }, function (response, status, xhr) {
+                    if (status == "error")
+                        $("#databaseDiv").html("Error: " + xhr.status + ": " + xhr.statusText);
+                });
+            });
+
+            $("input[type=checkbox]").change(function () {
+                $("#externalWebsiteDiv").css({ "height": "350px", "overflow": "scroll" });
+
+                var checkedValue = $(this).prop("checked");
+                $("input[type=checkbox]").prop("checked", false);
+                $(this).prop("checked", checkedValue);
+
+                if ($("#tomCheckbox").prop("checked") == true) {
+                    $("#externalWebsiteDiv").load("result.aspx #wikiInformation", { "url": "https://en.wikipedia.org/wiki/Tom_Cruise" }, function (response, status, xhr) {
+                        if (status == "error")
+                            $("#externalWebsiteDiv").html("Error: " + xhr.status + ": " + xhr.statusText);
+                    });
+                }
+                else if ($("#ajCheckbox").prop("checked") == true) {
+                    $("#externalWebsiteDiv").load("result.aspx #wikiInformation", { "url": "https://en.wikipedia.org/wiki/Angelina_Jolie" }, function (response, status, xhr) {
+                        if (status == "error")
+                            $("#externalWebsiteDiv").html("Error: " + xhr.status + ": " + xhr.statusText);
+                    });
+                }
+                else {
+                    $("#externalWebsiteDiv").html("");
+                    $("#externalWebsiteDiv").css({ "height": "auto", "overflow": "auto" });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

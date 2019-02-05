@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" media="screen" href="./Beispiel:SELFHTML-Beispiel-Grundlayout.css" />   -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        console.log('example: ready(): Start');
+        function storageAvailable(type) {
+          try {
+            var storage = window[type],
+              x = '__storage_test__';
+            storage.setItem(x, x);
+            storage.removeItem(x);
+            return true;
+          } catch (e) {
+            return e instanceof DOMException && (
+              // everything except Firefox
+              e.code === 22 ||
+              // Firefox
+              e.code === 1014 ||
+              // test name field too, because code might not be present
+              // everything except Firefox
+              e.name === 'QuotaExceededError' ||
+              // Firefox
+              e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+              // acknowledge QuotaExceededError only if there's something already stored
+              storage.length !== 0;
+          }
+        }
+        if (storageAvailable('localStorage')) {
+          // Yippee! We can use localStorage awesomeness    
+          console.log('localStorege verfügbar !!');
+        } else {
+          // Too bad, no localStorage for us
+          alert('localStorege nicht verfügbar !!');
+        }
+        var storageSize = Math.round(JSON.stringify(localStorage).length);
+        console.log('storageSize: initial: ' + storageSize + ' byte');
+
+        // erzeugt einen Eintrag oder überschreibt den Eintrag 
+        // ohne Warnung, wenn der key schon existiert
+        var _eintrag = {'name': 'Eugen', 'nachname': 'Druta', 'alter': 69};
+        localStorage.setItem('key', JSON.stringify(_eintrag));
+
+        //gibt null zurück, wenn der key nicht existiert
+        var eintrag = localStorage.getItem('key');
+        console.log('geteintrag: name: ' + JSON.parse(eintrag).name
+          + '; nachname: ' + JSON.parse(eintrag).nachname
+          + '; alter: ' + JSON.parse(eintrag).alter);
+        //löscht einen Eintrag
+        //localStorage.removeItem(key)
+
+        // Verfügbarer Speicherplatz für das Storage-Objekt
+        // leider nur IE
+        //var storageSize = Math.round(JSON.stringify(localStorage).length / 1024);
+        var storageSize = Math.round(JSON.stringify(localStorage).length);
+        console.log('storageSize: ' + storageSize + ' byte');
+        //löscht den Speicher
+        localStorage.clear();
+      });
+    </script>  
+    <title>Beispiel: localStorage</title>
+  </head>
+
+  <body>
+
+    <!--
+    <h1>HTML5 localStorage</h1>
+    <main>
+      <h2>ToDo-Liste</h2>
+      <form>		
+        <label for="eingabe">neues Projekt hinzufügen: </label><input id="eingabe" value="" type="text">
+        <button id="mehr">neuen Eintrag hinzufügen</button>
+        <button id="loeschen">alle Einträge löschen </button>
+      </form>
+      <p>Klicken Sie auf die Einträge, um sie zu entfernen.</p>
+
+      <ul id="eintraege">
+      </ul>
+    </main>
+    -->
+  </body>
+</html>

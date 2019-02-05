@@ -1,0 +1,185 @@
+<!-- Dialog 1-->     
+
+<div id="auueb" class="ui-widget-content" style="background-color: lightgray; width: 630px; padding-bottom: 5px;">
+
+  <div id='toolbarbuttons'>
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Aktualisieren">
+      <span class="ui-icon ui-icon-refresh"></span></button>
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Detail">
+      <span class="ui-icon ui-icon-zoomin"></span></button>
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Neu">
+      <span class="ui-icon ui-icon-document"></span></button>
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Ändern">
+      <span class="ui-icon ui-icon-document-b"></span></button>
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Speichern">
+      <span class="ui-icon ui-icon-check"></span></button>
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Zurück">
+      <span class="ui-icon ui-icon-arrowreturn-1-w"></span></button>  
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Löschen">
+      <span class="ui-icon ui-icon-trash"></span></button>  
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Drucken">
+      <span class="ui-icon ui-icon-print"></span></button>   
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Eingabehilfe">
+      <span class="ui-icon ui-icon-search"></span></button>
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Hilfe">
+      <span class="ui-icon ui-icon-help"></span></button>
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Favorit">
+      <span class="ui-icon ui-icon-star"></span></button>
+
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Minimize" style="float: right" 
+            onclick="$('#auueb').parent().parent().height(50);
+                $('#auueb').parent().parent().parent().width(650);"> 
+      <span class="ui-icon ui-icon-minus"></span></button>
+    <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Maximize" style="float: right" 
+            onclick="$('#auueb').parent().parent().height(offenedialoge[emtpydiv].height);
+                $('#auueb').parent().parent().parent().width(offenedialoge[emtpydiv].width);">
+      <span class="ui-icon ui-icon-plus"></span></button>
+  </div>
+
+  <div id="eingabediv2" style="width: 600px; background-color: lightgray;">
+    <table id="eingabe2" style="border: none">
+      <tr>
+        <td style="border: none">
+          <label >Auftrag</label>
+        </td>
+        <td style="border: none">
+          <input id="auftrag1" type="text" style="max-width: 70px; margin-left: 10px;">
+        </td>
+        <td style="border: none">
+          <label style="margin-left: 10px;">Land</label>
+        </td>            
+        <td style="border: none">
+          <select id="land1" style="margin-left: 10px;"> </select>        
+        </td>
+        <td style="border: none">
+          <label style="margin-left: 10px;">Kundennr.</label>
+        </td>
+        <td style="border: none">
+          <input id="kundennr1" type="text" style="max-width: 90px; margin-left: 10px;">
+        </td> 
+        <td style="border: none">
+          <input id="anzeigen11" value="Anzeigen" type="submit" style="max-width: 90px; margin-left: 10px;" 
+                 >
+        </td> 
+        <td style="border: none">
+          <button id="reset1" type="button" style="max-width: 90px; margin-left: 10px;">
+            Reset</button>
+        </td>            
+      </tr>
+    </table>          
+  </div>
+
+  <div id="ausgabediv2" style="width: 600px; background-color: lightgray;">
+    <table>
+      <tr>
+        <td>
+          <table id="table_auueb1" >
+            <thead>
+              <tr>
+                <th ><b>Col1</b></th> 
+                <th ><b>Col2</b></th>
+                <th ><b>Col3</b></th> 
+                <th ><b>Col4</b></th>
+              </tr>            
+            </thead>
+            <tbody>
+              <tr>
+                <td>col11 anlnlh</td>
+                <td>col12</td>
+                <td>col11</td>
+                <td>col12</td>              
+              </tr>
+              <tr>
+                <td>col21</td>
+                <td>col22</td>
+                <td>col11</td>
+                <td>col12</td>              
+              </tr>           
+              <tr>
+                <td>col31</td>
+                <td>col32</td>
+                <td>col11</td>
+                <td>col12</td>              
+              </tr>
+              <tr>
+                <td>col41</td>
+                <td>col42</td>
+                <td>col11</td>
+                <td>col12</td>              
+              </tr>  
+            </tbody>
+          </table>         
+        </td>
+        <td>
+          <!-- button id="shiftbtnr" type="button" >Right</button> -->
+          <input id="shiftbtnr" value="Reset" type="submit" style="width: 90px;" onclick="myshiftright()">
+        </td>
+        <td>
+          <input id="shiftbtnl" value="Reset" type="submit" style="width: 90px;" onclick="myshiftleft()">          
+          <button 
+            id="shiftbtnl2" type="button" 
+            style="background-image: url(left.png);" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></td>
+        <td>
+          <table id="table_auueb2" class="display">
+            <thead>
+              <tr>
+                <th ><b>Col1</b></th> 
+                <th ><b>Col2</b></th>
+                <th ><b>Col3</b></th> 
+                <th ><b>Col4</b></th>
+              </tr>            
+            </thead>
+            <tbody>
+              <tr>
+                <td>col11 anlnlh</td>
+                <td>col12</td>
+                <td>col11</td>
+                <td>col12</td>              
+              </tr>
+              <tr>
+                <td>col21</td>
+                <td>col22</td>
+                <td>col11</td>
+                <td>col12</td>              
+              </tr>           
+              <tr>
+                <td>col31</td>
+                <td>col32</td>
+                <td>col11</td>
+                <td>col12</td>              
+              </tr>
+              <tr>
+                <td>col41</td>
+                <td>col42</td>
+                <td>col11</td>
+                <td>col12</td>              
+              </tr>  
+            </tbody>
+          </table>          
+        </td>
+      </tr>
+    </table>
+
+    <div id="buttonsdiv2" style=" background-color: white;
+         width: 150px; background-color: lightgray; border: none;">
+      <button id="clearbtn2" type="button" >Anmelden</button>
+    </div> 
+  </div>
+  <script>
+    console.log('auueb.html: Script Start');
+    
+    rowclickaction = function rowClickAction(action, doubleclick) {
+      console.log('rowClickAction(): action: ' + action + '/' + doubleclick);
+
+      //Doppelclick: Detaildialog starten
+      if ((action === 'selected') && doubleclick) {
+
+      }
+    };
+    console.log('auueb.html: rowclickaction: ' + rowclickaction('select', true));
+
+
+    var tabelle = '#table_auueb2';
+    rowClickSelection(tabelle, 'folgedialogxyz');
+  </script>
+</div>

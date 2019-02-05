@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Using Functions</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>        
+    <script>
+      $(document).ready(function () {
+        console.log('ready(): Start');
+
+        var ul = document.getElementById("product");
+        const url = "fetchexample?param=test";
+
+        // Function to fetch the data from the server.
+
+        fetch('elvis-logo.PNG').then(function (response) {
+          if (response.ok) {
+            return response.blob();
+          }
+          throw new Error('Network response was not ok.');
+        }).then(function (myBlob) {
+          var objectURL = URL.createObjectURL(myBlob);
+          //myImage.src = objectURL;
+          $("#playground").append('<img src="' + objectURL + '" />');          
+        }).catch(function (error) {
+          console.log('There has been a problem with your fetch operation: ', error.message);
+        });
+        /*
+         function fetchProduct() {
+         fetch(url).then((res) => res.json()).then((json) => {
+         for (var i = 0; i < json.items.length; i++) {
+         console.log("json.items[i].name: " + json.items[i]);
+         var li = document.createElement("li");
+         li.appendChild(document.createTextNode(json.items[i]));
+         ul.appendChild(li);
+         }
+         });
+         } 
+         fetchProduct();    
+         */
+      }); // end ready
+    </script>
+  </head>
+
+  <body>    
+    <ul id="product"></ul>
+    <div id="playground">
+      Das ist ein Paragraph mit Bild
+    </div>
+  </body>
+</html>
