@@ -257,7 +257,7 @@ $(document).ready(function () {
     {
       label: 'Administration',
       children: [
-        {label: 'BSUEB: Bestands-Übersicht'},
+        {label: 'ADUEB: Administration-Übersicht'},
         {label: 'AUUEB: Auftragsübersicht'}
       ]
     }, {
