@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  dialogname = 'webrw'; 
+  dialogname = 'webrw';
   UTIL.logger(dialogname + ': ready(): Start'); // # 1
 
   /* WebRTC
@@ -136,7 +136,7 @@ $(document).ready(function () {
 
   function storageAvailable() {
     if (typeof (Storage) !== "undefined") {
-// Code for localStorage
+      // Code for localStorage
       return true;
     } else {
       return false;
@@ -158,13 +158,13 @@ $(document).ready(function () {
     UTIL.logger(dialogname + ': beforeunload(): winarray.lenght: ' + winarray.length);
     //Wenn noch offene Dialoge; alle schließen
     for (let i = 0; i < winarray.length; i++) {
-//{dialog: newWin, name: aktdialog, state: 'aktiv'};
+      //{dialog: newWin, name: aktdialog, state: 'aktiv'};
       UTIL.logger(dialogname + ': beforeunload: window: dialog.name:'
         + winarray[i].dialog.name + '; name: ' + winarray[i].name + '; state: ' + winarray[i].state);
       //Aktives Window schließen
       winarray[i].dialog.close();
     }
-//Einträge löschen 
+    //Einträge löschen 
     winarray.splice(0, winarray.length);
     //localStorage.clear();
 
@@ -179,7 +179,7 @@ $(document).ready(function () {
       _browser = "MSIE";
       UTIL.logger(dialogname + ': userAgent: ' + _browser);
     } else if (navigator.userAgent.search("Chrome") >= 0) {
-//Enthält auch Edge
+      //Enthält auch Edge
       if (navigator.userAgent.search("Edge") >= 0) {
         _browser = "Edge";
         UTIL.logger(dialogname + ': userAgent: ' + _browser);

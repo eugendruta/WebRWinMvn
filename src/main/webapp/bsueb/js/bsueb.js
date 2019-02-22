@@ -1,12 +1,12 @@
 $(document).ready(function () {
   dialogname = 'bsueb';
-  UTIL.logger(dialogname + ': ready(): Start'); 
+  UTIL.logger(dialogname + ': ready(): Start');
 
   var browser = localStorage.getItem("browser");
 
   //Navigator aktiv ??
   var starttime = localStorage.getItem("starttime");
-  UTIL.logger(dialogname + ': ready(): starttime: ' + starttime + "; browser: " + browser);  
+  UTIL.logger(dialogname + ': ready(): starttime: ' + starttime + "; browser: " + browser);
   if (!starttime) {
     alert('Navigator nicht aktiv !!  Bitte diesen Browser schließen und  Navigator starten');
     window.close(); //Funzt nur für Edge
@@ -14,6 +14,7 @@ $(document).ready(function () {
 
   //Holegespeichetes Customising aus localStorage
   var jsonstring = localStorage.getItem(dialogname + ".eingabe");
+  UTIL.logger(dialogname + ': ready(): Bereits customized: ' + jsonstring);
   var eingabefelder = JSON.parse(jsonstring);
 
   var jsonstring = localStorage.getItem(dialogname + ".ausgabe");
@@ -39,8 +40,9 @@ $(document).ready(function () {
       if (eingabefelder) {
         for (var i = 0; i < eingabefelder.length; i++) {
           let name = eingabefelder[i].name;
-          let value = eingabefelder[i].visible;
-          if (value === "false") {
+          let visible = eingabefelder[i].visible;
+          let eingabe = eingabefelder[i].eingabe;
+          if (visible === "false") {
             //Selkrit remove
             _display = "none";
           } else {
@@ -48,10 +50,15 @@ $(document).ready(function () {
             _display = "";
           }
           UTIL.logger(dialogname + ': customize(): eingabe: feld.label: ' + "#" + name + "lbl"
-            + ': feld.name: ' + name + ': _display: ' + _display);
+            + ': feld.name: ' + name + ': _display: ' + _display + '; eingabe: ' + eingabe);
 
           $("#" + name + "lbl").css('display', _display);
           $("#" + name).css('display', _display);
+          
+          //Setze Eingaben
+          if (eingabe) {
+            $("#" + name).val(eingabe);
+          }
         }
       }
 
@@ -62,8 +69,8 @@ $(document).ready(function () {
       if (ausgabefelder) {
         for (var i = 0; i < ausgabefelder.length; i++) {
           let name = ausgabefelder[i].name;
-          let value = ausgabefelder[i].visible;
-          if (value === "false") {
+          let visible = ausgabefelder[i].visible;
+          if (visible === "false") {
             //Selkrit remove
             _display = "none";
           } else {
@@ -72,9 +79,9 @@ $(document).ready(function () {
           }
 
           if (config.default.data["table1"].columns[i].name === name) {
-            config.default.data["table1"].columns[i].visible = value;
+            config.default.data["table1"].columns[i].visible = visible;
             UTIL.logger(dialogname + ': customize(): ausgabe: feld.name: ' + name
-              + ': visible: ' + value);
+              + ': visible: ' + visible);
           }
         }
       }
@@ -85,12 +92,6 @@ $(document).ready(function () {
 
   jsonstring = localStorage.getItem(dialogname + ".ausgabe");
   var ausgabefelder = JSON.parse(jsonstring);
-//  if (ausgabefelder) {
-//    for (var i = 0; i < ausgabefelder.length; i++) {
-//      UTIL.logger(dialogname + ': ausgabefelder[' + i + '].name: '
-//        + ausgabefelder[i].name + '; .visible: ' + ausgabefelder[i].visible);
-//    }
-//  }
 
   //Key event: F-tasten abfangen
   $(document).bind('keydown', function (e) {
@@ -195,6 +196,7 @@ $(document).ready(function () {
 
     return "Wollen Sie tatsächlich den Dialog schließen?";
   });
+
   $('#custom').dialog({
     'title': 'Customize',
     'autoOpen': false,
@@ -203,7 +205,9 @@ $(document).ready(function () {
     'modal': true,
     'closeText': ""
   });
+
   $("#tabs").tabs();
+
   function initLb(lbname) {
     if ($('#' + lbname).val() === null) {
       //Listbox noch nicht initialisiert: init.
@@ -242,14 +246,15 @@ $(document).ready(function () {
         dependend = config.default.data.listboxen[i].dependend;
         UTIL.logger(dialogname + ': changelb(): lbname: ' + lbname + '; value: ' + value);
         //Dependend Listbox
-        var url = "Listbox?typ=";
+        var url = "../Listbox?typ=";
         for (let j = 0; j < config.default.data.listboxen.length; j++) {
           if (config.default.data.listboxen[j].name === dependend) {
             UTIL.logger(dialogname + ': changelb(): dependend lbname: ' + dependend);
             //url: Listbox?typ=depends&table=SELECT wert, anzeige_text FROM v_dlg_bsueb_hostlager
             //&constkey=mandantoid&constkeyval=0
             if (value != 0) {
-              url += config.default.data.listboxen[j].typ + "&table=" + config.default.data.listboxen[j].table
+              url += config.default.data.listboxen[j].typ + "&table="
+                + config.default.data.listboxen[j].table
                 + "&constkey=" + config.default.data.listboxen[j].constkey
                 + "&constkeyval=" + value;
             } else {
@@ -282,6 +287,7 @@ $(document).ready(function () {
   }
 
   initLbs();
+
   rowclickaction = function rowClickAction(action, doubleclick, rowdata) {
     UTIL.logger(dialogname + ': rowClickAction(): action: ' + action + '/'
       + (doubleclick === true ? 'doubleclick' : 'singleclick')
@@ -342,6 +348,7 @@ $(document).ready(function () {
     var delay = 200;
     UTIL.logger(dialogname + ": showtable(tabelle): " + tabelle + '; anzcolumns: '
       + config.default.data[tabelle].anzcolumns);
+
     //SQL SELECT zusammenbauen
     var sqlstm = "SELECT ";
     for (let i = 0; i < config.default.data[tabelle].anzcolumns; i++) {
@@ -363,6 +370,11 @@ $(document).ready(function () {
               if ((value === null) || (value === '0') || (value === 0) || (value === '')) {
               } else {
                 klausel += field + "='" + value + "' AND ";
+                //Eingabe speichern
+                config.default.data.inputfelder[i].eingabe = value;
+                UTIL.logger(dialogname + ': showtable(): eingaben: ' 
+                  + config.default.data.inputfelder[i].eingabe + '; visible: ' 
+                  + config.default.data.inputfelder[i].visible);
               }
               break;
             }
@@ -370,7 +382,10 @@ $(document).ready(function () {
         }
       }
     });
-    //UTIL.logger(dialogname + ': showtable(): klausel inputfelder: ' + klausel);
+
+    //Sel.kriteingaben speichern
+    localStorage.setItem(dialogname + ".eingabe", JSON.stringify(config.default.data.inputfelder));
+
     //Klausel für <select>
     $("#eingabediv1 select").each(function (lb) {
       var lbname = $(this).attr('id');
