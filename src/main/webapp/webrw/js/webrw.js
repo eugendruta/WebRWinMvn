@@ -2,6 +2,34 @@ $(document).ready(function () {
   dialogname = 'webrw';
   UTIL.logger(dialogname + ': ready(): Start'); // # 1
 
+  //SSE 
+  if (typeof (EventSource) !== "undefined") {
+    var evtSource = new EventSource("../sse");
+    console.log('withCredentials: ' + evtSource.withCredentials);
+    evtSource.onmessage = function (e) {
+      var output = JSON.parse(e.data);
+      //console.log("onmessage: data: " + e.data);
+      console.log("onmessage: time: " + output.time);
+    };
+
+    evtSource.onerror = function (e) {
+      e = e || event, msg = '';
+      switch (e.target.readyState) {
+        case EventSource.CONNECTING:
+          msg = 'onerror(): Reconnecting…';
+          break;
+        case EventSource.CLOSED:
+          //msg = 'onerror(): Connection failed. Will not retry.';
+          alert('onerror(): Connection failed. Will not retry.');
+          break;
+      }
+    };
+    //evtSource.close();
+  } else {
+    alert('No SSE Support ');
+    return;
+  }
+
   /* WebRTC
    if (UTIL.supportWebRTC()) {
    UTIL.getUserIP(function (ip) {
@@ -20,7 +48,6 @@ $(document).ready(function () {
 
   //Start Navigator im localStorage eintragen 
   localStorage.setItem("starttime", Date().toString());
-
   // Check for the various File API support.
   if (window.File && window.FileReader && window.FileList && window.Blob) {
     // Great success! All the File APIs are supported.
@@ -35,13 +62,12 @@ $(document).ready(function () {
     alert('No! Web worker support!');
   }
 
-  //!!!TEST clear localStorage
-  //localStorage.removeItem("bsueb.eingabe");
-  //localStorage.removeItem("bsueb.ausgabe");
-  //!!!!TEST
+//!!!TEST clear localStorage
+//localStorage.removeItem("bsueb.eingabe");
+//localStorage.removeItem("bsueb.ausgabe");
+//!!!!TEST
 
   winarray = [];
-
   // Event: Eintrag in localstorage
   function onStorageEvent(storageEvent) {
     /* StorageEvent {
@@ -87,7 +113,6 @@ $(document).ready(function () {
   }
 
   window.addEventListener('storage', onStorageEvent, false);
-
   /*
    $(document).keypress(function (event) {
    var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -109,7 +134,6 @@ $(document).ready(function () {
      }
      */
   });
-
   function devicedaten() {
     var ipadresse = localStorage.getItem('ipadresse');
     var pcname = localStorage.getItem('pcname');
@@ -133,7 +157,6 @@ $(document).ready(function () {
     }
   }
   devicedaten();
-
   function storageAvailable() {
     if (typeof (Storage) !== "undefined") {
       // Code for localStorage
@@ -170,7 +193,6 @@ $(document).ready(function () {
 
     return "Wollen Sie tatsächlich den Dialog schließen?";
   });
-
   //Function: hole Browsertyp (Edge, Chrome, Firefox,   )
   getbrowser = function getBrowser() {
     var _browser = "unbekannt";
@@ -209,10 +231,8 @@ $(document).ready(function () {
 
     return _browser;
   };
-
   browser = getbrowser();
   localStorage.setItem("browser", browser);
-
   if (browser === 'Edge') {
     window.resizeTo(200, window.screen.availHeight);
     window.moveTo(0, 0);
@@ -244,7 +264,6 @@ $(document).ready(function () {
       }
     }
   };
-
   showtables = function showTables(dialogtable) {
     UTIL.logger(dialogname + ': showTables(): dialogtable: ' + dialogtable);
     if (dialogtable === 'bsueb#bsueb') {
@@ -367,7 +386,6 @@ $(document).ready(function () {
       ]
     }
   ];
-
   $('#navigator').tree({
     data: data,
     selectable: true,
@@ -375,7 +393,6 @@ $(document).ready(function () {
     closedIcon: $('<i class="fas fa-folder" style="color: lightblue"></i>'),
     openedIcon: $('<i class="fas fa-folder-open" style="color: lightblue"></i>')
   });
-
 // bind 'tree.click' event
   $('#navigator').bind('tree.click', function (event) {
     // The clicked node is 'event.node'
@@ -424,7 +441,6 @@ $(document).ready(function () {
     }
 
   });
-
   function customize(aktdialog, width, height) {
     UTIL.logger(dialogname + ': customize(): width: ' + width + "; height: " + height);
   }
@@ -432,7 +448,6 @@ $(document).ready(function () {
   //Start: Navigator und Liste aktiver Dialoge nicht anzeigen
   $("#navigatortbl").hide();
   $("#aktivewindows").hide();
-
   //Login
   login = function login() {
     var benutzer = $("#benutzer").val();
@@ -503,7 +518,6 @@ $(document).ready(function () {
     $("#aktivewindows").show();
     $("#login").hide();
   };
-
   //Devicedaten speichern
   device = function device() {
     var ipadresse = $("#ipadresse").val();
@@ -516,7 +530,6 @@ $(document).ready(function () {
     $('#pcname').prop('disabled', true);
     $('#devspeichernbtn').hide();
   };
-
   pwdcr = function pwdcr() {
     console.log('webrw: pwdcr(): CR auf Pwdeingabefeld ');
   };
