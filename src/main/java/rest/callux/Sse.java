@@ -8,6 +8,8 @@ package rest.callux;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,9 +39,26 @@ public class Sse extends HttpServlet {
     //sessionObj.setMaxInactiveInterval(10 * 60);
     //response.setHeader("Pragma", "no-cache");
     try (PrintWriter out = response.getWriter()) {
-      String result = "data: {\"time\": \"" + (new Date()).toString() + "\"}\n\n";
-      System.out.println("JSON result: " + result);
-      out.println(result);          
+      // evtSource.addEventListener("message", function (e) {
+      String result = "retry: 20000\n" + "data: {\"time\": \"1. SSE " + (new Date()).toString() + "\"}\n\n";
+      System.out.println("result: " + result);
+      out.println(result);
+
+//      try {
+//        wait(10000);
+//      } catch (InterruptedException ex) {
+//        Logger.getLogger(Sse.class.getName()).log(Level.SEVERE, null, ex);
+//      }
+      
+      //The following server output sends three types of events:
+      //a generic 'message' event, 'userlogon', and 'update' event:
+      result
+              = "retry: 20000\n"
+              + "data: {\"time\": \"" + (new Date()).toString() + "\"}\n\n"
+              //+ "data: {\"msg\": \"First message\"}\n\n"
+              + "event: userlogon\n" + "data: {\"username\": \"John123\"}\n\n"
+              + "event: update\n" + "data: {\"username\": \"John123\", \"emotion\": \"happy\"}\n\n";
+      out.println(result);
     }
   }
 
