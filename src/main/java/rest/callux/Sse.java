@@ -28,6 +28,7 @@ public class Sse extends HttpServlet {
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     MyLogger.log(className, "ProcessRequest()");
+    String result;
 
     //response.setContentType("text/event-stream;charset=UTF-8");    
     response.setHeader("Content-Type", "text/event-stream;charset=UTF-8");
@@ -40,29 +41,30 @@ public class Sse extends HttpServlet {
     //response.setHeader("Pragma", "no-cache");
     try (PrintWriter out = response.getWriter()) {
       // evtSource.addEventListener("message", function (e) {
-      String result = "retry: 20000\n" + "data: {\"time\": \"1. SSE " + (new Date()).toString() + "\"}\n\n";
-      System.out.println("result: " + result);
-      out.println(result);
+      //String result = "retry: 20000\n" + "data: {\"time\": \"1. SSE " + (new Date()).toString() + "\"}\n\n";
+      //System.out.println("result: " + result);
+      //out.println(result);
 
-//      try {
-//        wait(10000);
-//      } catch (InterruptedException ex) {
-//        Logger.getLogger(Sse.class.getName()).log(Level.SEVERE, null, ex);
-//      }
-      
       //The following server output sends three types of events:
       //a generic 'message' event, 'userlogon', and 'update' event:
+      //Wait 5 Sek.
+      try {
+        Thread.sleep(5000);
+      } catch (InterruptedException ex) {
+        Logger.getLogger(Sse.class.getName()).log(Level.SEVERE, null, ex);
+      }
       result
-              = "retry: 20000\n"
+              = "retry: 30000\n"
               + "data: {\"time\": \"" + (new Date()).toString() + "\"}\n\n"
               //+ "data: {\"msg\": \"First message\"}\n\n"
               + "event: userlogon\n" + "data: {\"username\": \"John123\"}\n\n"
               + "event: update\n" + "data: {\"username\": \"John123\", \"emotion\": \"happy\"}\n\n";
+      System.out.println("result: " + (new Date()).toString());
       out.println(result);
     }
   }
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
-  // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
   /**
    * Handles the HTTP <code>GET</code> method.
    *
@@ -100,5 +102,4 @@ public class Sse extends HttpServlet {
   public String getServletInfo() {
     return "Short description";
   }// </editor-fold>
-
 }

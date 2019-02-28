@@ -2,66 +2,44 @@ $(document).ready(function () {
   dialogname = 'webrw';
   UTIL.logger(dialogname + ': ready(): Start'); // # 1
 
-  //SSE 
-  /*
-   if (typeof (EventSource) !== "undefined") {
-   var evtSource = new EventSource("../sse");
-   console.log('withCredentials: ' + evtSource.withCredentials);
-   evtSource.onmessage = function (e) {
-   console.log("onmessage: event: " + e.event);
-   var evnt = JSON.parse(e.event);
-   console.log("onmessage: event: " + evnt.event);
-   var data = JSON.parse(e.data);
-   console.log("onmessage: time: " + data.time);
-   };
-   
-   evtSource.onerror = function (e) {
-   e = e || event, msg = '';
-   switch (e.target.readyState) {
-   case EventSource.CONNECTING:
-   msg = 'onerror(): Reconnecting…';
-   break;
-   case EventSource.CLOSED:
-   //msg = 'onerror(): Connection failed. Will not retry.';
-   alert('onerror(): Connection failed. Will not retry.');
-   break;
-   }
-   };
-   //evtSource.close();
-   } else {
-   alert('No SSE Support ');
-   return;
-   }
-   */
+  //** WebSockets
+  if ("WebSocket" in window) {
+    alert("WebSocket is supported by your Browser!");
+  }
+  //** WebSockets
 
-  /*
-   if (typeof (EventSource) !== "undefined") {
-   var evtSource = new EventSource("../sse");
-   evtSource.addEventListener("message", function (e) {
-   console.log("e:" + e);
-   var obj = JSON.parse(e.data);
-   console.log("ping at " + obj.time);
-   }, false);
-   }
-   */
-
+  //** SSE 
+  var sseid;
+  function ssecallback() {
+    //Sjax Server call
+    $.ajax({url: "../sse",
+      success: function (result) {
+        UTIL.logger(dialogname + ': ssecallback(): result: ' + result);
+      }});
+  }
+  var evtSource;
   if (typeof (EventSource) !== "undefined") {
-    var evtSource = new EventSource("../sse");
+    evtSource = new EventSource("../sse");
     evtSource.addEventListener('message', function (e) {
       var data = JSON.parse(e.data);
-      console.log("generic time: " + data.time);
+      console.log("generic message time: " + data.time);
     }, false);
 
     evtSource.addEventListener('userlogon', function (e) {
       var data = JSON.parse(e.data);
-      console.log('userlogon:' + data.username);
+      //console.log('userlogon:' + data.username);
     }, false);
 
     evtSource.addEventListener('update', function (e) {
       var data = JSON.parse(e.data);
-      console.log('update: ' + data.username + ' is now ' + data.emotion);
+      //console.log('update: ' + data.username + ' is now ' + data.emotion);
     }, false);
+  } else {
+    //Edge: kein SSE Support; Polling
+    sseid = setInterval(ssecallback, 10000);
   }
+  //** SSE
+
   /* WebRTC
    if (UTIL.supportWebRTC()) {
    UTIL.getUserIP(function (ip) {
@@ -123,7 +101,7 @@ $(document).ready(function () {
       localStorage.removeItem(key);
       localStorage.setItem(key, 'aktiviert');
     } else if (!newvalue || newvalue === null) {
-//Eintrag im Dialog gelöscht; Dialog in liste aktiver Dialoge löschen
+      //Eintrag im Dialog gelöscht; Dialog in liste aktiver Dialoge löschen
       $("#aktwndlst li").each(function (index, value) {
         UTIL.logger(dialogname + ': onStorageEvent(): index:  ' + index
           + '; value.innerText: ' + value.innerText + '; key: ' + key);
@@ -222,6 +200,15 @@ $(document).ready(function () {
     //Einträge löschen 
     winarray.splice(0, winarray.length);
     //localStorage.clear();
+
+    //SSE benden
+    if (evtSource) {
+      UTIL.logger(dialogname + ': beforeunload(): SSE close');
+      evtSource.close();
+    } else {
+      UTIL.logger(dialogname + ': beforeunload(): setInterval close');
+      clearInterval(sseid);
+    }
 
     return "Wollen Sie tatsächlich den Dialog schließen?";
   });
