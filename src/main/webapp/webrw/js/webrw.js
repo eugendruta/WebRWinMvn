@@ -3,12 +3,47 @@ $(document).ready(function () {
   UTIL.logger(dialogname + ': ready(): Start'); // # 1
 
   //** WebSockets
-  if ("WebSocket" in window) {
-    alert("WebSocket is supported by your Browser!");
-  }
+  UTIL.websocket();
+  /*
+   if ("WebSocket" in window) {
+   //alert("WebSocket is supported by your Browser!");
+   var ws;
+   websockets = function websockets() {
+   ws = new WebSocket("ws://localhost:8080/WebRWinMvn/websocket");
+   ws.onopen = function (event) {
+   UTIL.logger(dialogname + ': ready(): ws.onopen()');
+   };
+   ws.onmessage = function (event) {
+   UTIL.logger(dialogname + ': ready(): ws.onmessage(): data: ' + event.data);
+   var $textarea = $('#messages');
+   var json = JSON.parse(event.data);
+   $textarea.val($textarea.val() + json.username + ": " + json.message + "\n");
+   $textarea.animate({
+   scrollTop: $textarea.height()
+   }, 1000);
+   };
+   ws.onclose = function (event) {
+   UTIL.logger(dialogname + ': ready(): ws.onclose()');
+   };
+   };
+   websockets();
+   
+   sendMessage = function sendMessage() {
+   UTIL.logger(dialogname + ': sendMessage()');
+   var message = {
+   "username": "Eugen Druta",
+   "message": "Websocket meldung"
+   };
+   ws.send(JSON.stringify(message));
+   };
+   } else {
+   alert("WebSocket is NOT supported by your Browser!");
+   }
+   */
   //** WebSockets
 
   //** SSE 
+  /*
   var sseid;
   function ssecallback() {
     //Sjax Server call
@@ -38,6 +73,7 @@ $(document).ready(function () {
     //Edge: kein SSE Support; Polling
     sseid = setInterval(ssecallback, 10000);
   }
+  */
   //** SSE
 
   /* WebRTC

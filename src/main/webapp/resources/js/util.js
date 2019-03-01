@@ -1,4 +1,5 @@
 const LOGGER = true;
+var ws;
 
 var UTIL = {
   /** 
@@ -161,5 +162,40 @@ var UTIL = {
     }
 
     $("#messages").dialog('open');
+  },
+  websocket: function websocket() {
+    if ("WebSocket" in window) {
+      //alert("WebSocket is supported by your Browser!");
+      websockets = function websockets() {
+        ws = new WebSocket("ws://localhost:8080/WebRWinMvn/websocket");
+        ws.onopen = function (event) {
+          UTIL.logger(dialogname + ': ready(): ws.onopen()');
+        };
+        ws.onmessage = function (event) {
+          UTIL.logger(dialogname + ': ready(): ws.onmessage(): data: ' + event.data);
+          var $textarea = $('#messages');
+          var json = JSON.parse(event.data);
+          $textarea.val($textarea.val() + json.username + ": " + json.message + "\n");
+          $textarea.animate({
+            scrollTop: $textarea.height()
+          }, 1000);
+        };
+        ws.onclose = function (event) {
+          UTIL.logger(dialogname + ': ready(): ws.onclose()');
+        };
+      };
+      websockets();
+    } else {
+      alert("WebSocket is NOT supported by your Browser!");
+    }
+  },
+  sendMessage: function sendMessage() {
+    var message = {
+      "username": "Eugen Druta",
+      "message": "Websocket meldung vom Client"
+    };
+    UTIL.logger(dialogname + ': sendMessage(): username: ' + message.username
+      + '; message: ' + message.message);
+    ws.send(JSON.stringify(message));
   }
 };
