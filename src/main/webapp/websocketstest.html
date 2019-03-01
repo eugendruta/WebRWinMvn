@@ -10,33 +10,34 @@
     <link type="text/css" rel="stylesheet" href="resources/css/style.css" />
     <script type="text/javascript">
       var ws;
-
-      $(document).ready(
-        function () {
-          ws = new WebSocket("ws://localhost:8080/WebRWinMvn/sse");
-          ws.onopen = function (event) {
-
-          }
-          ws.onmessage = function (event) {
-            var $textarea = $('#messages');
-            var json = JSON.parse(event.data);
-            $textarea.val($textarea.val() + json.username + ": " + json.message + "\n");
-            $textarea.animate({
-              scrollTop: $textarea.height()
-            }, 1000);
-          };
-          ws.onclose = function (event) {
-          };
-        });
-
-      function sendMessage() {
-        var message = {
-          "username": $('#username').val(),
-          "message": $('#message').val()
-        }
-        ws.send(JSON.stringify(message));
-        $('#message').val('');
-      }
+      /*
+       $(document).ready(
+       function () {
+       ws = new WebSocket("ws://localhost:8080/WebRWinMvn/sse");
+       ws.onopen = function (event) {
+       
+       }
+       ws.onmessage = function (event) {
+       var $textarea = $('#messages');
+       var json = JSON.parse(event.data);
+       $textarea.val($textarea.val() + json.username + ": " + json.message + "\n");
+       $textarea.animate({
+       scrollTop: $textarea.height()
+       }, 1000);
+       };
+       ws.onclose = function (event) {
+       };
+       });
+       
+       function sendMessage() {
+       var message = {
+       "username": $('#username').val(),
+       "message": $('#message').val()
+       }
+       ws.send(JSON.stringify(message));
+       $('#message').val('');
+       }
+       */
     </script>
   </head>
   <body>

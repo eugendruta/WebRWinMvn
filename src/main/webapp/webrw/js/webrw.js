@@ -4,42 +4,6 @@ $(document).ready(function () {
 
   //** WebSockets
   UTIL.websocket();
-  /*
-   if ("WebSocket" in window) {
-   //alert("WebSocket is supported by your Browser!");
-   var ws;
-   websockets = function websockets() {
-   ws = new WebSocket("ws://localhost:8080/WebRWinMvn/websocket");
-   ws.onopen = function (event) {
-   UTIL.logger(dialogname + ': ready(): ws.onopen()');
-   };
-   ws.onmessage = function (event) {
-   UTIL.logger(dialogname + ': ready(): ws.onmessage(): data: ' + event.data);
-   var $textarea = $('#messages');
-   var json = JSON.parse(event.data);
-   $textarea.val($textarea.val() + json.username + ": " + json.message + "\n");
-   $textarea.animate({
-   scrollTop: $textarea.height()
-   }, 1000);
-   };
-   ws.onclose = function (event) {
-   UTIL.logger(dialogname + ': ready(): ws.onclose()');
-   };
-   };
-   websockets();
-   
-   sendMessage = function sendMessage() {
-   UTIL.logger(dialogname + ': sendMessage()');
-   var message = {
-   "username": "Eugen Druta",
-   "message": "Websocket meldung"
-   };
-   ws.send(JSON.stringify(message));
-   };
-   } else {
-   alert("WebSocket is NOT supported by your Browser!");
-   }
-   */
   //** WebSockets
 
   //** SSE 
@@ -76,7 +40,8 @@ $(document).ready(function () {
   */
   //** SSE
 
-  /* WebRTC
+  //WebRTC
+  /* 
    if (UTIL.supportWebRTC()) {
    UTIL.getUserIP(function (ip) {
    localStorage.setItem("ipadresse", ip); 
