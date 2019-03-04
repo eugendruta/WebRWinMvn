@@ -3,41 +3,45 @@ $(document).ready(function () {
   UTIL.logger(dialogname + ': ready(): Start'); // # 1
 
   //** WebSockets
-  UTIL.websocket();
+  //UTIL.websocket();
   //** WebSockets
+
+  //** Long Polling per JS
+  //UTIL.longpolling();
+  //**
 
   //** SSE 
   /*
-  var sseid;
-  function ssecallback() {
-    //Sjax Server call
-    $.ajax({url: "../sse",
-      success: function (result) {
-        UTIL.logger(dialogname + ': ssecallback(): result: ' + result);
-      }});
-  }
-  var evtSource;
-  if (typeof (EventSource) !== "undefined") {
-    evtSource = new EventSource("../sse");
-    evtSource.addEventListener('message', function (e) {
-      var data = JSON.parse(e.data);
-      console.log("generic message time: " + data.time);
-    }, false);
-
-    evtSource.addEventListener('userlogon', function (e) {
-      var data = JSON.parse(e.data);
-      //console.log('userlogon:' + data.username);
-    }, false);
-
-    evtSource.addEventListener('update', function (e) {
-      var data = JSON.parse(e.data);
-      //console.log('update: ' + data.username + ' is now ' + data.emotion);
-    }, false);
-  } else {
-    //Edge: kein SSE Support; Polling
-    sseid = setInterval(ssecallback, 10000);
-  }
-  */
+   var sseid;
+   function ssecallback() {
+   //Sjax Server call
+   $.ajax({url: "../sse",
+   success: function (result) {
+   UTIL.logger(dialogname + ': ssecallback(): result: ' + result);
+   }});
+   }
+   var evtSource;
+   if (typeof (EventSource) !== "undefined") {
+   evtSource = new EventSource("../sse");
+   evtSource.addEventListener('message', function (e) {
+   var data = JSON.parse(e.data);
+   console.log("generic message time: " + data.time);
+   }, false);
+   
+   evtSource.addEventListener('userlogon', function (e) {
+   var data = JSON.parse(e.data);
+   //console.log('userlogon:' + data.username);
+   }, false);
+   
+   evtSource.addEventListener('update', function (e) {
+   var data = JSON.parse(e.data);
+   //console.log('update: ' + data.username + ' is now ' + data.emotion);
+   }, false);
+   } else {
+   //Edge: kein SSE Support; Polling
+   sseid = setInterval(ssecallback, 10000);
+   }
+   */
   //** SSE
 
   //WebRTC

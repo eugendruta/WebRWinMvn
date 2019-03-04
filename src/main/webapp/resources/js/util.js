@@ -189,6 +189,13 @@ var UTIL = {
       alert("WebSocket is NOT supported by your Browser!");
     }
   },
+  longpolling: function longpolling() {  
+    $.ajax({url: "../Longpolling",
+      success: function (data) {
+        UTIL.logger(dialogname + '; Longpolling data.time: ' + data.time)
+      },
+      dataType: "json", complete: longpolling, timeout: 30000});
+  },
   sendMessage: function sendMessage() {
     var message = {
       "username": "Eugen Druta",
