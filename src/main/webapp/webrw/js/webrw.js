@@ -2,6 +2,12 @@ $(document).ready(function () {
   dialogname = 'webrw';
   UTIL.logger(dialogname + ': ready(): Start'); // # 1
 
+  //**Browsersupport-Check, indem die Existenz des content Attributs des template Elements geprüft wird.
+  //  if ('content' in document.createElement('template')) {
+  //    alert('Template supported');
+  //  }
+  //**Browsersupport-Check, indem die Existenz des content Attributs des template Elements geprüft wird.
+
   //** WebSockets
   //UTIL.websocket();
   //** WebSockets
