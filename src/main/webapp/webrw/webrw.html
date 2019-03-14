@@ -4,42 +4,42 @@
     <meta charset="UTF-8"> 
     <title>Navigator</title>   
     <link rel="manifest" href="../manifest.json"> 
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>        
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">         
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>            
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="../resources/js/plugins/jqTree/tree.jquery.js"></script>   
-    <script src="../resources/js/plugins/jquery.table.selector.js"></script>  
-    <!-- <script src="../resources/js/w3-include-HTML.js"></script>  -->
-    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="../resources/css/jquery-ui.css" type="text/css"/>    
+    <script src="../resources/js/plugins/jqTree/tree.jquery.js"></script>       
+    <script src="../resources/js/plugins/jquery.table.selector.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>    
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />    
     <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.2.6/css/fixedColumns.dataTables.min.css" /> 
-    <script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>    
-    <!-- <link rel="stylesheet" href="../resources/css/jquery-ui.css" type="text/css"/>     -->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">     
+    <script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>        
     <link href="../resources/css/jqtree.css" rel="stylesheet">       
     <link href="../resources/css/dialog.css" rel="stylesheet">  
     <link href="../resources/css/fontawesome/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="../resources/css/menustyles.css">    
     <script src="../resources/js/util.js" ></script>
     <script src="js/webrw.js" ></script>
+    <script src="js/config.js"></script>           
     <script src="../resources/js/menuscript.js"></script>    
   </head>    
   <body style="height: 100%; background-image: url(../resources/images/wallpaper_dev.png);">
     <div id='cssmenu'>
       <ul>
-        <li id="homemenue"><a href='http://localhost:8080/WebRWinMvn/webrw/webrw.html'><span>Home</span></a></li>
-     
-        <li  id="prodmenue" class='has-sub'><a href='#'><span>Dialoge</span></a>
+        <li id="homemenu"><a href='http://localhost:8080/WebRWinMvn/webrw/webrw.html'><span>Home</span></a></li>
+
+        <li id="dialogemenu" class='has-sub'><a href='#'><span>Dialoge</span></a>
           <ul>
-            <li class='has-sub'><a href='#'><span>Administration</span></a>
+            <li id="adminmenu" class='has-sub'><a href='#'><span>Administration</span></a>
               <ul>
-                <li><a href='#'><span>ADUEB: Administration-Übersicht</span></a></li>
+                <li><a href='#'><span>ADUEB: Administrationübersicht</span></a></li>
                 <li class='last'><a href='#'><span>AUUEB: Auftragsübersicht</span></a></li>
               </ul>
             </li>
             <li class='has-sub'><a href='#'><span>Stammdaten</span></a>
               <ul>
                 <li><a href='#'><span>WAUE1: WA1-Übersicht</span></a></li>
-                <li class='last'><a href='#'><span>POUEB: Positions-Übersicht</span></a></li>
+                <li class='last'><a href='#'><span>POUEB: Positionsübersicht</span></a></li>
               </ul>
             </li>
             <li class='has-sub'><a href='#'><span>Bestandsverwaltung</span></a>
@@ -50,8 +50,8 @@
             </li>            
           </ul>
         </li>
-        <li id="loginmenue"><a href='#'><span>Login</span></a></li>
-        <li id="logoutmenue" class='last'><a href='#'><span>Logout</span></a></li>
+        <li id="loginmenu"><a href='#'><span>Login</span></a></li>
+        <li id="logoutmenu" class='last'><a href='#'><span>Logout</span></a></li>
       </ul>
     </div>
 

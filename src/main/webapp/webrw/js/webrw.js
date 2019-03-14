@@ -205,6 +205,7 @@ $(document).ready(function () {
      }
      */
   });
+
   function devicedaten() {
     var ipadresse = localStorage.getItem('ipadresse');
     var pcname = localStorage.getItem('pcname');
@@ -236,6 +237,7 @@ $(document).ready(function () {
       return false;
     }
   }
+
   if (storageAvailable()) {
     // Yippee! We can use localStorage awesomeness    
     UTIL.logger(dialogname + ': localStorage verfügbar !!');
@@ -274,6 +276,7 @@ $(document).ready(function () {
     return "Wollen Sie tatsächlich den Dialog schließen?";
   });
   //Function: hole Browsertyp (Edge, Chrome, Firefox,   )
+
   getbrowser = function getBrowser() {
     var _browser = "unbekannt";
     //UTIL.logger(dialogname + ': userAgent + navigator.userAgent);
@@ -330,6 +333,8 @@ $(document).ready(function () {
     UTIL.showMessage(message, messagetyp);
   }
 
+  $("#tabs").tabs();
+
   lstaktwnd = function lstAktWnd(sel) {
     var seldialog = sel.substr(0, 5);
     UTIL.logger(dialogname + ': lstAktWnd(): seldialog: ' + seldialog);
@@ -348,7 +353,7 @@ $(document).ready(function () {
   showtab = function showtab(tab) {
     UTIL.logger(dialogname + ': showtab(): tab: ' + tab);
   };
-  
+
   showtables = function showTables(dialogtable) {
     UTIL.logger(dialogname + ': showTables(): dialogtable: ' + dialogtable);
     if (dialogtable === 'bsueb#bsueb') {
@@ -357,7 +362,7 @@ $(document).ready(function () {
       showTableAVUEB('avueb');
     }
   };
-  
+
   var data = [
     {
       label: 'Administration',
@@ -600,8 +605,13 @@ $(document).ready(function () {
 //      console.log("error");
 //    });
 
-    $("#navigatortbl").show();
-    $("#aktivewindows").show();
+    //$("#navigatortbl").show();
+    //$("#aktivewindows").show();
+
+    //Tabs aneiegen
+    $("#tabs").tabs();
+    UTIL.logger(dialogname + ': login(): Tabs anzeigen');
+    
     $("#login").hide();
   };
   //Devicedaten speichern
