@@ -2,6 +2,56 @@ $(document).ready(function () {
   dialogname = 'webrw';
   UTIL.logger(dialogname + ': ready(): Start'); // # 1
 
+  //** FileIO
+  /*
+   function readSingleFile(evt) {
+   //Retrieve the first (and only!) File from the FileList object
+   var f = evt.target.files[0];
+   
+   if (f) {
+   var r = new FileReader();
+   r.onload = function (e) {
+   var contents = e.target.result;
+   alert("Got the file.name: " + f.name + "n"
+   + "type: " + f.type + "n"
+   + "size: " + f.size + " bytesn"
+   + "starts with: " + contents.substr(0, contents.indexOf("n"))
+   );
+   };
+   r.readAsText(f);
+   } else {
+   alert("Failed to load file");
+   }
+   }
+   
+   document.getElementById('fileinput').addEventListener('change', readSingleFile, false);
+   */
+  //**File IO
+
+  //** Callback
+  // generic logStuff function that prints to console
+  function logStuff(userData) {
+    if (typeof userData === "string")
+    {
+      console.log(userData);
+    } else if (typeof userData === "object")
+    {
+      for (var item in userData) {
+        console.log(item + ": " + userData[item]);
+      }
+    }
+  }
+  // A function that takes two parameters, the last one a callback function
+  function getInput(options, callback) {
+    callback(options);
+  }
+  // When we call the getInput function, we pass logStuff as a parameter.
+  // So logStuff will be the function that will called back (or executed) inside the getInput function
+  getInput({name: "Rich", speciality: "JavaScript"}, logStuff);
+  //  name: Rich
+  // speciality: JavaScript
+  //** Callback
+
   //**Browsersupport-Check, indem die Existenz des content Attributs des template Elements geprüft wird.
   //  if ('content' in document.createElement('template')) {
   //    alert('Template supported');
@@ -294,6 +344,11 @@ $(document).ready(function () {
       }
     }
   };
+
+  showtab = function showtab(tab) {
+    UTIL.logger(dialogname + ': showtab(): tab: ' + tab);
+  };
+  
   showtables = function showTables(dialogtable) {
     UTIL.logger(dialogname + ': showTables(): dialogtable: ' + dialogtable);
     if (dialogtable === 'bsueb#bsueb') {
@@ -302,6 +357,7 @@ $(document).ready(function () {
       showTableAVUEB('avueb');
     }
   };
+  
   var data = [
     {
       label: 'Administration',
