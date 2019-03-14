@@ -28,7 +28,10 @@ $(document).ready(function () {
    }
    */
   var table;
-
+  //http://localhost:8080/WebRWinMvn/webrw/webrw.html
+  
+  //window.close();
+  
   customize = function customize(param) {
     if (param === "param") {
       $('#custom').dialog('open');

@@ -153,11 +153,11 @@ $(document).ready(function () {
     var newvalue = storageEvent.newValue;
     var url = storageEvent.url;
     UTIL.logger(dialogname + ": onStorageEvent(): eintrag storage key: "
-      + key + '; newvalue: ' + newvalue + '; url: ' + url);
+            + key + '; newvalue: ' + newvalue + '; url: ' + url);
     //Aktiven Dialoge anzeigen: als aktiviert
     if (newvalue === 'focus') {
       $("#aktwndlst").append(
-        '<li onclick="lstaktwnd($(this).text());">' + key + ' aktiv</li>');
+              '<li onclick="lstaktwnd($(this).text());">' + key + ' aktiv</li>');
       // Dialog als aktiviert in localstorage eintragen
       localStorage.removeItem(key);
       localStorage.setItem(key, 'aktiviert');
@@ -165,11 +165,11 @@ $(document).ready(function () {
       //Eintrag im Dialog gelöscht; Dialog in liste aktiver Dialoge löschen
       $("#aktwndlst li").each(function (index, value) {
         UTIL.logger(dialogname + ': onStorageEvent(): index:  ' + index
-          + '; value.innerText: ' + value.innerText + '; key: ' + key);
+                + '; value.innerText: ' + value.innerText + '; key: ' + key);
         if (key === value.innerText.substring(0, 5)) {
           value.remove();
           UTIL.logger(dialogname + ': onStorageEvent(): index:  ' + index
-            + '; value: ' + value.innerText + ' gelöscht');
+                  + '; value: ' + value.innerText + ' gelöscht');
         }
       });
     }
@@ -252,11 +252,14 @@ $(document).ready(function () {
     //Startzeit löschen
     localStorage.removeItem("starttime");
     UTIL.logger(dialogname + ': beforeunload(): winarray.lenght: ' + winarray.length);
+    
     //Wenn noch offene Dialoge; alle schließen
+    var newWin = window.open("../bsueb/bsueb.html");
+    
     for (let i = 0; i < winarray.length; i++) {
       //{dialog: newWin, name: aktdialog, state: 'aktiv'};
       UTIL.logger(dialogname + ': beforeunload: window: dialog.name:'
-        + winarray[i].dialog.name + '; name: ' + winarray[i].name + '; state: ' + winarray[i].state);
+              + winarray[i].dialog.name + '; name: ' + winarray[i].name + '; state: ' + winarray[i].state);
       //Aktives Window schließen
       winarray[i].dialog.close();
     }
@@ -265,13 +268,15 @@ $(document).ready(function () {
     //localStorage.clear();
 
     //SSE benden
-    if (evtSource) {
-      UTIL.logger(dialogname + ': beforeunload(): SSE close');
-      evtSource.close();
-    } else {
-      UTIL.logger(dialogname + ': beforeunload(): setInterval close');
-      clearInterval(sseid);
-    }
+    /*
+     if (evtSource) {
+     UTIL.logger(dialogname + ': beforeunload(): SSE close');
+     evtSource.close();
+     } else {
+     UTIL.logger(dialogname + ': beforeunload(): setInterval close');
+     clearInterval(sseid);
+     }
+     */
 
     return "Wollen Sie tatsächlich den Dialog schließen?";
   });
@@ -328,9 +333,10 @@ $(document).ready(function () {
      */
     UTIL.logger(dialogname + ': browser: ' + browser);
     window.moveTo(100, 100); //funzt nur für Edge
-    var messagetyp = 'warn'; // error
-    var message = 'Bitte Brwoserfenster auf minimale Breite reduzieren.';
-    UTIL.showMessage(message, messagetyp);
+
+    //var messagetyp = 'warn'; // error
+    //var message = 'Bitte Brwoserfenster auf minimale Breite reduzieren.';
+    //UTIL.showMessage(message, messagetyp);
   }
 
   $("#tabs").tabs();
@@ -341,8 +347,8 @@ $(document).ready(function () {
     for (let i = 0; i < winarray.length; i++) {
       //{dialog: newWin, name: aktdialog, state: 'aktiv'};
       UTIL.logger(dialogname + ': lstAktWnd(): window: dialog.name:'
-        + winarray[i].dialog.name + '; name: ' + winarray[i].name
-        + '; state: ' + winarray[i].state);
+              + winarray[i].dialog.name + '; name: ' + winarray[i].name
+              + '; state: ' + winarray[i].state);
       //Aktives/mini Window anzeigen
       if (winarray[i].name === seldialog) {
         winarray[i].dialog.focus();
@@ -484,7 +490,7 @@ $(document).ready(function () {
     closedIcon: $('<i class="fas fa-folder" style="color: lightblue"></i>'),
     openedIcon: $('<i class="fas fa-folder-open" style="color: lightblue"></i>')
   });
-// bind 'tree.click' event
+  // bind 'tree.click' event
   $('#navigator').bind('tree.click', function (event) {
     // The clicked node is 'event.node'
     var node = event.node.name; // node === "BSUEB: Bestands-Übersicht"
@@ -498,11 +504,11 @@ $(document).ready(function () {
       return;
     }
 
-//Liste aktiver Windows: eintragen wenn noch nicht vorhanden
+    //Liste aktiver Windows: eintragen wenn noch nicht vorhanden
     var eingetragen = localStorage.getItem(aktdialog) ? true : false;
     UTIL.logger(dialogname + ': dialog: ' + aktdialog + ' eingetragen: ' + eingetragen);
     if (!eingetragen) {
-//Window Positionierung
+      //Window Positionierung
       var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
       var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
       //var winProps = 'height=300,width=400,resizable=no,'
@@ -544,7 +550,7 @@ $(document).ready(function () {
     var benutzer = $("#benutzer").val();
     var kennwort = $("#kennwort").val();
     UTIL.logger(dialogname + ': login(): benutzer: ' + benutzer + "; kennwort:"
-      + kennwort + "; kennwort.length: " + kennwort.length);
+            + kennwort + "; kennwort.length: " + kennwort.length);
     /*
      if (UTIL.isEmpty(kennwort)) {
      UTIL.showMessage('Bitte Kennwort eingeben', 'error');
@@ -553,7 +559,7 @@ $(document).ready(function () {
      */
     var url = "http://localhost:8080/WebRWin/login?benutzer=" + benutzer + "&kennwort=" + kennwort;
     UTIL.logger(dialogname + ': login(): benutzer: ' + benutzer
-      + "; kennwort:" + kennwort + "; url: " + url);
+            + "; kennwort:" + kennwort + "; url: " + url);
     /*
      // Using the core $.ajax() method
      $.ajax({
@@ -611,7 +617,7 @@ $(document).ready(function () {
     //Tabs aneiegen
     $("#tabs").tabs();
     UTIL.logger(dialogname + ': login(): Tabs anzeigen');
-    
+
     $("#login").hide();
   };
   //Devicedaten speichern
