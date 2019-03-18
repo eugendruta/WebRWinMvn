@@ -136,6 +136,8 @@ $(document).ready(function () {
   }
 
 //!!!TEST clear localStorage
+//localStorage.clear();
+//alert('localStorage clear !!');
 //localStorage.removeItem("bsueb.eingabe");
 //localStorage.removeItem("bsueb.ausgabe");
 //!!!!TEST
@@ -168,7 +170,7 @@ $(document).ready(function () {
       $("#aktwndlst li").each(function (index, value) {
         UTIL.logger(dialogname + ': onStorageEvent(): index:  ' + index
                 + '; value.innerText: ' + value.innerText + '; key: ' + key);
-        if (key === value.innerText.substring(0, 5)) {
+        if (key === value.innerText.substring(0, 5).toLowerCase()) {
           value.remove();
           UTIL.logger(dialogname + ': onStorageEvent(): index:  ' + index
                   + '; value: ' + value.innerText + ' gelöscht');
@@ -251,8 +253,7 @@ $(document).ready(function () {
   //Window close Event
   $(window).on("beforeunload", function (e) {
     e.preventDefault();
-    //Startzeit löschen
-    localStorage.removeItem("starttime");
+
     UTIL.logger(dialogname + ': beforeunload(): winarray.lenght: ' + winarray.length);
 
     //Wenn noch offene Dialoge; alle schließen
@@ -260,15 +261,20 @@ $(document).ready(function () {
 
     for (let i = 0; i < winarray.length; i++) {
       //{dialog: newWin, name: aktdialog, state: 'aktiv'};
-      UTIL.logger(dialogname + ': beforeunload: window: dialog.name:'
-              + winarray[i].dialog.name + '; name: ' + winarray[i].name + '; state: ' + winarray[i].state);
-      //Aktives Window schließen
-      winarray[i].dialog.close();
+      //Aktives Window schließen wenn noch nicht TAB geschlossen
+      let dia = localStorage.getItem(winarray[i].name);
+      UTIL.logger(dialogname + ': beforeunload: winarray[i].name: ' + winarray[i].name 
+              + '; dialogname: ' + dia   + '; state: ' + winarray[i].state);
+      if (dia) {
+        winarray[i].dialog.close();
+      }
     }
     //Einträge löschen 
     if (winarray.length > 0) {
       winarray.splice(0, winarray.length);
     }
+    //Startzeit löschen
+    localStorage.removeItem("starttime");
     //localStorage.clear();
 
     //SSE benden
@@ -284,8 +290,8 @@ $(document).ready(function () {
 
     return "Wollen Sie tatsächlich den Dialog schließen?";
   });
-  //Function: hole Browsertyp (Edge, Chrome, Firefox,   )
 
+  //Function: hole Browsertyp (Edge, Chrome, Firefox,   )
   getbrowser = function getBrowser() {
     var _browser = "unbekannt";
     //UTIL.logger(dialogname + ': userAgent + navigator.userAgent);
@@ -510,7 +516,7 @@ $(document).ready(function () {
     }
 
     //Liste aktiver Windows: eintragen wenn noch nicht vorhanden
-    var eingetragen = localStorage.getItem(aktdialog) ? true : false;
+    var eingetragen = localStorage.getItem(aktdialog);
     UTIL.logger(dialogname + ': dialog: ' + aktdialog + ' eingetragen: ' + eingetragen);
     if (!eingetragen) {
       //Window Positionierung

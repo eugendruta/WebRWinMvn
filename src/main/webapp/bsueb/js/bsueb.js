@@ -182,7 +182,6 @@ $(document).ready(function () {
 
   //Window close Event
   $(window).on("beforeunload", function () {
-    alert('Dialog BSUEB close');
     //Eintrag in localstorage löschen
     localStorage.removeItem(dialogname);
     //Size speichern
@@ -616,7 +615,7 @@ $(document).ready(function () {
     }
   };
 
-  aktualisieren = function detail() {
+  aktualisieren = function aktualisieren() {
     alert(dialogname + ': detail()');
   };
 
