@@ -2,6 +2,8 @@ $(document).ready(function () {
   dialogname = 'webrw';
   UTIL.logger(dialogname + ': ready(): Start'); // # 1
 
+  //localStorage.clear();
+
   //** FileIO
   /*
    function readSingleFile(evt) {
@@ -252,10 +254,10 @@ $(document).ready(function () {
     //Startzeit löschen
     localStorage.removeItem("starttime");
     UTIL.logger(dialogname + ': beforeunload(): winarray.lenght: ' + winarray.length);
-    
+
     //Wenn noch offene Dialoge; alle schließen
-    var newWin = window.open("../bsueb/bsueb.html");
-    
+    //var newWin = window.open("../bsueb/bsueb.html");
+
     for (let i = 0; i < winarray.length; i++) {
       //{dialog: newWin, name: aktdialog, state: 'aktiv'};
       UTIL.logger(dialogname + ': beforeunload: window: dialog.name:'
@@ -264,7 +266,9 @@ $(document).ready(function () {
       winarray[i].dialog.close();
     }
     //Einträge löschen 
-    winarray.splice(0, winarray.length);
+    if (winarray.length > 0) {
+      winarray.splice(0, winarray.length);
+    }
     //localStorage.clear();
 
     //SSE benden
@@ -490,6 +494,7 @@ $(document).ready(function () {
     closedIcon: $('<i class="fas fa-folder" style="color: lightblue"></i>'),
     openedIcon: $('<i class="fas fa-folder-open" style="color: lightblue"></i>')
   });
+
   // bind 'tree.click' event
   $('#navigator').bind('tree.click', function (event) {
     // The clicked node is 'event.node'
@@ -525,7 +530,7 @@ $(document).ready(function () {
         var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
       }
       //http://localhost:8080/WebRWin/bsueb/bsueb.html
-      var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", aktdialog, winProps);
+      var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
       UTIL.logger(dialogname + ': dialog: ' + newWin.name + ' gestartet');
       var winstate = {dialog: newWin, name: aktdialog, state: 'aktiv'};
       winarray.push(winstate);
@@ -533,8 +538,13 @@ $(document).ready(function () {
       if (browser === 'Edge') {
         newWin.focus();
       } else {
-//Firefox und Chrome: window.focus() funzt nicht
+        //Firefox und Chrome: window.focus() funzt nicht
       }
+      localStorage.setItem(aktdialog, 'focus');
+
+      //Liste aktiver Diaooge updaten
+      $("#aktwndlst").append("<li class='aktlstli'>" + aktdialog.toUpperCase() + "</li>");
+      UTIL.logger(dialogname + ': Liste aktiver Dialoge updaten: aktdialog: ' + aktdialog);
     }
 
   });
@@ -611,15 +621,22 @@ $(document).ready(function () {
 //      console.log("error");
 //    });
 
-    //$("#navigatortbl").show();
-    //$("#aktivewindows").show();
+    $("#navigatortbl").show();
+    $("#aktivewindows").show();
 
     //Tabs aneiegen
-    $("#tabs").tabs();
+    //$("#tabs").tabs();
     UTIL.logger(dialogname + ': login(): Tabs anzeigen');
 
     $("#login").hide();
   };
+
+  //Logout
+  logout = function logout() {
+    UTIL.logger(dialogname + ': logout()');
+    window.close();
+  };
+
   //Devicedaten speichern
   device = function device() {
     var ipadresse = $("#ipadresse").val();
