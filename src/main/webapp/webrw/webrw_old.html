@@ -17,14 +17,75 @@
     <script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>        
     <link href="../resources/css/jqtree.css" rel="stylesheet">       
     <link href="../resources/css/dialog.css" rel="stylesheet">  
-    <link href="../resources/css/fontawesome/css/all.css" rel="stylesheet"> 
+    <link href="../resources/css/fontawesome/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="../resources/css/menustyles.css">    
     <script src="../resources/js/util.js" ></script>
     <script src="js/webrw.js" ></script>
     <!-- <script src="js/config.js"></script>            -->
-    <script src="../resources/js/menuscript.js"></script>       
+    <script src="../resources/js/menuscript.js"></script>    
+    <style>
+      .aktlstul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        /* background-color: #333333; */
+      }
+      .aktlstli {
+        float: left;
+        padding: 6px;
+        background-color: lightblue;
+        font-weight: bold;
+      }      
+    </style>    
   </head>    
   <body style="height: 100%; background-image: url(../resources/images/wallpaper_dev.png);">
+    <!--
+    <div id='cssmenu'>
+      <ul>
+        <li id="homemenu">
+          <a href='http://localhost:8080/WebRWinMvn/webrw/webrw.html' target="_blank">  <span>Home</span></a>
+        </li>
+
+        <li id="dialogemenu" class='has-sub'><a href='#'><span>Dialoge</span></a>
+          <ul>
+            <li id="adminmenu" class='has-sub'><a href='#'><span>Administration</span></a>
+              <ul>
+                <li><a href='#'><span>ADUEB: Administrationübersicht</span></a></li>
+                <li class='last'><a href='#'><span>AUUEB: Auftragsübersicht</span></a></li>
+              </ul>
+            </li>
+            <li class='has-sub'><a href='#'><span>Stammdaten</span></a>
+              <ul>
+                <li><a href='#'><span>WAUE1: WA1-Übersicht</span></a></li>
+                <li class='last'><a href='#'><span>POUEB: Positionsübersicht</span></a></li>
+              </ul>
+            </li>
+            <li class='has-sub'><a href='#'><span>Bestandsverwaltung</span></a>
+              <ul>
+                <li onclick="showtab('bsueb');">
+                  <a href='http://localhost:8080/WebRWinMvn/bsueb/bsueb.html' target="_blank">
+                    <span>BSUEB: Bestandsübersicht</span></a>
+                </li>
+                <li class='last'><a href='#'><span>BSDET: Bestandsdetail</span></a></li>
+              </ul>
+            </li>            
+          </ul>
+        </li>
+        <li id="loginmenu"><a href='#'><span>Login</span></a></li>
+        <li id="logoutmenu" class='last'><a href='#'><span>Logout</span></a></li>
+      </ul>
+    </div>
+    -->
+
     <div id="container" >
+      <!-- <input type="file" id="fileinput" />  -->
+
+      <div id="titel" >
+        <input id="logout" value="Logout" type="submit" style="max-width: 90px; float: right;" 
+               onclick="logout();"> 
+      </div>
+
       <!-- Navigator   -->
       <table id="navigatortbl" style="border: none">
         <tr>
@@ -38,10 +99,19 @@
 
       <!-- Anzeige aktive Windows -->
       <div id="aktivewindows">
+        <!-- <label style="font-size: large; font-weight: bold;">Aktive Dialoge</label> -->
         <h2 style="background-color: green; width: 180px;">Aktive Dialoge</h2>
+
         <ul id="aktwndlst" class="aktlstul">
           <li class="aktlstli">Navigator</li>
         </ul>        
+        <!--
+        <p>
+          <span style="margin-right: 5px;">Navigator</span>
+          <span>BSUEB</span>
+        </p> 
+        -->
+        <!-- <ul id="aktwndlst" ></ul> -->
       </div>      
 
       <!-- meldungen -->
@@ -54,9 +124,9 @@
            style="margin-left: 20px; width: 250px; background-color: lightgray; margin-left: 5px;">
         <label id="logintitle">ELVIS - Entwicklung Login</label>
 
-        <!-- Eingabeblock: user/kennwort -->
         <div id="eingabediv1" >
-          <img src="../resources/images/elvis-logo.PNG" style="width: 100px; padding-left: 70px;">
+          <img src="../resources/images/elvis-logo.PNG" 
+               style="width: 100px; padding-left: 70px;">
 
           <table id="eingabe1">
             <tr>
@@ -84,8 +154,6 @@
             </tr>
           </table>        
         </div>
-
-        <!-- Device: IP, PC,... -->
         <div>
           <table id="device" style="border: none">
             <tr>
@@ -107,12 +175,14 @@
             <tr>
               <td style="border: none">
                 <input id="devspeichernbtn" value="Speichern" type="submit" 
-                       style="max-width: 90px;" onclick="device();"> 
+                       style="max-width: 90px;" 
+                       onclick="device();"> 
               </td>            
             </tr>            
           </table>    
         </div>     
       </div>          
+
     </div>
   </body>
 </html>

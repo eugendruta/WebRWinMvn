@@ -2,12 +2,148 @@ $(document).ready(function () {
   dialogname = 'webrw';
   UTIL.logger(dialogname + ': ready(): Start'); // # 1
 
+  //!!!TEST clear localStorage
+  //localStorage.clear();
+  //alert('localStorage clear !!');
+  //localStorage.removeItem("bsueb.eingabe");
+  //localStorage.removeItem("bsueb.ausgabe");
+  //!!!!TEST
+
+  //** FileIO
+  /*
+   function readSingleFile(evt) {
+   //Retrieve the first (and only!) File from the FileList object
+   var f = evt.target.files[0];
+   
+   if (f) {
+   var r = new FileReader();
+   r.onload = function (e) {
+   var contents = e.target.result;
+   alert("Got the file.name: " + f.name + "n"
+   + "type: " + f.type + "n"
+   + "size: " + f.size + " bytesn"
+   + "starts with: " + contents.substr(0, contents.indexOf("n"))
+   );
+   };
+   r.readAsText(f);
+   } else {
+   alert("Failed to load file");
+   }
+   }
+   
+   document.getElementById('fileinput').addEventListener('change', readSingleFile, false);
+   */
+  //**File IO
+
+  //** Callback
+  // generic logStuff function that prints to console
+  function logStuff(userData) {
+    if (typeof userData === "string")
+    {
+      console.log(userData);
+    } else if (typeof userData === "object")
+    {
+      for (var item in userData) {
+        console.log(item + ": " + userData[item]);
+      }
+    }
+  }
+  // A function that takes two parameters, the last one a callback function
+  function getInput(options, callback) {
+    callback(options);
+  }
+  // When we call the getInput function, we pass logStuff as a parameter.
+  // So logStuff will be the function that will called back (or executed) inside the getInput function
+  getInput({name: "Rich", speciality: "JavaScript"}, logStuff);
+  //  name: Rich
+  // speciality: JavaScript
+  //** Callback
+
+  //**Browsersupport-Check, indem die Existenz des content Attributs des template Elements geprüft wird.
+  //  if ('content' in document.createElement('template')) {
+  //    alert('Template supported');
+  //  }
+  //**Browsersupport-Check, indem die Existenz des content Attributs des template Elements geprüft wird.
+
+  //** WebSockets
+  //UTIL.websocket();
+  //** WebSockets
+
+  //** Long Polling per JS
+  //UTIL.longpolling();
+  //**
+
+  //** SSE 
+  /*
+   var sseid;
+   function ssecallback() {
+   //Sjax Server call
+   $.ajax({url: "../sse",
+   success: function (result) {
+   UTIL.logger(dialogname + ': ssecallback(): result: ' + result);
+   }});
+   }
+   var evtSource;
+   if (typeof (EventSource) !== "undefined") {
+   evtSource = new EventSource("../sse");
+   evtSource.addEventListener('message', function (e) {
+   var data = JSON.parse(e.data);
+   console.log("generic message time: " + data.time);
+   }, false);
+   
+   evtSource.addEventListener('userlogon', function (e) {
+   var data = JSON.parse(e.data);
+   //console.log('userlogon:' + data.username);
+   }, false);
+   
+   evtSource.addEventListener('update', function (e) {
+   var data = JSON.parse(e.data);
+   //console.log('update: ' + data.username + ' is now ' + data.emotion);
+   }, false);
+   } else {
+   //Edge: kein SSE Support; Polling
+   sseid = setInterval(ssecallback, 10000);
+   }
+   */
+  //** SSE
+
+  //WebRTC
+  /* 
+   if (UTIL.supportWebRTC()) {
+   UTIL.getUserIP(function (ip) {
+   localStorage.setItem("ipadresse", ip); 
+   });
+   } else {
+   alert("WebRTC nicht supported< bitteClient IP Adresse manuel eingeben.");
+   }
+   */
+  /*
+   for (let i = 0; i < localStorage.length; i++) {
+   let key = localStorage.key(i);
+   let value = localStorage.getItem(key);
+   UTIL.logger(dialogname + ': localStorage: key: ' + key + '; value: ' + value);
+   }
+   */
+
+  // Check for the various File API support.
+  if (window.File && window.FileReader && window.FileList && window.Blob) {
+    // Great success! All the File APIs are supported.
+    //alert('The File APIs are fully supported in this browser.');    
+  } else {
+    alert('The File APIs are not fully supported in this browser.');
+  }
+  if (typeof (Worker) !== "undefined") {
+    //alert('Yes! Web worker support!');
+  } else {
+    alert('No! Web worker support!');
+  }
+
   //Start Navigator im localStorage eintragen 
   localStorage.setItem("starttime", Date().toString());
 
   winarray = [];
 
-  //Eventlistener: Eintrag in localstorage
+  // Event: Eintrag in localstorage
   function onStorageEvent(storageEvent) {
     /* StorageEvent {
      key;          // name of the property set, changed etc.
@@ -22,9 +158,14 @@ $(document).ready(function () {
     var url = storageEvent.url;
     UTIL.logger(dialogname + ": onStorageEvent(): eintrag storage key: "
       + key + '; newvalue: ' + newvalue + '; url: ' + url);
-
-    //Liste aktiven Dialoge updaten
-    if (!newvalue || newvalue === null) {
+    //Aktiven Dialoge anzeigen: als aktiviert
+    if (newvalue === 'focus') {
+      $("#aktwndlst").append(
+        '<li onclick="lstaktwnd($(this).text());">' + key + ' aktiv</li>');
+      // Dialog als aktiviert in localstorage eintragen
+      localStorage.removeItem(key);
+      localStorage.setItem(key, 'aktiviert');
+    } else if (!newvalue || newvalue === null) {
       //Eintrag im Dialog gelöscht; Dialog in liste aktiver Dialoge löschen
       $("#aktwndlst li").each(function (index, value) {
         UTIL.logger(dialogname + ': onStorageEvent(): index:  ' + index
@@ -36,16 +177,37 @@ $(document).ready(function () {
         }
       });
     }
+    /*
+     for (let i = 0; i < localStorage.length; i++) {
+     let key = localStorage.key(i);
+     let value = localStorage.getItem(key);
+     UTIL.logger(dialogname + ': onStorageEvent(): localStorage: key: ' + key
+     + '; value: ' + value);
+     }
+     */
   }
-  window.addEventListener('storage', onStorageEvent, false);
 
-  //CR in Kennwortfeld: login()
+  window.addEventListener('storage', onStorageEvent, false);
+  /*
+   $(document).keypress(function (event) {
+   var keycode = (event.keyCode ? event.keyCode : event.which);
+   UTIL.logger(dialogname + ': document.keypress: keycode: ' + keycode);
+   if (keycode === 13) {
+   alert('Please press "submit" button instead of the "enter" key');
+   }
+   });
+   */
+
+  //CR in Kennwortfeld
   $('#kennwort').keypress(function (event) {
     var keycode = (event.keyCode ? event.keyCode : event.which);
-    if (keycode === 13) {
-      UTIL.logger(dialogname + ': kennwort.keypress: keycode: ' + keycode);
-      login();
-    }
+    /*
+     UTIL.logger(dialogname + ': #1 #kennwort.keypress: keycode: ' + keycode);
+     if (keycode === 13) {
+     UTIL.logger(dialogname + ': #2 #kennwort.keypress: keycode: ' + keycode);
+     login();
+     }
+     */
   });
 
   function devicedaten() {
@@ -114,6 +276,18 @@ $(document).ready(function () {
 
     //Startzeit löschen
     localStorage.removeItem("starttime");
+    //localStorage.clear();
+
+    //SSE benden
+    /*
+     if (evtSource) {
+     UTIL.logger(dialogname + ': beforeunload(): SSE close');
+     evtSource.close();
+     } else {
+     UTIL.logger(dialogname + ': beforeunload(): setInterval close');
+     clearInterval(sseid);
+     }
+     */
 
     return "Wollen Sie tatsächlich den Dialog schließen?";
   });
@@ -156,9 +330,27 @@ $(document).ready(function () {
 
     return _browser;
   };
-
   browser = getbrowser();
   localStorage.setItem("browser", browser);
+  if (browser === 'Edge') {
+    window.resizeTo(200, window.screen.availHeight);
+    window.moveTo(0, 0);
+  } else {
+    //Minimale Browserwindow size: Firefox: 316; Chrome: 434; Edge: 448
+    /*
+     if (window.outerWidth > 450) {
+     alert('Bitte Browserfenster(breite) minimieren !!!');
+     }
+     */
+    UTIL.logger(dialogname + ': browser: ' + browser);
+    window.moveTo(100, 100); //funzt nur für Edge
+
+    //var messagetyp = 'warn'; // error
+    //var message = 'Bitte Brwoserfenster auf minimale Breite reduzieren.';
+    //UTIL.showMessage(message, messagetyp);
+  }
+
+  //$("#tabs").tabs();
 
   lstaktwnd = function lstAktWnd(sel) {
     var seldialog = sel.substr(0, 5);
@@ -311,7 +503,7 @@ $(document).ready(function () {
     openedIcon: $('<i class="fas fa-folder-open" style="color: lightblue"></i>')
   });
 
-  //'tree.click' event
+  // bind 'tree.click' event
   $('#navigator').bind('tree.click', function (event) {
     // The clicked node is 'event.node'
     var node = event.node.name; // node === "BSUEB: Bestands-Übersicht"
@@ -327,7 +519,7 @@ $(document).ready(function () {
 
     //Liste aktiver Windows: eintragen wenn noch nicht vorhanden
     var eingetragen = localStorage.getItem(aktdialog);
-    UTIL.logger(dialogname + ': navigator.click(): dialog: ' + aktdialog
+    UTIL.logger(dialogname + ': navigator.click(): dialog: ' + aktdialog 
       + ' localStorage eintrag: ' + eingetragen);
     if (!eingetragen) {
       //Window Positionierung
@@ -384,36 +576,70 @@ $(document).ready(function () {
      return;
      }     
      */
-    var url = "http://localhost:8080/WebRWinMvn/login?benutzer=" + benutzer + "&kennwort=" + kennwort;
+    var url = "http://localhost:8080/WebRWin/login?benutzer=" + benutzer + "&kennwort=" + kennwort;
     UTIL.logger(dialogname + ': login(): benutzer: ' + benutzer
       + "; kennwort:" + kennwort + "; url: " + url);
-
-    // Using the core $.ajax() method
-    $.ajax({
-      // The URL for the request
-      url: url,
-      data: {
-        id: 123
-      },
-      type: "GET",
-      dataType: "json"
-    }).done(function (json) {
-      UTIL.logger(dialogname + ': login(): Ajax Request OK');
-      $("<h1>").text(json.title).appendTo("body");
-      $("<div class=\"content\">").html(json.html).appendTo("body");
-    }).fail(function (xhr, status, errorThrown) {
-      alert("Sorry, there was a problem!");
-      console.log("Error: " + errorThrown);
-      console.log("Status: " + status);
-      //console.dir(xhr);
-    }).always(function (xhr, status) {
-      //Request complete
-    });
+    /*
+     // Using the core $.ajax() method
+     $.ajax({
+     // The URL for the request
+     url: url, //"post.php",
+     // The data to send (will be converted to a query string)
+     data: {
+     id: 123
+     },
+     // Whether this is a POST or GET request
+     type: "GET",
+     // The type of data we expect back
+     dataType: "json"
+     }).done(function (json) {
+     // Code to run if the request succeeds (is done);
+     // The response is passed to the function              
+     $("<h1>").text(json.title).appendTo("body");
+     $("<div class=\"content\">").html(json.html).appendTo("body");
+     }).fail(function (xhr, status, errorThrown) {
+     // Code to run if the request fails; the raw request and
+     // status codes are passed to the function
+     alert("Sorry, there was a problem!");
+     console.log("Error: " + errorThrown);
+     console.log("Status: " + status);
+     //console.dir(xhr);
+     }).always(function (xhr, status) {
+     // Code to run regardless of success or failure;
+     alert("The request is complete!");
+     });
+     */
+//    $.getJSON(url, function (data) {
+//      // jsonString = "{\"data\":[\"0\",\"OK\"]}";
+////      var retcode = data.data[0];
+////      var retmsg = data.data[1];
+//
+//      var retcode = data.data.retcode;
+//      var retmsg = data.data.retmsg;
+//      console.log("success: data: " + data.toString() + ";  retcode: " + retcode + "; retmsg: " + retmsg);
+//
+//      if (retcode === '0') {
+//        UTIL.showMessage('retcode: ' + retcode + '; ' + retmsg, 'error');
+//      } else {
+//        $("#navigatortbl").show();
+//        $("#aktivewindows").show();
+//        $("#login").hide();
+//      }
+//    }).fail(function (jqXHR, textStatus, error) {
+//      UTIL.showMessage(textStatus + '; ' + error, 'error');
+//      console.log("error");
+//    });
 
     $("#navigatortbl").show();
     $("#aktivewindows").show();
 
     $("#login").hide();
+  };
+
+  //Logout
+  logout = function logout() {
+    UTIL.logger(dialogname + ': logout()');
+    window.close();
   };
 
   //Devicedaten speichern
@@ -427,6 +653,9 @@ $(document).ready(function () {
     $('#ipadresse').prop('disabled', true);
     $('#pcname').prop('disabled', true);
     $('#devspeichernbtn').hide();
+  };
+  pwdcr = function pwdcr() {
+    console.log('webrw: pwdcr(): CR auf Pwdeingabefeld ');
   };
 }); // end ready
 

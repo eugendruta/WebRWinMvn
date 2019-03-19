@@ -63,12 +63,6 @@ table th {
   padding: 0.2em 0.5em;
 }
 
-/*
-.table_bsueb tbody tr:nth-child(even) {
-  background-color: lightsteelblue;
-}
-*/
-
 table#table_bsueb, th, td {
   border: 1px solid black;
   border-collapse: collapse;
@@ -168,3 +162,17 @@ col {
 .checkbox-active {
   background: lightblue;  
 }
+
+.aktlstul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  /* background-color: #333333; */
+}
+.aktlstli {
+  float: left;
+  padding: 6px;
+  background-color: lightblue;
+  font-weight: bold;
+}      

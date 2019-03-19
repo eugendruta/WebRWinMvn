@@ -29,9 +29,9 @@ $(document).ready(function () {
    */
   var table;
   //http://localhost:8080/WebRWinMvn/webrw/webrw.html
-  
+
   //window.close();
-  
+
   customize = function customize(param) {
     if (param === "param") {
       $('#custom').dialog('open');
@@ -57,7 +57,7 @@ $(document).ready(function () {
 
           $("#" + name + "lbl").css('display', _display);
           $("#" + name).css('display', _display);
-          
+
           //Setze Eingaben
           if (eingabe) {
             $("#" + name).val(eingabe);
@@ -170,15 +170,17 @@ $(document).ready(function () {
   });
 
   //Window click event  
-  $(window).on("click", function (e) {
-    //e.preventDefault();
-    var status = localStorage.getItem(dialogname);
-    UTIL.logger(dialogname + ': onclick() auf window: status: ' + status);
-    if (status === null) {
-      //Dialog noch nicht in localstorage eingetragen: eintragen.
-      localStorage.setItem(dialogname, 'focus');
-    }
-  });
+  /*
+   $(window).on("click", function (e) {
+   //e.preventDefault();
+   var status = localStorage.getItem(dialogname);
+   UTIL.logger(dialogname + ': onclick() auf window: status: ' + status);
+   if (status === null) {
+   //Dialog noch nicht in localstorage eingetragen: eintragen.
+   localStorage.setItem(dialogname, 'focus');
+   }
+   });
+   */
 
   //Window close Event
   $(window).on("beforeunload", function () {
@@ -375,8 +377,8 @@ $(document).ready(function () {
                 klausel += field + "='" + value + "' AND ";
                 //Eingabe speichern
                 config.default.data.inputfelder[i].eingabe = value;
-                UTIL.logger(dialogname + ': showtable(): eingaben: ' 
-                  + config.default.data.inputfelder[i].eingabe + '; visible: ' 
+                UTIL.logger(dialogname + ': showtable(): eingaben: '
+                  + config.default.data.inputfelder[i].eingabe + '; visible: '
                   + config.default.data.inputfelder[i].visible);
               }
               break;
@@ -596,10 +598,6 @@ $(document).ready(function () {
       var winProps = 'height=300,width=400,left=' + left + ',top=' + top;
       var newWin = window.open(aktdialog + ".html", aktdialog, winProps);
       UTIL.logger(dialogname + ':dialog: ' + newWin.name + ' gestartet');
-//      var winstate = {dialog: newWin, name: aktdialog, state: 'aktiv'};
-//      winarray.push(winstate);
-//      UTIL.logger(dialogname + ': left: ' + left + '; top: ' + top + '; winarray.length: ' + winarray.length);
-
       var status = localStorage.getItem(aktdialog);
       UTIL.logger(dialogname + ': onclick() auf window: status: ' + status);
       if (status === null) {
