@@ -2,6 +2,9 @@ $(document).ready(function () {
   dialogname = 'bsueb';
   UTIL.logger(dialogname + ': ready(): Start');
 
+  var key;
+  var ctrl;
+
   var browser = localStorage.getItem("browser");
 
   //Navigator aktiv ??
@@ -19,18 +22,8 @@ $(document).ready(function () {
 
   var jsonstring = localStorage.getItem(dialogname + ".ausgabe");
   var ausgabefelder = JSON.parse(jsonstring);
-  /*
-   if (ausgabefelder) {
-   for (var i = 0; i < ausgabefelder.length; i++) {
-   UTIL.logger(dialogname + ': ausgabefelder[' + i + '].name: '
-   + ausgabefelder[i].name + '; .visible: ' + ausgabefelder[i].visible);
-   }
-   }
-   */
-  var table;
-  //http://localhost:8080/WebRWinMvn/webrw/webrw.html
 
-  //window.close();
+  var table;
 
   customize = function customize(param) {
     if (param === "param") {
@@ -98,8 +91,22 @@ $(document).ready(function () {
 
   //Key event: F-tasten abfangen
   $(document).bind('keydown', function (e) {
-    console.log('keydown: key: ' + e.which + "; e.ctrlKey: " + e.ctrlKey);
-    if (e.which === 38 && table) { //Key up
+    key = e.which;
+    ctrl = e.ctrlKey;
+    console.log('keydown: key: ' + key + "; ctrl: " + ctrl);
+    //e.preventDefault();
+
+    if (key === 17) { //Ctrl; 
+      console.log('ctrl blocked');
+      return false;
+    }
+
+    if (key === 17 && ctrl) { //Ctrl;  ctrl+F4
+      console.log('ctrl blocked');
+      return false;
+    }
+
+    if (key === 38 && table) { //Key up
       var selindex = table.rows('.selected').indexes()[0];
       UTIL.logger(dialogname + ': selindex: ' + selindex);
       var pagelength = config.default.data["table1"].pageLength;
@@ -112,7 +119,7 @@ $(document).ready(function () {
       return false;
     }
 
-    if (e.which === 40) { //Key down
+    if (key === 40) { //Key down
       var selindex = table.rows('.selected').indexes()[0];
       UTIL.logger(dialogname + ': selindex: ' + selindex);
       var pagelength = config.default.data["table1"].pageLength;
@@ -126,44 +133,37 @@ $(document).ready(function () {
       return false;
     }
 
-//    if (e.which === 17 && e.ctrlKey) { //ctrl+F4
-//      console.log('ctrl+F4 blocked');
-//      e.preventDefault();
-//      var winProps = 'height=500,width=800,left=5,top=5';
-//      var newWin = window.open("webrw.html", "webrw", winProps);
-//      return false;
-//    }
-
-    if (e.which === 115 && e.ctrlKey) { //ctrl+F4
+    if (key === 115 && ctrl) { //ctrl+F4
       console.log('ctrl+F4 blocked');
-      e.preventDefault();
-      UTIL.logger(dialogname + "Was preventDefault() called: " + e.isDefaultPrevented());
       return false;
     }
 
-    if (e.which === 115) { //F4
+    if (key === 115) { //F4
       console.log('F4 blocked');
       return false;
     }
 
-    /*Komment
-     if (e.which === 116) { //F5;  ctrl+F5
-     console.log('F5/Ctrl+F5 blocked');
-     return false;
-     }
-     */
+    if (key === 116 && !ctrl) { //F5
+      console.log('F5 blocked');
+      return false;
+    }
 
-    if (e.which === 82 && e.ctrlKey) { //ctrl+r
+    if (key === 116 && ctrl) { //ctrl+F5
+      console.log('F5/Ctrl+F5 blocked');
+      return false;
+    }
+
+    if (key === 82 && ctrl) { //ctrl+r
       console.log('ctrl+r blocked');
       return false;
     }
 
-    if (e.which === 9 && e.ctrlKey) { //ctrl+TAB
+    if (key === 9 && e.ctrl) { //ctrl+TAB
       console.log('ctrl+TAB blocked');
       return false;
     }
 
-//    if (e.which === 123) { //F12
+//    if (key === 123) { //F12
 //      console.log('F5/Ctrl+F5 116 blocked');
 //      return false;
 //    }    

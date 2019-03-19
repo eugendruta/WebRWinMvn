@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"> 
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>        
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>   
-    <!-- <link rel="stylesheet" href="../resources/css/jquery-ui.css" type="text/css"/>     -->
     <link href="../resources/css/fontawesome/css/all.css" rel="stylesheet">
     <script src="../resources/js/plugins/jqTree/tree.jquery.js"></script>   
     <script src="../resources/js/plugins/jquery.table.selector.js"></script>  
@@ -23,66 +22,14 @@
     <script src="../resources/js/util.js" ></script>
     <script src="js/bsueb.js" ></script>      
     <script src="js/config.js"></script>   
-    <script src="../resources/js/menuscript.js"></script>     
-    <script>
-      console.log('config.default.showonstart: ' + config.default.showonstart
-              + "; config.default.data.inputfelder[0].name: " + config.default.data.inputfelder[0].name
-              + "; config.default.data.listboxen[0].name: " + config.default.data.listboxen[0].name
-              + "; config.default.data['table1'].name: " + config.default.data["table1"].name
-              + "; config.default.data.table1.columns[0].name: " + config.default.data["table1"].columns[0].name
-              );
-    </script>
+    <!-- <script src="../resources/js/menuscript.js"></script>      -->
   </head>
 
   <body style="min-width: 500px;">
-    <div id='cssmenu'>
-      <ul>
-        <li id="homemenu">
-          <a href='http://localhost:8080/WebRWinMvn/webrw/webrw.html' target="_blank">  <span>Home</span></a>
-        </li>
-
-        <li id="dialogemenu" class='has-sub'><a href='#'><span>Dialoge</span></a>
-          <ul>
-            <li id="adminmenu" class='has-sub'><a href='#'><span>Administration</span></a>
-              <ul>
-                <li><a href='#'><span>ADUEB: Administrationübersicht</span></a></li>
-                <li class='last'><a href='#'><span>AUUEB: Auftragsübersicht</span></a></li>
-              </ul>
-            </li>
-            <li class='has-sub'><a href='#'><span>Stammdaten</span></a>
-              <ul>
-                <li><a href='#'><span>WAUE1: WA1-Übersicht</span></a></li>
-                <li class='last'><a href='#'><span>POUEB: Positionsübersicht</span></a></li>
-              </ul>
-            </li>
-            <li class='has-sub'><a href='#'><span>Bestandsverwaltung</span></a>
-              <ul>
-                <li onclick="showtab('bsueb');">
-                  <a href='http://localhost:8080/WebRWinMvn/bsueb/bsueb.html' target="_blank">
-                    <span>BSUEB: Bestandsübersicht</span></a>
-                </li>
-                <li class='last'><a href='#'><span>BSDET: Bestandsdetail</span></a></li>
-              </ul>
-            </li>            
-          </ul>
-        </li>
-        <li id="loginmenu"><a href='#'><span>Login</span></a></li>
-        <li id="logoutmenu" class='last'><a href='#'><span>Logout</span></a></li>
-      </ul>
-    </div>
-
     <div id="bsueb" class="ui-widget-content" style="width: 100%; 
          background-color: #e9e9e9; padding-bottom: 5px; margin-left: 5px;">
       <!-- Toolbarbuttons -->
       <div id='toolbarbuttons'>
-        <!-- 
-        <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Minimize" 
-                style="float: left" onclick="minimize();"> 
-          <span class="ui-icon ui-icon-minus"></span></button>
-        <button class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Maximize" 
-                style="float: left" onclick="maximize()">
-          <span class="ui-icon ui-icon-plus"></span></button>        
-        -->
         <button id="aktualisieren" class="ui-button ui-widget ui-corner-all ui-button-icon-only" 
                 title="Aktualisieren" onclick="aktualisieren()()">
           <span class="ui-icon ui-icon-refresh" ></span></button>
@@ -198,103 +145,6 @@
         <input id="reset1" value="Reset" type="submit" style="margin-left: 10px; width: 90px;"> 
       </div>
 
-      <!--       Eingabeblock (Tabelle)
-      <div id="eingabediv1" style="left: 5px;" >
-        <table id="eingabe1">
-          <tr>
-            <td class="tdlabel"><label id="lenrlbl">LE-Nr</label></td>
-            <td style="border: none">
-              <input id="lenr" type="text" style="max-width: 95px;">
-            </td>
-            <td  class="tdlabel"><label id="lotyplblbl">LO-Typ</label></td>                    
-            <td style="border: none">
-              <select id="lotyplb" style="width: 100px;"> </select>             
-            </td>        
-            <td  class="tdlabel">
-              <label id="ezolblbl" style="float: right;">EZO
-             </label></td>
-            <td style="border: none"><select id="ezolb"  style="width: 100px;" > </select>
-            </td>        
-            <td  class="tdlabel"><label id="dispostatuslblbl" >Dispostatus</label></td>
-            <td style="border: none"><select id="dispostatuslb"  style="width: 100px;"> </select></td>        
-            <td  class="tdlabel"><label id="kistelbl">Kiste</label></td>
-            <td style="border: none"><input id="kiste" type="text" style="max-width: 70px;">
-            </td>
-          </tr>      
-          <tr>
-            <td class="tdlabel"><label id="mandantlblbl">Mandant</label></td>
-            <td style="border: none"><select id="mandantlb" style="width: 100px;" 
-                                             onchange="changelb(this.id, this.value);"> 
-              </select>
-            </td>                
-            <td  class="tdlabel"><label id="lagerortlblbl">Lagerort</label></td>                    
-            <td style="border: none"><select id="lagerortlb" style="width: 100px;"> </select></td>                
-            <td  class="tdlabel"><label id="ezoavisiertlblbl">EZO avisiert</label></td>
-            <td style="border: none"><select id="ezoavisiertlb" style="width: 100px;"> </select></td> 
-            <td  class="tdlabel"><label id="qsstatuslblbl">QS-Status</label></td>
-            <td style="border: none"><select id="qsstatuslb" style="width: 100px;"> </select></td>
-            <td  class="tdlabel"><label id="containerlbl">Container</label></td>
-            <td style="border: none"><input id="container" type="text" style="max-width: 70px;">
-            </td>
-          </tr>
-          <tr>
-            <td  class="tdlabel"><label id="hostlagerlblbl">Hostlager</label></td>
-            <td style="border: none"><select id="hostlagerlb" style="width: 100px;"> </select></td>                
-            <td  class="tdlabel"><label> </label></td>                    
-            <td style="border: none">
-              <label id="vonzlbl" style="max-width: 20px; margin-left: 1px; font-weight: bold;">Z</label>
-              <label id="vonxlbl" style="max-width: 20px; margin-left: 25px; font-weight: bold;">X</label>       
-              <label id="vonylbl" style="max-width: 20px; margin-left: 20px; font-weight: bold;">Y</label>       
-            </td>        
-            <td class="tdlabel"><label id="lagerbereichlblbl">Lagerbereich</label></td>
-            <td style="border: none"><select id="lagerbereichlb" style="width: 100px;"> </select></td>
-            <td class="tdlabel"><label id="transportlblbl">Transport</label></td>
-            <td style="border: none"><select id="transportlb" style="width: 100px;"> </select></td>
-          </tr>
-          <tr>
-            <td  class="tdlabel"><label id="herstellerlblbl">Hersteller</label></td>
-            <td style="border: none"><select id="herstellerlb" style="width: 100px;"> </select></td>                
-            <td  class="tdlabel"><label id="vonlbl" style="float: right;">von </label></td>      
-            <td style="border: none">
-              <input id="vonz" type="text" style="max-width: 20px;">
-              <input id="vonx" type="text" style="max-width: 20px; margin-left: 5px;">
-              <input id="vony" type="text" style="max-width: 20px; margin-left: 5px;">
-            </td>        
-            <td  class="tdlabel"><label id="lhmtyplblbl">LHM-Typ</label></td>
-            <td style="border: none;"><select id="lhmtyplb" style="width: 100px;"> </select></td>        
-            <td  class="tdlabel"><label id="inventurlblbl">Inventur</label></td>
-            <td style="border: none"><select id="inventurlb" style="width: 100px;"> </select></td>
-          </tr>
-          <tr>
-            <td  class="tdlabel"><label id="teilenummerlbl">Teilenummer</label></td>
-            <td style="border: none"><input id="teilenummer" type="text" style="max-width: 95px;">
-            </td>
-            <td  class="tdlabel"><label id="bislbl" style="float: right;">bis </label></td>      
-            <td style="border: none">
-              <input id="bisz" type="text" style="max-width: 20px;">
-              <input id="bisx" type="text" style="max-width: 20px; margin-left: 5px;">
-              <input id="bisy" type="text" style="max-width: 20px; margin-left: 5px;">
-            </td>        
-            <td  class="tdlabel"><label id="letzteinvvonlblbl">letzte Inv.</label></td>        
-            <td style="border: none">
-              <select id="letzteinvvonlb" style="width: 48px;"> </select>
-              <select id="letzteinvbislb" style="width: 48px;"> </select>        
-            </td>         
-            <td  class="tdlabel"><label id="intsperrelblbl">int.-Sperre</label></td>
-            <td style="border: none"><select id="intsperrelb"  style="width: 100px;"> </select></td>
-          </tr>
-          <tr>
-            <td class="tdlabel" style="border: none">
-              <input id="anzeigen1" value="Anzeigen" type="submit" 
-                     style="max-width: 90px;" onclick="showtable('table1')"> 
-            </td>           
-            <td style="border: none">
-              <input id="reset1" value="Reset" type="submit" style="width: 90px;"> 
-            </td>             
-          </tr>
-        </table>        
-      </div>
-      -->
       <!-- Customize -->
       <div id="custom" style="left: 5px; display: none" > 
         <b>Selektionskriterien</b> <br>

@@ -2,6 +2,8 @@ $(document).ready(function () {
   dialogname = 'webrw';
   UTIL.logger(dialogname + ': ready(): Start'); // # 1
 
+  //localStorage.clear();
+  
   //Start Navigator im localStorage eintragen 
   localStorage.setItem("starttime", Date().toString());
 
@@ -388,27 +390,29 @@ $(document).ready(function () {
     UTIL.logger(dialogname + ': login(): benutzer: ' + benutzer
       + "; kennwort:" + kennwort + "; url: " + url);
 
-    // Using the core $.ajax() method
-    $.ajax({
-      // The URL for the request
-      url: url,
-      data: {
-        id: 123
-      },
-      type: "GET",
-      dataType: "json"
-    }).done(function (json) {
-      UTIL.logger(dialogname + ': login(): Ajax Request OK');
-      $("<h1>").text(json.title).appendTo("body");
-      $("<div class=\"content\">").html(json.html).appendTo("body");
-    }).fail(function (xhr, status, errorThrown) {
-      alert("Sorry, there was a problem!");
-      console.log("Error: " + errorThrown);
-      console.log("Status: " + status);
-      //console.dir(xhr);
-    }).always(function (xhr, status) {
-      //Request complete
-    });
+    /*
+     // Using the core $.ajax() method
+     $.ajax({
+     // The URL for the request
+     url: url,
+     data: {
+     id: 123
+     },
+     type: "GET",
+     dataType: "json"
+     }).done(function (json) {
+     UTIL.logger(dialogname + ': login(): Ajax Request OK');
+     $("<h1>").text(json.title).appendTo("body");
+     $("<div class=\"content\">").html(json.html).appendTo("body");
+     }).fail(function (xhr, status, errorThrown) {
+     alert("Sorry, there was a problem!");
+     console.log("Error: " + errorThrown);
+     console.log("Status: " + status);
+     //console.dir(xhr);
+     }).always(function (xhr, status) {
+     //Request complete
+     });
+     */
 
     $("#navigatortbl").show();
     $("#aktivewindows").show();
