@@ -615,7 +615,7 @@ $(document).ready(function () {
     }
   };
 
-  aktualisieren = function detail() {
+  aktualisieren = function aktualisieren() {
     alert(dialogname + ': detail()');
   };
 

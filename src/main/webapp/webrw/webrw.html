@@ -20,10 +20,26 @@
     <link rel="stylesheet" href="../resources/css/menustyles.css">    
     <script src="../resources/js/util.js" ></script>
     <script src="js/webrw.js" ></script>
-    <script src="js/config.js"></script>           
+    <!-- <script src="js/config.js"></script>            -->
     <script src="../resources/js/menuscript.js"></script>    
+    <style>
+      .aktlstul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        /* background-color: #333333; */
+      }
+      .aktlstli {
+        float: left;
+        padding: 6px;
+        background-color: lightblue;
+        font-weight: bold;
+      }      
+    </style>    
   </head>    
   <body style="height: 100%; background-image: url(../resources/images/wallpaper_dev.png);">
+    <!--
     <div id='cssmenu'>
       <ul>
         <li id="homemenu">
@@ -59,11 +75,17 @@
         <li id="logoutmenu" class='last'><a href='#'><span>Logout</span></a></li>
       </ul>
     </div>
+    -->
 
     <div id="container" >
-      <!-- <input type="file" id="fileinput" /> 
-      
-      <!-- Navigator 
+      <!-- <input type="file" id="fileinput" />  -->
+
+      <div id="titel" >
+        <input id="logout" value="Logout" type="submit" style="max-width: 90px; float: right;" 
+               onclick="logout();"> 
+      </div>
+
+      <!-- Navigator   -->
       <table id="navigatortbl" style="border: none">
         <tr>
           <td style="vertical-align: top; border: none;">
@@ -73,14 +95,23 @@
           </td>
         </tr>
       </table>
-      -->
 
-      <!-- Anzeige aktive Windows 
-      <div id="aktivewindows" style="background: lightblue; width: 200px;">
-        <label style="font-weight: bold;">Aktive Dialoge</label>
-        <ul id="aktwndlst" ></ul>
-      </div>
-      -->
+      <!-- Anzeige aktive Windows -->
+      <div id="aktivewindows">
+        <!-- <label style="font-size: large; font-weight: bold;">Aktive Dialoge</label> -->
+        <h2 style="background-color: green; width: 180px;">Aktive Dialoge</h2>
+
+        <ul id="aktwndlst" class="aktlstul">
+          <li class="aktlstli">Navigator</a></li>
+        </ul>        
+        <!--
+        <p>
+          <span style="margin-right: 5px;">Navigator</span>
+          <span>BSUEB</span>
+        </p> 
+        -->
+        <!-- <ul id="aktwndlst" ></ul> -->
+      </div>      
 
       <!-- meldungen -->
       <div id="messages">
@@ -150,7 +181,7 @@
           </table>    
         </div>     
       </div>          
-      
+
     </div>
   </body>
 </html>
