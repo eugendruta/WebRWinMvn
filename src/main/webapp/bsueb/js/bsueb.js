@@ -5,15 +5,25 @@ $(document).ready(function () {
   var key;
   var ctrl;
 
+  UTIL.logger(dialogname + ': ready(): localStorage.length: ' + localStorage.length);
+
   var browser = localStorage.getItem("browser");
 
   //Navigator aktiv ??
   var starttime = localStorage.getItem("starttime");
-  UTIL.logger(dialogname + ': ready(): starttime: ' + starttime + "; browser: " + browser);
-  if (!starttime) {
+  if (starttime === null) {
     alert('Navigator nicht aktiv !!  Bitte diesen Browser schließen und  Navigator starten');
-    window.close(); //Funzt nur für Edge
+    //window.close(); //Funzt nur für Edge
   }
+
+  //!!!TEST
+  for (let i = 0; i < localStorage.length; i++) {
+    let key = localStorage.key(i);
+    let value = localStorage.getItem(key);
+    UTIL.logger(dialogname + ': ready(): localStorage: key: ' + key
+      + '; value: ' + value);
+  }
+  //!!!TEST
 
   //Holegespeichetes Customising aus localStorage
   var jsonstring = localStorage.getItem(dialogname + ".eingabe");
@@ -45,8 +55,8 @@ $(document).ready(function () {
             //Selkrit insert
             _display = "";
           }
-          UTIL.logger(dialogname + ': customize(): eingabe: feld.label: ' + "#" + name + "lbl"
-            + ': feld.name: ' + name + ': _display: ' + _display + '; eingabe: ' + eingabe);
+          //UTIL.logger(dialogname + ': customize(): eingabe: feld.label: ' + "#" + name + "lbl"
+          //+ ': feld.name: ' + name + ': _display: ' + _display + '; eingabe: ' + eingabe);
 
           $("#" + name + "lbl").css('display', _display);
           $("#" + name).css('display', _display);
@@ -170,33 +180,36 @@ $(document).ready(function () {
   });
 
   //Window click event  
-  /*
-   $(window).on("click", function (e) {
-   //e.preventDefault();
-   var status = localStorage.getItem(dialogname);
-   UTIL.logger(dialogname + ': onclick() auf window: status: ' + status);
-   if (status === null) {
-   //Dialog noch nicht in localstorage eingetragen: eintragen.
-   localStorage.setItem(dialogname, 'focus');
-   }
-   });
-   */
+
+  $(window).on("click", function (e) {
+    e.preventDefault();
+    var status = localStorage.getItem(dialogname);
+    if (status === null) {
+      //Dialog noch nicht in localstorage eingetragen: eintragen.
+      localStorage.setItem(dialogname, 'focus');
+      UTIL.logger(dialogname + ': onclick() Dialog: ' + dialogname
+        + ' im localStorage eingetragen');
+    }
+  });
 
   //Window close Event
   $(window).on("beforeunload", function () {
     //Eintrag in localstorage löschen
     localStorage.removeItem(dialogname);
+
     //Size speichern
     localStorage.setItem(dialogname + ".width", $(window).width());
     localStorage.setItem(dialogname + ".height", $(window).height());
-    UTIL.logger(dialogname + ': beforeunload(): width: ' + localStorage.getItem(dialogname + ".width"));
-    UTIL.logger(dialogname + ': beforeunload(): height: ' + localStorage.getItem(dialogname + ".height"));
+    UTIL.logger(dialogname + ': beforeunload(): Dialog: ' + dialogname
+      + ' gelöscht; width: ' + localStorage.getItem(dialogname + ".width")
+      + ': height: ' + localStorage.getItem(dialogname + ".height"));
     //!!!TEST
-//    for (let i = 0; i < localStorage.length; i++) {
-//      let key = localStorage.key(i);
-//      let value = localStorage.getItem(key);
-//      UTIL.logger(dialogname + ': localStorage: key: ' + key + '; value: ' + value);
-//    }
+    for (let i = 0; i < localStorage.length; i++) {
+      let key = localStorage.key(i);
+      let value = localStorage.getItem(key);
+      UTIL.logger(dialogname + ': beforeunload(): localStorage: key: ' + key
+        + '; value: ' + value);
+    }
     //!!!TEST
 
     return "Wollen Sie tatsächlich den Dialog schließen?";

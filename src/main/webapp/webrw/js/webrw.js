@@ -1,42 +1,165 @@
 $(document).ready(function () {
   dialogname = 'webrw';
-  UTIL.logger(dialogname + ': ready(): Start'); // # 1
+  UTIL.logger(dialogname + ': ready(): Start');
+
+  if (!window.indexedDB) {
+    alert(dialogname + "Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
+    return;
+  } else {
+    UTIL.logger(dialogname + ": Your browser support a stable version of IndexedDB.");
+  }
+
+  //open database
+  var db;
+  var request = window.indexedDB.open("webrwdb", 2);
+  request.onerror = function (event) {
+    // Do something with request.errorCode!
+    alert("Database errorCode: " + event.target.errorCode + '; request.errorCode:: ' + request.errorCode);
+  };
+  request.onsuccess = function (event) {
+    db = request.result;
+
+    add();
+    //read();
+    readAll();
+    update(1);
+    readAll();
+    remove();
+    
+    UTIL.logger(dialogname + ": request.onsuccess(): open successfully: request.result: db: " + db);
+  };
+  request.onupgradeneeded = function (event) {
+    db = event.target.result;
+    //a new table called person is added, and the primary key is id.
+    var objectStore;
+    if (!db.objectStoreNames.contains('person')) {
+      objectStore = db.createObjectStore('person', {keyPath: 'id'});
+    }
+    objectStore.createIndex('name', 'name', {unique: false});
+    objectStore.createIndex('email', 'email', {unique: true});
+  };
+
+  //Schreiben
+  function add() {
+    console.log('add(): db: ' + db);
+    var request = db.transaction(['person'], 'readwrite')
+      .objectStore('person')
+      .add({id: 1, name: 'Jam', age: 24, email: 'jam@example.com'});
+    request = db.transaction(['person'], 'readwrite')
+      .objectStore('person')
+      .add({id: 2, name: 'Eugen', age: 74, email: 'druta@tup.com'});
+
+    request.onsuccess = function (event) {
+      console.log('add(): The data has been written successfully');
+    };
+
+    request.onerror = function (event) {
+      console.log('add(): The data has been written failed');
+    };
+  }
+
+  //Lesen
+  function read() {
+    var transaction = db.transaction(['person']);
+    var objectStore = transaction.objectStore('person');
+    var request = objectStore.get(1); // 1 - value of the primary key
+
+    request.onerror = function (event) {
+      console.log('read(): Transaction failed');
+    };
+
+    request.onsuccess = function (event) {
+      if (request.result) {
+        console.log('read(): Name: ' + request.result.name);
+        console.log('read(): Age: ' + request.result.age);
+        console.log('read(): Email: ' + request.result.email);
+      } else {
+        console.log('read(): No data record');
+      }
+    };
+  }
+
+  //Alles lesen
+  function readAll() {
+    var objectStore = db.transaction('person').objectStore('person');
+
+    objectStore.openCursor().onsuccess = function (event) {
+      var cursor = event.target.result;
+
+      if (cursor) {
+        console.log('readAll(): Id: ' + cursor.key);
+        console.log('readAll(): Name: ' + cursor.value.name);
+        console.log('readAll(): Age: ' + cursor.value.age);
+        console.log('readAll(): Email: ' + cursor.value.email);
+        cursor.continue();
+      } else {
+        console.log('readAll(): No more data');
+      }
+    };
+  }
+
+  //Update
+  function update(id) {
+    var request = db.transaction(['person'], 'readwrite')
+      .objectStore('person')
+      .put({id: id, name: 'Jim', age: 35, email: 'Jim@example.com'});
+
+    request.onsuccess = function (event) {
+      console.log('update(): The data has been updated successfully');
+    };
+
+    request.onerror = function (event) {
+      console.log('update(): The data has been updated failed');
+    };
+  }
+
+  //Delete
+  function remove(id) {
+    var request = db.transaction(['person'], 'readwrite')
+      .objectStore('person')
+      .delete(id);
+
+    request.onsuccess = function (event) {
+      console.log('The data has been deleted successfully');
+    };
+  }
+
+
 
   //localStorage.clear();
-  
+
   //Start Navigator im localStorage eintragen 
   localStorage.setItem("starttime", Date().toString());
+  UTIL.logger(dialogname + ': ready(): starttime: ' + Date().toString() + ' gesetzt');
 
-  winarray = [];
+  //* winarray = [];
 
   //Eventlistener: Eintrag in localstorage
   function onStorageEvent(storageEvent) {
     /* StorageEvent {
-     key;          // name of the property set, changed etc.
-     oldValue;     // old value of property before change
-     newValue;     // new value of property after change
-     url;          // url of page that made the change
-     storageArea;  // localStorage or sessionStorage,
+     key; name of the property set, changed etc.; oldValue; old value of property before change
+     newValue; new value of property after change;  url; url of page that made the change
+     storageArea; localStorage or sessionStorage,
      }     
      */
     var key = storageEvent.key;
     var newvalue = storageEvent.newValue;
+    var oldvalue = storageEvent.oldValue;
     var url = storageEvent.url;
-    UTIL.logger(dialogname + ": onStorageEvent(): eintrag storage key: "
-      + key + '; newvalue: ' + newvalue + '; url: ' + url);
+    var eintrag = localStorage.getItem(key);
+    UTIL.logger(dialogname + ": onStorageEvent(): eintrag für key: "
+      + key + '; oldvalue: ' + oldvalue + '; newvalue: ' + newvalue
+      + '; eintrag: ' + eintrag);
 
-    //Liste aktiven Dialoge updaten
-    if (!newvalue || newvalue === null) {
-      //Eintrag im Dialog gelöscht; Dialog in liste aktiver Dialoge löschen
-      $("#aktwndlst li").each(function (index, value) {
-        UTIL.logger(dialogname + ': onStorageEvent(): index:  ' + index
-          + '; value.innerText: ' + value.innerText + '; key: ' + key);
-        if (key === value.innerText.substring(0, 5).toLowerCase()) {
-          value.remove();
-          UTIL.logger(dialogname + ': onStorageEvent(): index:  ' + index
-            + '; value: ' + value.innerText + ' gelöscht');
-        }
-      });
+    //eintrag für key: bsueb; oldvalue: focus; newvalue: ; eintrag: focus
+    //eintrag für key: bsueb; oldvalue: focus; newvalue: ; eintrag: focus
+    if (oldvalue === 'focus' && (newvalue === null || !newvalue)
+      && (eintrag === 'focus'))
+    {
+      //localStorage Eintrag wurde im Dialog gelöscht, 
+      //aber ist trotzdem noch vorhanden (!! nur Edge!!):  löschen !!
+      localStorage.removeItem(key);
+      UTIL.logger(dialogname + ": onStorageEvent(): Dialog: " + key + ' gelöscht');
     }
   }
   window.addEventListener('storage', onStorageEvent, false);
@@ -95,27 +218,22 @@ $(document).ready(function () {
   $(window).on("beforeunload", function (e) {
     e.preventDefault();
 
-    UTIL.logger(dialogname + ': beforeunload(): winarray.lenght: ' + winarray.length);
-
-    //Wenn noch offene Dialoge; alle schließen
-    //var newWin = window.open("../bsueb/bsueb.html");
-    for (let i = 0; i < winarray.length; i++) {
-      //{dialog: newWin, name: aktdialog, state: 'aktiv'};
-      //Aktives Window schließen wenn noch nicht TAB geschlossen
-      let value = localStorage.getItem(winarray[i].name);
-      UTIL.logger(dialogname + ': beforeunload: winarray[i].name: ' + winarray[i].name
-        + '; value: ' + value + '; state: ' + winarray[i].state);
-      if (value) {
-        winarray[i].dialog.close();
-      }
-    }
-    //Einträge löschen 
-    if (winarray.length > 0) {
-      winarray.splice(0, winarray.length);
-    }
-
     //Startzeit löschen
     localStorage.removeItem("starttime");
+    UTIL.logger(dialogname + ':  beforeunload(): starttime in storage gelöscht'
+      + '; localStorage.length: ' + localStorage.length);
+
+    //Noch vorhanden Dialogeinträge löschen
+    for (let i = 0; i < localStorage.length; i++) {
+      let key = localStorage.key(i);
+      let value = localStorage.getItem(key);
+      //localStorage: key: bsueb; value: focus
+      if (value === 'focus') {
+        localStorage.removeItem(key);
+        UTIL.logger(dialogname + ':  beforeunload(): localStorage: key: ' + key
+          + '; value: ' + value + ' in storage gelöscht');
+      }
+    }
 
     return "Wollen Sie tatsächlich den Dialog schließen?";
   });
@@ -161,21 +279,6 @@ $(document).ready(function () {
 
   browser = getbrowser();
   localStorage.setItem("browser", browser);
-
-  lstaktwnd = function lstAktWnd(sel) {
-    var seldialog = sel.substr(0, 5);
-    UTIL.logger(dialogname + ': lstAktWnd(): seldialog: ' + seldialog);
-    for (let i = 0; i < winarray.length; i++) {
-      //{dialog: newWin, name: aktdialog, state: 'aktiv'};
-      UTIL.logger(dialogname + ': lstAktWnd(): window: dialog.name:'
-        + winarray[i].dialog.name + '; name: ' + winarray[i].name
-        + '; state: ' + winarray[i].state);
-      //Aktives/mini Window anzeigen
-      if (winarray[i].name === seldialog) {
-        winarray[i].dialog.focus();
-      }
-    }
-  };
 
   showtab = function showtab(tab) {
     UTIL.logger(dialogname + ': showtab(): tab: ' + tab);
@@ -317,7 +420,7 @@ $(document).ready(function () {
   $('#navigator').bind('tree.click', function (event) {
     // The clicked node is 'event.node'
     var node = event.node.name; // node === "BSUEB: Bestands-Übersicht"
-    UTIL.logger(dialogname + ': node: ' + node); // # 2
+    UTIL.logger(dialogname + ': navigator.click(): node: ' + node); // # 2
     var pos = node.toString().indexOf(":");
     var aktdialog;
     if (pos !== -1) {
@@ -328,6 +431,15 @@ $(document).ready(function () {
     }
 
     //Liste aktiver Windows: eintragen wenn noch nicht vorhanden
+    //!!!TEST
+    for (let i = 0; i < localStorage.length; i++) {
+      let key = localStorage.key(i);
+      let value = localStorage.getItem(key);
+      UTIL.logger(dialogname + ': navigator.click()(): localStorage: key: ' + key
+        + '; value: ' + value);
+    }
+    //!!!TEST    
+
     var eingetragen = localStorage.getItem(aktdialog);
     UTIL.logger(dialogname + ': navigator.click(): dialog: ' + aktdialog
       + ' localStorage eintrag: ' + eingetragen);
@@ -348,26 +460,34 @@ $(document).ready(function () {
       } else {
         var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
       }
-      //http://localhost:8080/WebRWin/bsueb/bsueb.html
+
+      /* *
+       //http://localhost:8080/WebRWin/bsueb/bsueb.html
+       var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
+       UTIL.logger(dialogname + ': navigator.click(): dialog: ' + newWin.name + ' gestartet');
+       var winstate = {dialog: newWin, name: aktdialog, state: 'aktiv'};
+       winarray.push(winstate);
+       //UTIL.logger(dialogname + ': navigator.click(): left: ' + left + '; top: ' + top + '; winarray.length: ' + winarray.length);
+       if (browser === 'Edge') {
+       newWin.focus();
+       } else {
+       //Firefox und Chrome: window.focus() funzt nicht
+       }
+       */
+
       var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
       UTIL.logger(dialogname + ': navigator.click(): dialog: ' + newWin.name + ' gestartet');
-      var winstate = {dialog: newWin, name: aktdialog, state: 'aktiv'};
-      winarray.push(winstate);
-      //UTIL.logger(dialogname + ': navigator.click(): left: ' + left + '; top: ' + top + '; winarray.length: ' + winarray.length);
-      if (browser === 'Edge') {
-        newWin.focus();
-      } else {
-        //Firefox und Chrome: window.focus() funzt nicht
-      }
+
       localStorage.setItem(aktdialog, 'focus');
       UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
         + aktdialog + ' auf focus gesetzt');
 
-      //Liste aktiver Diaooge updaten
-      $("#aktwndlst").append("<li class='aktlstli'>" + aktdialog.toUpperCase() + "</li>");
-      UTIL.logger(dialogname + ': navigator.click(): Liste aktiver Dialoge upgedated: aktdialog: ' + aktdialog);
+      //Liste aktiver Dialoge updaten
+      //$("#aktwndlst").append("<li class='aktlstli'>" + aktdialog.toUpperCase() + "</li>");
+      //UTIL.logger(dialogname + ': navigator.click(): Liste aktiver Dialoge upgedated: aktdialog: ' + aktdialog);
     }
   });
+
   function customize(aktdialog, width, height) {
     UTIL.logger(dialogname + ': customize(): width: ' + width + "; height: " + height);
   }

@@ -141,7 +141,7 @@ var UTIL = {
          }*/
       ],
       close: function (event, ui) {
-        UTIL.logger(dialogname + ': close(): event.target.id: ' + event.target.id);
+        UTIL.logger(dialogname + ': showMessage().close: ' + event.target.id);
       }
     });
     $("#messageid").text(message);
