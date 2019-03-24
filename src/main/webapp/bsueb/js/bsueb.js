@@ -195,7 +195,8 @@ $(document).ready(function () {
   //Window close Event
   $(window).on("beforeunload", function () {
     //Eintrag in localstorage löschen
-    localStorage.removeItem(dialogname);
+    //localStorage.removeItem(dialogname);
+    localStorage.setItem(dialogname, 'closed');
 
     //Size speichern
     localStorage.setItem(dialogname + ".width", $(window).width());

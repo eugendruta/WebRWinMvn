@@ -2,130 +2,6 @@ $(document).ready(function () {
   dialogname = 'webrw';
   UTIL.logger(dialogname + ': ready(): Start');
 
-  if (!window.indexedDB) {
-    alert(dialogname + "Your browser doesn't support a stable version of IndexedDB. Such and such feature will not be available.");
-    return;
-  } else {
-    UTIL.logger(dialogname + ": Your browser support a stable version of IndexedDB.");
-  }
-
-  //open database
-  var db;
-  var request = window.indexedDB.open("webrwdb", 2);
-  request.onerror = function (event) {
-    // Do something with request.errorCode!
-    alert("Database errorCode: " + event.target.errorCode + '; request.errorCode:: ' + request.errorCode);
-  };
-  request.onsuccess = function (event) {
-    db = request.result;
-
-    add();
-    //read();
-    readAll();
-    update(1);
-    readAll();
-    remove();
-    
-    UTIL.logger(dialogname + ": request.onsuccess(): open successfully: request.result: db: " + db);
-  };
-  request.onupgradeneeded = function (event) {
-    db = event.target.result;
-    //a new table called person is added, and the primary key is id.
-    var objectStore;
-    if (!db.objectStoreNames.contains('person')) {
-      objectStore = db.createObjectStore('person', {keyPath: 'id'});
-    }
-    objectStore.createIndex('name', 'name', {unique: false});
-    objectStore.createIndex('email', 'email', {unique: true});
-  };
-
-  //Schreiben
-  function add() {
-    console.log('add(): db: ' + db);
-    var request = db.transaction(['person'], 'readwrite')
-      .objectStore('person')
-      .add({id: 1, name: 'Jam', age: 24, email: 'jam@example.com'});
-    request = db.transaction(['person'], 'readwrite')
-      .objectStore('person')
-      .add({id: 2, name: 'Eugen', age: 74, email: 'druta@tup.com'});
-
-    request.onsuccess = function (event) {
-      console.log('add(): The data has been written successfully');
-    };
-
-    request.onerror = function (event) {
-      console.log('add(): The data has been written failed');
-    };
-  }
-
-  //Lesen
-  function read() {
-    var transaction = db.transaction(['person']);
-    var objectStore = transaction.objectStore('person');
-    var request = objectStore.get(1); // 1 - value of the primary key
-
-    request.onerror = function (event) {
-      console.log('read(): Transaction failed');
-    };
-
-    request.onsuccess = function (event) {
-      if (request.result) {
-        console.log('read(): Name: ' + request.result.name);
-        console.log('read(): Age: ' + request.result.age);
-        console.log('read(): Email: ' + request.result.email);
-      } else {
-        console.log('read(): No data record');
-      }
-    };
-  }
-
-  //Alles lesen
-  function readAll() {
-    var objectStore = db.transaction('person').objectStore('person');
-
-    objectStore.openCursor().onsuccess = function (event) {
-      var cursor = event.target.result;
-
-      if (cursor) {
-        console.log('readAll(): Id: ' + cursor.key);
-        console.log('readAll(): Name: ' + cursor.value.name);
-        console.log('readAll(): Age: ' + cursor.value.age);
-        console.log('readAll(): Email: ' + cursor.value.email);
-        cursor.continue();
-      } else {
-        console.log('readAll(): No more data');
-      }
-    };
-  }
-
-  //Update
-  function update(id) {
-    var request = db.transaction(['person'], 'readwrite')
-      .objectStore('person')
-      .put({id: id, name: 'Jim', age: 35, email: 'Jim@example.com'});
-
-    request.onsuccess = function (event) {
-      console.log('update(): The data has been updated successfully');
-    };
-
-    request.onerror = function (event) {
-      console.log('update(): The data has been updated failed');
-    };
-  }
-
-  //Delete
-  function remove(id) {
-    var request = db.transaction(['person'], 'readwrite')
-      .objectStore('person')
-      .delete(id);
-
-    request.onsuccess = function (event) {
-      console.log('The data has been deleted successfully');
-    };
-  }
-
-
-
   //localStorage.clear();
 
   //Start Navigator im localStorage eintragen 
@@ -151,13 +27,11 @@ $(document).ready(function () {
       + key + '; oldvalue: ' + oldvalue + '; newvalue: ' + newvalue
       + '; eintrag: ' + eintrag);
 
-    //eintrag für key: bsueb; oldvalue: focus; newvalue: ; eintrag: focus
-    //eintrag für key: bsueb; oldvalue: focus; newvalue: ; eintrag: focus
-    if (oldvalue === 'focus' && (newvalue === null || !newvalue)
-      && (eintrag === 'focus'))
+    //eintrag für key: bsueb; oldvalue: *; newvalue: closed; eintrag: closed
+    if (newvalue === 'closed')
     {
-      //localStorage Eintrag wurde im Dialog gelöscht, 
-      //aber ist trotzdem noch vorhanden (!! nur Edge!!):  löschen !!
+      //localStorage Eintrag wurde im Dialog auf closed gesetzt
+      // !! funzt das auch in Edge ???
       localStorage.removeItem(key);
       UTIL.logger(dialogname + ": onStorageEvent(): Dialog: " + key + ' gelöscht');
     }
@@ -443,7 +317,7 @@ $(document).ready(function () {
     var eingetragen = localStorage.getItem(aktdialog);
     UTIL.logger(dialogname + ': navigator.click(): dialog: ' + aktdialog
       + ' localStorage eintrag: ' + eingetragen);
-    if (!eingetragen) {
+    //if (!eingetragen) {
       //Window Positionierung
       var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
       var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
@@ -485,7 +359,7 @@ $(document).ready(function () {
       //Liste aktiver Dialoge updaten
       //$("#aktwndlst").append("<li class='aktlstli'>" + aktdialog.toUpperCase() + "</li>");
       //UTIL.logger(dialogname + ': navigator.click(): Liste aktiver Dialoge upgedated: aktdialog: ' + aktdialog);
-    }
+    //}
   });
 
   function customize(aktdialog, width, height) {
