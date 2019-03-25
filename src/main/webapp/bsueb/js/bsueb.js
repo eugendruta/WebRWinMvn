@@ -2,6 +2,33 @@ $(document).ready(function () {
   dialogname = 'bsueb';
   UTIL.logger(dialogname + ': ready(): Start');
 
+  /*
+   $("#lotyplbcust").click(function () {
+   if ($(this).prop("checked") == true) {
+   UTIL.logger(dialogname + "; Checkbox lotyplbcust is checked.");
+   } else if ($(this).prop("checked") == false) {
+   UTIL.logger(dialogname + "; Checkbox lotyplbcust is unchecked.");
+   }
+   });
+   */
+
+  var checkBox = $("#lotyplbcust").is(":checked");
+  UTIL.logger(dialogname + "; Checkbox lotyplbcust is checked " + checkBox);
+  /*   
+   $("#lotyplbcust").click(function () {
+   UTIL.logger(dialogname + "; Click auf lotyplbcust");
+   var checkBox = $("#lotyplbcust").is(":checked");
+   UTIL.logger(dialogname + "; Checkbox lotyplbcust is checked " + checkBox);
+   if (checkBox) {
+   $('#lotyplbcust').prop('checked', true);      
+   //$("#lotyplbcust").css({'color': 'green', 'padding-top': '10px'});
+   } else {
+   $('#lotyplbcust').prop('checked', false);
+   //$("#lotyplbcust").css({'color': 'red', 'padding-top': '10px'});
+   }   
+   });
+   */
+
   var key;
   var ctrl;
 
@@ -16,14 +43,14 @@ $(document).ready(function () {
     //window.close(); //Funzt nur für Edge
   }
 
-  //!!!TEST
-  for (let i = 0; i < localStorage.length; i++) {
-    let key = localStorage.key(i);
-    let value = localStorage.getItem(key);
-    UTIL.logger(dialogname + ': ready(): localStorage: key: ' + key
-      + '; value: ' + value);
-  }
-  //!!!TEST
+  /*!!!TEST
+   for (let i = 0; i < localStorage.length; i++) {
+   let key = localStorage.key(i);
+   let value = localStorage.getItem(key);
+   UTIL.logger(dialogname + ': ready(): localStorage: key: ' + key
+   + '; value: ' + value);
+   }
+   */ //!!!TEST
 
   //Holegespeichetes Customising aus localStorage
   var jsonstring = localStorage.getItem(dialogname + ".eingabe");
@@ -182,7 +209,7 @@ $(document).ready(function () {
   //Window click event  
 
   $(window).on("click", function (e) {
-    e.preventDefault();
+    //e.preventDefault();
     var status = localStorage.getItem(dialogname);
     if (status === null) {
       //Dialog noch nicht in localstorage eingetragen: eintragen.
