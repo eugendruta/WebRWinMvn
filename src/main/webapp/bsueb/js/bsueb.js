@@ -202,7 +202,7 @@ $(document).ready(function () {
     localStorage.setItem(dialogname + ".width", $(window).width());
     localStorage.setItem(dialogname + ".height", $(window).height());
     UTIL.logger(dialogname + ': beforeunload(): Dialog: ' + dialogname
-      + ' gelöscht; width: ' + localStorage.getItem(dialogname + ".width")
+      + ' closed eingetragen; width: ' + localStorage.getItem(dialogname + ".width")
       + ': height: ' + localStorage.getItem(dialogname + ".height"));
     //!!!TEST
     for (let i = 0; i < localStorage.length; i++) {
