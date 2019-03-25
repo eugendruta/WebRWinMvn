@@ -8,8 +8,6 @@ $(document).ready(function () {
   localStorage.setItem("starttime", Date().toString());
   UTIL.logger(dialogname + ': ready(): starttime: ' + Date().toString() + ' gesetzt');
 
-  //* winarray = [];
-
   //Eventlistener: Eintrag in localstorage
   function onStorageEvent(storageEvent) {
     /* StorageEvent {
@@ -31,9 +29,11 @@ $(document).ready(function () {
     if (newvalue === 'closed')
     {
       //localStorage Eintrag wurde im Dialog auf closed gesetzt
-      // !! funzt das auch in Edge ???
       localStorage.removeItem(key);
       UTIL.logger(dialogname + ": onStorageEvent(): Dialog: " + key + ' gelöscht');
+    } else if (newvalue === 'folge')
+    {
+      UTIL.logger(dialogname + ": onStorageEvent(): Dialog: " + key + ' folgedialog');      
     }
   }
   window.addEventListener('storage', onStorageEvent, false);
@@ -71,16 +71,7 @@ $(document).ready(function () {
   }
   devicedaten();
 
-  function storageAvailable() {
-    if (typeof (Storage) !== "undefined") {
-      // Code for localStorage
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  if (storageAvailable()) {
+  if (typeof (Storage) !== "undefined") {
     // Yippee! We can use localStorage awesomeness    
     UTIL.logger(dialogname + ': localStorage verfügbar !!');
   } else {
@@ -154,19 +145,7 @@ $(document).ready(function () {
   browser = getbrowser();
   localStorage.setItem("browser", browser);
 
-  showtab = function showtab(tab) {
-    UTIL.logger(dialogname + ': showtab(): tab: ' + tab);
-  };
-
-  showtables = function showTables(dialogtable) {
-    UTIL.logger(dialogname + ': showTables(): dialogtable: ' + dialogtable);
-    if (dialogtable === 'bsueb#bsueb') {
-      showTableBSUEB('bsueb');
-    } else if (dialogtable === 'avueb#avueb') {
-      showTableAVUEB('avueb');
-    }
-  };
-
+  //Menue
   var data = [
     {
       label: 'Administration',
@@ -292,7 +271,6 @@ $(document).ready(function () {
 
   //'tree.click' event
   $('#navigator').bind('tree.click', function (event) {
-    // The clicked node is 'event.node'
     var node = event.node.name; // node === "BSUEB: Bestands-Übersicht"
     UTIL.logger(dialogname + ': navigator.click(): node: ' + node); // # 2
     var pos = node.toString().indexOf(":");
@@ -304,67 +282,31 @@ $(document).ready(function () {
       return;
     }
 
-    //Liste aktiver Windows: eintragen wenn noch nicht vorhanden
-    //!!!TEST
-    for (let i = 0; i < localStorage.length; i++) {
-      let key = localStorage.key(i);
-      let value = localStorage.getItem(key);
-      UTIL.logger(dialogname + ': navigator.click()(): localStorage: key: ' + key
-        + '; value: ' + value);
-    }
-    //!!!TEST    
-
     var eingetragen = localStorage.getItem(aktdialog);
     UTIL.logger(dialogname + ': navigator.click(): dialog: ' + aktdialog
       + ' localStorage eintrag: ' + eingetragen);
-    //if (!eingetragen) {
-      //Window Positionierung
-      var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
-      var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
-      //var winProps = 'height=300,width=400,resizable=no,'
-      //  + 'status=no,toolbar=no,location=no,menubar=no,'
-      //  + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
-      var _width = localStorage.getItem(aktdialog + ".width");
-      _width = _width - _width / 120;
-      var _height = localStorage.getItem(aktdialog + ".height");
-      _height = _height - _height / 120;
-      UTIL.logger(dialogname + ': navigator.click(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
-      if (_width && _height) {
-        var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
-      } else {
-        var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
-      }
+    var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+    var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+    //var winProps = 'height=300,width=400,resizable=no,'
+    //  + 'status=no,toolbar=no,location=no,menubar=no,' + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
+    var _width = localStorage.getItem(aktdialog + ".width");
+    _width = _width - _width / 120;
+    var _height = localStorage.getItem(aktdialog + ".height");
+    _height = _height - _height / 120;
+    UTIL.logger(dialogname + ': navigator.click(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
+    if (_width && _height) {
+      var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
+    } else {
+      var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
+    }
 
-      /* *
-       //http://localhost:8080/WebRWin/bsueb/bsueb.html
-       var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
-       UTIL.logger(dialogname + ': navigator.click(): dialog: ' + newWin.name + ' gestartet');
-       var winstate = {dialog: newWin, name: aktdialog, state: 'aktiv'};
-       winarray.push(winstate);
-       //UTIL.logger(dialogname + ': navigator.click(): left: ' + left + '; top: ' + top + '; winarray.length: ' + winarray.length);
-       if (browser === 'Edge') {
-       newWin.focus();
-       } else {
-       //Firefox und Chrome: window.focus() funzt nicht
-       }
-       */
+    var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
+    UTIL.logger(dialogname + ': navigator.click(): dialog: ' + newWin.name + ' gestartet');
 
-      var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
-      UTIL.logger(dialogname + ': navigator.click(): dialog: ' + newWin.name + ' gestartet');
-
-      localStorage.setItem(aktdialog, 'focus');
-      UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
-        + aktdialog + ' auf focus gesetzt');
-
-      //Liste aktiver Dialoge updaten
-      //$("#aktwndlst").append("<li class='aktlstli'>" + aktdialog.toUpperCase() + "</li>");
-      //UTIL.logger(dialogname + ': navigator.click(): Liste aktiver Dialoge upgedated: aktdialog: ' + aktdialog);
-    //}
+    localStorage.setItem(aktdialog, 'focus');
+    UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
+      + aktdialog + ' auf focus gesetzt');   
   });
-
-  function customize(aktdialog, width, height) {
-    UTIL.logger(dialogname + ': customize(): width: ' + width + "; height: " + height);
-  }
 
   //Start: Navigator und Liste aktiver Dialoge nicht anzeigen
   $("#navigatortbl").hide();

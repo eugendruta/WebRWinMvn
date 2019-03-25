@@ -2,33 +2,10 @@ $(document).ready(function () {
   dialogname = 'bsueb';
   UTIL.logger(dialogname + ': ready(): Start');
 
-  /*
-   $("#lotyplbcust").click(function () {
-   if ($(this).prop("checked") == true) {
-   UTIL.logger(dialogname + "; Checkbox lotyplbcust is checked.");
-   } else if ($(this).prop("checked") == false) {
-   UTIL.logger(dialogname + "; Checkbox lotyplbcust is unchecked.");
-   }
-   });
-   */
-
   var checkBox = $("#lotyplbcust").is(":checked");
   UTIL.logger(dialogname + "; Checkbox lotyplbcust is checked " + checkBox);
-  /*   
-   $("#lotyplbcust").click(function () {
-   UTIL.logger(dialogname + "; Click auf lotyplbcust");
-   var checkBox = $("#lotyplbcust").is(":checked");
-   UTIL.logger(dialogname + "; Checkbox lotyplbcust is checked " + checkBox);
-   if (checkBox) {
-   $('#lotyplbcust').prop('checked', true);      
-   //$("#lotyplbcust").css({'color': 'green', 'padding-top': '10px'});
-   } else {
-   $('#lotyplbcust').prop('checked', false);
-   //$("#lotyplbcust").css({'color': 'red', 'padding-top': '10px'});
-   }   
-   });
-   */
 
+  var table; // AJAX Tabelle
   var key;
   var ctrl;
 
@@ -40,27 +17,16 @@ $(document).ready(function () {
   var starttime = localStorage.getItem("starttime");
   if (starttime === null) {
     alert('Navigator nicht aktiv !!  Bitte diesen Browser schließen und  Navigator starten');
-    //window.close(); //Funzt nur für Edge
+    window.close(); //Funzt nur für Edge
   }
 
-  /*!!!TEST
-   for (let i = 0; i < localStorage.length; i++) {
-   let key = localStorage.key(i);
-   let value = localStorage.getItem(key);
-   UTIL.logger(dialogname + ': ready(): localStorage: key: ' + key
-   + '; value: ' + value);
-   }
-   */ //!!!TEST
-
-  //Holegespeichetes Customising aus localStorage
+  //Hole gespeichetes Customising aus localStorage
   var jsonstring = localStorage.getItem(dialogname + ".eingabe");
   UTIL.logger(dialogname + ': ready(): Bereits customized: ' + jsonstring);
   var eingabefelder = JSON.parse(jsonstring);
 
   var jsonstring = localStorage.getItem(dialogname + ".ausgabe");
   var ausgabefelder = JSON.parse(jsonstring);
-
-  var table;
 
   customize = function customize(param) {
     if (param === "param") {
@@ -463,7 +429,7 @@ $(document).ready(function () {
     var table1 = config.default.data[tabelle].name;
 
     var url = config.default.data[tabelle].servlet + "sqlstm=" + sqlstm;
-    UTIL.logger(dialogname + ': showtable(): url: ' + url);
+    UTIL.logger(dialogname + ': table1: ' + table1 + '; showtable(): url: ' + url);
     var table1 = config.default.data[tabelle].name;
     if ($.fn.DataTable.isDataTable('#' + table1)) {
       //if ($.fn.dataTable.fnIsDataTable($('#' + table1))) {
@@ -588,7 +554,7 @@ $(document).ready(function () {
     }
 
     //Onclick handler auf Tabelle 
-    $('#table_bsueb3 tbody').on('click', 'tr', function () {
+    $('#table_bsueb1 tbody').on('click', 'tr', function () {
       UTIL.logger(dialogname + ': onclick() auf tablerow: table: ' + '#'
         + config.default.data['table1'].name + '; row index: ' + table.row(this).index());
       clicktime = Date.now();
@@ -627,35 +593,42 @@ $(document).ready(function () {
     var aktdialog = "avueb";
     //Liste aktiver Windows: eintragen wenn noch nicht vorhanden
     var eingetragen = localStorage.getItem(aktdialog) ? true : false;
-    UTIL.logger(dialogname + ': dialog: ' + aktdialog + ' eingetragen: ' + eingetragen);
+    UTIL.logger(dialogname + ': detail(): dialog: ' + aktdialog + ' eingetragen: '
+      + eingetragen);
     if (!eingetragen) {
-      //Window Positionierung
-      var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
-      var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
-      //var winProps = 'height=300,width=400,resizable=no,'
-      //  + 'status=no,toolbar=no,location=no,menubar=no,'
-      //  + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
-
-      var winProps = 'height=300,width=400,left=' + left + ',top=' + top;
-      var newWin = window.open(aktdialog + ".html", aktdialog, winProps);
-      UTIL.logger(dialogname + ':dialog: ' + newWin.name + ' gestartet');
-      var status = localStorage.getItem(aktdialog);
-      UTIL.logger(dialogname + ': onclick() auf window: status: ' + status);
-      if (status === null) {
-        //Dialog noch nicht in localstorage eingetragen: eintragen.
-        localStorage.setItem(aktdialog, 'focus');
-      }
-
-      if (browser === 'Edge') {
-        newWin.focus();
-      } else {
-        //Firefox und Chrome: window.focus() funzt nicht
-      }
+      /*
+       //Window Positionierung
+       var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+       var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+       //var winProps = 'height=300,width=400,resizable=no,'
+       //  + 'status=no,toolbar=no,location=no,menubar=no,'
+       //  + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
+       
+       var winProps = 'height=300,width=400,left=' + left + ',top=' + top;
+       var newWin = window.open(aktdialog + ".html", aktdialog, winProps);
+       var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
+       
+       UTIL.logger(dialogname + ':dialog: ' + newWin.name + ' gestartet');
+       var status = localStorage.getItem(aktdialog);
+       UTIL.logger(dialogname + ': onclick() auf window: status: ' + status);
+       if (status === null) {
+       //Dialog noch nicht in localstorage eingetragen: eintragen.             
+       */
+      localStorage.setItem(aktdialog, 'folge');
+      /*
+       }
+       if (browser === 'Edge') {
+       newWin.focus();
+       } else {
+       //Firefox und Chrome: window.focus() funzt nicht
+       }
+       }     
+       */
     }
   };
 
   aktualisieren = function aktualisieren() {
-    alert(dialogname + ': detail()');
+    showtable('table1');
   };
 
   speicherncust = function speicherncust(tabelle) {

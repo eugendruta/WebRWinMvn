@@ -64,7 +64,7 @@ var config = {
             "constkey": "LE.Sperre", "dbcolumn": "INTERNESPERRE"}
         ],
         "table1": {
-          "name": "table_bsueb3",
+          "name": "table_bsueb",
           "view": "v_dlg_bsueb",
           "servlet": "../Auftueb?",
           "anzcolumns": "57",

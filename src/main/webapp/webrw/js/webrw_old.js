@@ -117,13 +117,6 @@ $(document).ready(function () {
    alert("WebRTC nicht supported< bitteClient IP Adresse manuel eingeben.");
    }
    */
-  /*
-   for (let i = 0; i < localStorage.length; i++) {
-   let key = localStorage.key(i);
-   let value = localStorage.getItem(key);
-   UTIL.logger(dialogname + ': localStorage: key: ' + key + '; value: ' + value);
-   }
-   */
 
   // Check for the various File API support.
   if (window.File && window.FileReader && window.FileList && window.Blob) {
