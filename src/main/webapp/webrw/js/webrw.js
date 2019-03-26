@@ -2,6 +2,14 @@ $(document).ready(function () {
   dialogname = 'webrw';
   UTIL.logger(dialogname + ': ready(): Start');
 
+  //localStorage available ??
+  if (typeof (Storage) !== "undefined") {
+    // Yippee! We can use localStorage awesomeness    
+    //UTIL.logger(dialogname + ': localStorage verfügbar !!');
+  } else {
+    // Too bad, no localStorage for us
+    alert('localStorage nicht verfügbar !!');
+  }
   //localStorage.clear();
 
   //Start Navigator im localStorage eintragen 
@@ -33,7 +41,31 @@ $(document).ready(function () {
       UTIL.logger(dialogname + ": onStorageEvent(): Dialog: " + key + ' gelöscht');
     } else if (newvalue === 'folge')
     {
-      UTIL.logger(dialogname + ": onStorageEvent(): Dialog: " + key + ' folgedialog');      
+      //Folgedialog starten
+      aktdialog = key;
+      UTIL.logger(dialogname + ": onStorageEvent(): folgedialog: " + key);
+      var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+      var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+      //var winProps = 'height=300,width=400,resizable=no,'
+      //  + 'status=no,toolbar=no,location=no,menubar=no,' + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
+      var _width = localStorage.getItem(aktdialog + ".width");
+      _width = _width - _width / 120;
+      var _height = localStorage.getItem(aktdialog + ".height");
+      _height = _height - _height / 120;
+      UTIL.logger(dialogname + ': navigator.click(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
+      if (_width && _height) {
+        var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
+      } else {
+        var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
+      }
+
+      var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
+      UTIL.logger(dialogname + ': navigator.click(): dialog: ' + newWin.name + ' gestartet');
+
+      localStorage.setItem(aktdialog, 'focus');
+      UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
+        + aktdialog + ' auf focus gesetzt');
+
     }
   }
   window.addEventListener('storage', onStorageEvent, false);
@@ -71,14 +103,6 @@ $(document).ready(function () {
   }
   devicedaten();
 
-  if (typeof (Storage) !== "undefined") {
-    // Yippee! We can use localStorage awesomeness    
-    UTIL.logger(dialogname + ': localStorage verfügbar !!');
-  } else {
-    // Too bad, no localStorage for us
-    alert('localStorage nicht verfügbar !!');
-  }
-
   //Window close Event
   $(window).on("beforeunload", function (e) {
     e.preventDefault();
@@ -93,7 +117,7 @@ $(document).ready(function () {
       let key = localStorage.key(i);
       let value = localStorage.getItem(key);
       //localStorage: key: bsueb; value: focus
-      if (value === 'focus') {
+      if ((value === 'focus') || (value === 'focus')) {
         localStorage.removeItem(key);
         UTIL.logger(dialogname + ':  beforeunload(): localStorage: key: ' + key
           + '; value: ' + value + ' in storage gelöscht');
@@ -261,6 +285,7 @@ $(document).ready(function () {
     }
   ];
 
+  //Navigator
   $('#navigator').tree({
     data: data,
     selectable: true,
@@ -269,7 +294,7 @@ $(document).ready(function () {
     openedIcon: $('<i class="fas fa-folder-open" style="color: lightblue"></i>')
   });
 
-  //'tree.click' event
+  //'Navigator click event
   $('#navigator').bind('tree.click', function (event) {
     var node = event.node.name; // node === "BSUEB: Bestands-Übersicht"
     UTIL.logger(dialogname + ': navigator.click(): node: ' + node); // # 2
@@ -305,7 +330,7 @@ $(document).ready(function () {
 
     localStorage.setItem(aktdialog, 'focus');
     UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
-      + aktdialog + ' auf focus gesetzt');   
+      + aktdialog + ' auf focus gesetzt');
   });
 
   //Start: Navigator und Liste aktiver Dialoge nicht anzeigen
