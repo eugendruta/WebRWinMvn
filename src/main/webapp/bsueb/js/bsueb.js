@@ -537,7 +537,7 @@ $(document).ready(function () {
     }
 
     //Onclick handler auf Tabelle 
-    $('#table_bsueb1 tbody').on('click', 'tr', function () {
+    $('#table_bsueb tbody').on('click', 'tr', function () {
       UTIL.logger(dialogname + ': onclick() auf tablerow: table: ' + '#'
         + config.default.data['table1'].name + '; row index: ' + table.row(this).index());
       clicktime = Date.now();
