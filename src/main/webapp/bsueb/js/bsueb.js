@@ -2,6 +2,176 @@ $(document).ready(function () {
   dialogname = 'bsueb';
   UTIL.logger(dialogname + ': ready(): Start');
 
+  //Include navigator webrw.html
+  //$('#navigator').load('../webrw/webrw.html');
+  //Navigator
+  var data = [
+    {
+      label: 'Administration',
+      children: [
+        {label: 'ADUEB: Administration-Übersicht'},
+        {label: 'AUUEB: Auftragsübersicht'}
+      ]
+    }, {
+      label: 'Stammdaten',
+      children: [
+        {label: 'WA 1',
+          children: [
+            {label: 'WAUE1: WA1-Übersicht'},
+            {label: 'POUEB: Positions-Übersicht'}
+          ]
+        },
+        {label: 'WA 2'}
+      ]
+    }, {
+      label: 'Lagerverwaltung',
+      children: [
+        {label: 'WA 1',
+          children: [
+            {label: 'WAUE1: WA1-Übersicht'},
+            {label: 'POUEB: Positions-Übersicht'}
+          ]
+        },
+        {label: 'WA 2'}
+      ]
+    }, {
+      label: 'Geräteverwaltung',
+      children: [
+        {label: 'WA 1',
+          children: [
+            {label: 'WAUE1: WA1-Übersicht'},
+            {label: 'POUEB: Positions-Übersicht'}
+          ]
+        },
+        {label: 'WA 2'}
+      ]
+    }, {
+      label: 'Bestandsverwaltung',
+      children: [
+        {label: 'BSUEB: Bestands-Übersicht'},
+        {label: 'AVUEB: Auftragsübersicht'}
+      ]
+    }, {
+      label: 'Wareneingang',
+      children: [
+        {label: 'WA 1',
+          children: [
+            {label: 'WAUE1: WA1-Übersicht'},
+            {label: 'POUEB: Positions-Übersicht'}
+          ]
+        },
+        {label: 'WA 2'}
+      ]
+    }, {
+      label: 'Auftragsabwicklung',
+      children: [
+        {label: 'WA 1',
+          children: [
+            {label: 'WAUE1: WA1-Übersicht'},
+            {label: 'POUEB: Positions-Übersicht'}
+          ]
+        },
+        {label: 'WA 2'}
+      ]
+    }, {
+      label: 'Transportverwaltung',
+      children: [
+        {label: 'WA 1',
+          children: [
+            {label: 'WAUE1: WA1-Übersicht'},
+            {label: 'POUEB: Positions-Übersicht'}
+          ]
+        },
+        {label: 'WA 2'}
+      ]
+    }, {
+      label: 'Kommissionierung',
+      children: [
+        {label: 'WA 1',
+          children: [
+            {label: 'WAUE1: WA1-Übersicht'},
+            {label: 'POUEB: Positions-Übersicht'}
+          ]
+        },
+        {label: 'WA 2'}
+      ]
+    }, {
+      label: 'Warenausgang',
+      children: [
+        {label: 'WA 1',
+          children: [
+            {label: 'WAUE1: WA1-Übersicht'},
+            {label: 'POUEB: Positions-Übersicht'}
+          ]
+        },
+        {label: 'WA 2'}
+      ]
+    }, {
+      label: 'Leitstand',
+      children: [
+        {label: 'WA 1',
+          children: [
+            {label: 'WAUE1: WA1-Übersicht'},
+            {label: 'POUEB: Positions-Übersicht'}
+          ]
+        },
+        {label: 'WA 2'}
+      ]
+    }
+  ];
+
+  //Navigator
+  $('#navigator').tree({
+    data: data,
+    selectable: true,
+    autoOpen: false,
+    closedIcon: $('<i class="fas fa-folder" style="color: lightblue"></i>'),
+    openedIcon: $('<i class="fas fa-folder-open" style="color: lightblue"></i>')
+  });
+
+  //'Navigator click event
+  $('#navigator').bind('tree.click', function (event) {
+    var node = event.node.name; // node === "BSUEB: Bestands-Übersicht"
+    UTIL.logger(dialogname + ': navigator.click(): node: ' + node); // # 2
+    var pos = node.toString().indexOf(":");
+    var aktdialog;
+    if (pos !== -1) {
+      aktdialog = node.toString().toLowerCase().substring(0, pos);
+    } else {
+      alert('Navigatoreintrag falsch');
+      return;
+    }
+
+    var eingetragen = localStorage.getItem(aktdialog);
+    UTIL.logger(dialogname + ': navigator.click(): dialog: ' + aktdialog
+      + ' localStorage eintrag: ' + eingetragen);
+    var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+    var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+    //var winProps = 'height=300,width=400,resizable=no,'
+    //  + 'status=no,toolbar=no,location=no,menubar=no,' + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
+    var _width = localStorage.getItem(aktdialog + ".width");
+    _width = _width - _width / 120;
+    var _height = localStorage.getItem(aktdialog + ".height");
+    _height = _height - _height / 120;
+    UTIL.logger(dialogname + ': navigator.click(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
+    if (_width && _height) {
+      var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
+    } else {
+      var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
+    }
+
+    var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
+    UTIL.logger(dialogname + ': navigator.click(): dialog: ' + newWin.name + ' gestartet');
+
+    localStorage.setItem(aktdialog, 'focus');
+    UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
+      + aktdialog + ' auf focus gesetzt');
+  });
+
+  //Start: Navigator und Liste aktiver Dialoge nicht anzeigen
+  $("#navigatortbl").hide();
+  $("#aktivewindows").hide();
+
   var table; // AJAX Tabelle
   var key;
   var ctrl;
@@ -157,6 +327,23 @@ $(document).ready(function () {
   //Window click event  
   $(window).on("click", function (e) {
     //e.preventDefault();
+    UTIL.logger(dialogname + ': onclick() event.target: ' + e.target.id
+      + '; value: ' + e.target.value);
+    if (e.target.id === 'navmini') {
+      //Navigator minify
+      let val = e.target.value;
+      UTIL.logger(dialogname + ': window.click(): Button value: ' + val);
+      if (val === '<<') {
+        $('#navigator').hide();
+        $('#navmini').val('>>');
+      } else if (val === '>>') {
+        $('#navigator').show();
+        $('#navmini').val('<<');
+      } else {
+        alert('Navigatoreintrag falsch');
+      }
+    }
+
     var status = localStorage.getItem(dialogname);
     if (status === null) {
       //Dialog noch nicht in localstorage eingetragen: eintragen.
@@ -664,5 +851,24 @@ $(document).ready(function () {
         //}
       });
     }
+  };
+
+  //tabelle aktualisieren
+  navmini = function navmini() {
+    UTIL.logger(dialogname + ': navmini()');
+    $('#navigator').val('ab');
+    /*
+     if (node === '<<') {
+     UTIL.logger(dialogname + ': navigator.click(): node: ' + node + ' minify');
+     $('#navigator').hide();
+     $('#navigator').html('>>');
+     } else if (node === '>>') {
+     UTIL.logger(dialogname + ': navigator.click(): node: ' + node + ' maximize');
+     $('#navigator').show();
+     $('#navigator').html('<<');        
+     } else {
+     alert('Navigatoreintrag falsch');
+     } 
+     */
   };
 }); // end ready

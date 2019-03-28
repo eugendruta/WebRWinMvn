@@ -289,15 +289,14 @@ $(document).ready(function () {
   $('#navigator').tree({
     data: data,
     selectable: true,
-    autoOpen: false,
+    autoOpen: true,
     closedIcon: $('<i class="fas fa-folder" style="color: lightblue"></i>'),
     openedIcon: $('<i class="fas fa-folder-open" style="color: lightblue"></i>')
   });
 
   //'Navigator click event
   $('#navigator').bind('tree.click', function (event) {
-    var node = event.node.name; // node === "BSUEB: Bestands-Übersicht"
-    UTIL.logger(dialogname + ': navigator.click(): node: ' + node); // # 2
+    var node = event.node.name; // node === "BSUEB: Bestands-Übersicht" 
     var pos = node.toString().indexOf(":");
     var aktdialog;
     if (pos !== -1) {
@@ -331,6 +330,11 @@ $(document).ready(function () {
     localStorage.setItem(aktdialog, 'focus');
     UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
       + aktdialog + ' auf focus gesetzt');
+
+    var selectednode = $('#navigator').tree('getSelectedNode');
+    UTIL.logger(dialogname + '; tree.click(): selectednode: ' + selectednode);
+
+    $('#navigator').tree('closeNode', event.node);
   });
 
   //Start: Navigator und Liste aktiver Dialoge nicht anzeigen
@@ -379,6 +383,18 @@ $(document).ready(function () {
     $("#aktivewindows").show();
 
     $("#login").hide();
+
+    //tree_json: [{"name":"Administration", "is_open":true, "children":[{"name":"ADUEB: Administration-Übersicht"},
+    var tree_json = $('#navigator').tree('toJson');
+    var tree = JSON.parse(tree_json);
+    UTIL.logger(dialogname + '; login(): tree.name: ' + tree[0].name + '; name: '
+      + tree[0].children[0].name + '; is_Open: ' + tree[0].is_open);
+
+    //{open_nodes: [12, 23, 45], selected_node: [88]}
+    var state = $('#navigator').tree('getState');
+    //$('#navigator').tree('setState', state);
+    UTIL.logger(dialogname + '; login(): state.open_nodes.length: ' + state.open_nodes.length
+      + '; state.selected_node.length: ' + state.selected_node.length);
   };
 
   //Devicedaten speichern

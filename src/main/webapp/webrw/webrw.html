@@ -16,6 +16,7 @@
     <script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>        
     <link href="../resources/css/jqtree.css" rel="stylesheet">       
     <link href="../resources/css/dialog.css" rel="stylesheet">  
+    <link href="../resources/css/style.css" rel="stylesheet">      
     <link href="../resources/css/fontawesome/css/all.css" rel="stylesheet"> 
     <script src="../resources/js/util.js" ></script>
     <script src="js/webrw.js" ></script> 
@@ -62,13 +63,13 @@
             </tr>
             <tr>
               <td style="border: none">
-                <input id="loginbtn" value="Anmelden" type="submit" 
+                <input id="loginbtn" value="Anmelden" type="submit" class="butn"
                        style="max-width: 90px; margin-left: 10px;" 
                        onclick="login();"> 
               </td> 
               <td style="border: none">
                 <input id="abbrechenbtn" value="Abbrechen" type="submit" 
-                       style="width: 90px;" onclick="UTIL.longpolling()"> 
+                       class="butn" style="width: 90px;" onclick="UTIL.longpolling()"> 
               </td>             
             </tr>
           </table>        

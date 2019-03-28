@@ -17,43 +17,60 @@
     <script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>    
     <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>    
     <link href="../resources/css/dialog.css" rel="stylesheet">  
-    <link rel="stylesheet" href="../resources/css/menustyles.css">     
+    <!-- <link rel="stylesheet" href="../resources/css/menustyles.css"> -->
+    <link href="../resources/css/style.css" rel="stylesheet">       
     <script src="../resources/js/util.js" ></script>
     <script src="js/bsueb.js" ></script>      
     <script src="js/config.js"></script>   
   </head>
 
   <body style="min-width: 500px;">
+    <div>
+      <div id="navigator" title="Navigator"
+           style="width: 230px; float: left; background-color: #FAF9F8; border: 2px solid black"> 
+      </div>  
+    </div>
+
     <div id="bsueb" class="ui-widget-content" style="width: 100%; 
          background-color: #e9e9e9; padding-bottom: 5px; margin-left: 5px;">
+      <div>
+        <input id="navmini" value="<<" type="submit" class="butn"
+               style="float: left;" onclick="navmini('table1')">         
+      </div>      
       <!-- Toolbarbuttons -->
       <div id='toolbarbuttons'>
         <button id="aktualisieren" class="ui-button ui-widget ui-corner-all ui-button-icon-only" 
-                title="Aktualisieren" onclick="aktualisieren()">
+                title="Aktualisieren" style="height: 30px;" onclick="aktualisieren()">
           <span class="ui-icon ui-icon-refresh" ></span></button>
         <button id="detail" class="ui-button ui-widget ui-corner-all ui-button-icon-only" 
-                title="Detail" onclick="detail('avueb')" >
+                title="Detail" style="height: 30px;" onclick="detail('avueb')" >
           <span class="ui-icon ui-icon-zoomin"></span></button>
-        <button id="neu" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Neu">
+        <button id="neu" class="ui-button ui-widget ui-corner-all ui-button-icon-only" 
+                title="Neu" style="height: 30px;" >
           <span class="ui-icon ui-icon-document"></span></button>
-        <button id="aendern" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Ändern">
+        <button id="aendern" class="ui-button ui-widget ui-corner-all ui-button-icon-only" 
+                title="Ändern" style="height: 30px;" >
           <span class="ui-icon ui-icon-document-b"></span></button>
-        <button id="speichern" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Speichern">
+        <button id="speichern" class="ui-button ui-widget ui-corner-all ui-button-icon-only" 
+                title="Speichern" style="height: 30px;" >
           <span class="ui-icon ui-icon-check"></span></button>
-        <button id="zurueck" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Zurück">
+        <button id="zurueck" class="ui-button ui-widget ui-corner-all ui-button-icon-only" 
+                title="Zurück" style="height: 30px;" >
           <span class="ui-icon ui-icon-arrowreturn-1-w"></span></button>  
-        <button id="loeschen" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Löschen">
+        <button id="loeschen" class="ui-button ui-widget ui-corner-all ui-button-icon-only" 
+                title="Löschen" style="height: 30px;" >
           <span class="ui-icon ui-icon-trash"></span></button>  
-        <button id="drucken" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Drucken">
+        <button id="drucken" class="ui-button ui-widget ui-corner-all ui-button-icon-only" 
+                title="Drucken" style="height: 30px;" >
           <span class="ui-icon ui-icon-print"></span></button>   
-
         <button id="eingabehilfe" class="ui-button ui-widget ui-corner-all ui-button-icon-only" 
-                title="Eingabehilfe" onclick="customize('param')">
+                title="Eingabehilfe" style="height: 30px;" onclick="customize('param')">
           <span class="ui-icon ui-icon-search"></span></button>
-
-        <button id="hilfe" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Hilfe">
+        <button id="hilfe" class="ui-button ui-widget ui-corner-all ui-button-icon-only" 
+                title="Hilfe" style="height: 30px;" >
           <span class="ui-icon ui-icon-help"></span></button>
-        <button id="favorit" class="ui-button ui-widget ui-corner-all ui-button-icon-only" title="Favorit">
+        <button id="favorit" class="ui-button ui-widget ui-corner-all ui-button-icon-only" 
+                title="Favorit" style="height: 30px;" >
           <span class="ui-icon ui-icon-star"></span></button>
       </div>
 
@@ -138,9 +155,10 @@
           <select id="intsperrelb"  style="width: 100px;"> </select>
         </label>              
         <br>
-        <input id="anzeigen1" value="Anzeigen" type="submit" 
+        <input id="anzeigen1" value="Anzeigen" type="submit" class="butn"
                style="max-width: 90px; float: left;" onclick="showtable('table1')"> 
-        <input id="reset1" value="Reset" type="submit" style="margin-left: 10px; width: 90px;"> 
+        <input id="reset1" value="Reset" type="submit" class="butn" 
+               style="margin-left: 10px; width: 90px;"> 
       </div>
 
       <!-- Customize -->
@@ -226,11 +244,11 @@
         <table style="border: none; width: 200px;">
           <tr>
             <td class="tdlabelleft">
-              <input id="resetcust" value="Reset" type="submit" 
+              <input id="resetcust" value="Reset" type="submit" class="butn" 
                      style="width: 90px;" onclick="resetcust('eingabe', 'reset')">               
             </td>
             <td class="tdlabelleft">
-              <input id="clearcust" value="Clear" type="submit" 
+              <input id="clearcust" value="Clear" type="submit" class="butn" 
                      style="width: 90px;" onclick="resetcust('eingabe', 'clear')">               
             </td>            
           </tr>
@@ -317,345 +335,433 @@
         <table style="border: none; width: 200px;">
           <tr>
             <td class="tdlabelleft">
-              <input id="speichernausg" value="Speichern" type="submit" 
+              <input id="speichernausg" value="Speichern" type="submit" class="butn" 
                      style="max-width: 90px;" onclick="speicherncust('table1')">               
             </td>
             <td class="tdlabelleft">
-              <input id="resetausg" value="Reset" type="submit" 
+              <input id="resetausg" value="Reset" type="submit" class="butn" 
                      style="width: 90px;" onclick="resetcust('ausgabe', 'reset')">               
             </td>
             <td class="tdlabelleft">
-              <input id="clearcust" value="Clear" type="submit" 
+              <input id="clearcust" value="Clear" type="submit" class="butn" 
                      style="width: 90px;" onclick="resetcust('ausgabe', 'clear')">               
             </td>            
           </tr>
         </table>           
       </div>
 
-      <!-- TAB 1 & 2: Übersicht, Detail -->
-      <div id="tabs">
-        <ul>
-          <li><a href="#tabs-1">Übersicht</a></li>
+      <!-- Übersicht -->
+      <div id="tabs-1" style="padding-left: 0px; padding-top: 0px;">   
+        <div id="ausgabediv1" style="background-color: #e9e9e9;">
+          <table id="table_bsueb" class="table_bsueb">
+            <!-- 1. Titelzeile -->
+            <thead>
+              <tr>
+                <th scope="colgroup" colspan="5">Teil</th>
+                <th scope="colgroup" colspan="3">LE</th>
+                <th scope="colgroup" colspan="2">Inventur</th>              
+                <th scope="colgroup" colspan="4">Bestände</th>              
+                <th scope="col" rowspan="2">TR</th>
+                <th scope="col" rowspan="2">SP</th>          
+                <th scope="col" rowspan="2">DS</th>          
+                <th scope="col" rowspan="2">QS-Status</th>
+                <th scope="col" rowspan="2">Hostlager</th>
+                <th scope="colgroup" colspan="3">Avis</th>
+                <th scope="col" rowspan="2">Kistendispo</th>
+                <th scope="colgroup" colspan="1">Inventur</th>     
+                <th scope="col" rowspan="2">Verpackungsmenge</th>              
+              </tr>
+              <!-- 2. Titelzeile -->
+              <tr>
+                <!-- Teil  -->
+                <th class="table2title" scope="col">MD</th>
+                <th class="table2title" scope="col">HC</th>
+                <th class="table2title" scope="col">Teilenummer</th>
+                <th class="table2title" scope="col" style="white-space: nowrap;">H-Teilenummer</th>
+                <th class="table2title" scope="col">Bezeichnung</th>              
+                <!-- LE -->
+                <th class="table2title" scope="col">Nr.</th>
+                <th class="table2title" scope="col">Lagerort</th>
+                <th class="table2title" scope="col">EZO</th>              
+                <!-- Inventur -->
+                <th class="table2title" scope="col">INV</th>
+                <th class="table2title" scope="col">Grund</th>
+                <!-- Bestände -->
+                <th class="table2title" scope="col">total</th>
+                <th class="table2title" scope="col">verfüg.</th>
+                <th class="table2title" scope="col">reser.</th>
+                <th class="table2title" scope="col">gesperrt</th>
+                <!-- Avis -->
+                <th class="table2title" scope="col">Nr.</th>
+                <th class="table2title" scope="col">Kiste</th>
+                <th class="table2title" scope="col">Container</th>  
+                <!-- Inventur -->
+                <th class="table2title" scope="col">INA</th>                                                                                  
+              </tr>
+            </thead>             
+            <tfoot>
+              <tr>
+                <th>Summe:</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>              
+                <td></td>
+                <td></td>              
+              </tr>
+            </tfoot>
+          </table>
+
+          <div id="buttonsdiv1" style="width: 150px; ">  
+            <button id="clearbtn1" type="button" 
+                    onclick="alert('Button hostlager clicked !!');">Hostlager ändern</button>
+          </div> 
+        </div>
+      </div>
+
+      <!-- TAB 1 & 2: Übersicht, Detail   _>
+      <!-- <div id="tabs" style="top: 200px; height: 50px;">
+        <ul style="height: 50px;">
+          <li ><a href="#tabs-1">Übersicht</a></li>
           <li><a href="#tabs-2">Detail</a></li>
         </ul>
 
-        <!-- TAB 1 Übersicht -->
-        <div id="tabs-1" style="padding-left: 0px; padding-top: 0px;">
-          <!-- Übersicht-->     
-          <div id="ausgabediv1" style="background-color: #e9e9e9; ">
-            <table class="table_bsueb" id="table_bsueb" >
-              <!-- 1. Titelzeile -->
-              <thead>
-                <tr>
-                  <th scope="colgroup" colspan="5">Teil</th>
-                  <th scope="colgroup" colspan="3">LE</th>
-                  <th scope="colgroup" colspan="2">Inventur</th>              
-                  <th scope="colgroup" colspan="4">Bestände</th>              
-                  <th scope="col" rowspan="2">TR</th>
-                  <th scope="col" rowspan="2">SP</th>          
-                  <th scope="col" rowspan="2">DS</th>          
-                  <th scope="col" rowspan="2">QS-Status</th>
-                  <th scope="col" rowspan="2">Hostlager</th>
-                  <th scope="colgroup" colspan="3">Avis</th>
-                  <th scope="col" rowspan="2">Kistendispo</th>
-                  <th scope="colgroup" colspan="1">Inventur</th>     
-                  <th scope="col" rowspan="2">Verpackungsmenge</th>              
-                </tr>
-                <!-- 2. Titelzeile -->
-                <tr>
-                  <!-- Teil  -->
-                  <th class="table2title" scope="col">MD</th>
-                  <th class="table2title" scope="col">HC</th>
-                  <th class="table2title" scope="col">Teilenummer</th>
-                  <th class="table2title" scope="col" style="white-space: nowrap;">H-Teilenummer</th>
-                  <th class="table2title" scope="col">Bezeichnung</th>              
-                  <!-- LE -->
-                  <th class="table2title" scope="col">Nr.</th>
-                  <th class="table2title" scope="col">Lagerort</th>
-                  <th class="table2title" scope="col">EZO</th>              
-                  <!-- Inventur -->
-                  <th class="table2title" scope="col">INV</th>
-                  <th class="table2title" scope="col">Grund</th>
-                  <!-- Bestände -->
-                  <th class="table2title" scope="col">total</th>
-                  <th class="table2title" scope="col">verfüg.</th>
-                  <th class="table2title" scope="col">reser.</th>
-                  <th class="table2title" scope="col">gesperrt</th>
-                  <!-- Avis -->
-                  <th class="table2title" scope="col">Nr.</th>
-                  <th class="table2title" scope="col">Kiste</th>
-                  <th class="table2title" scope="col">Container</th>  
-                  <!-- Inventur -->
-                  <th class="table2title" scope="col">INA</th>                                                                                  
-                </tr>
-              </thead>             
-              <tfoot>
-                <tr>
-                  <th>Summe:</th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>              
-                  <td></td>
-                  <td></td>              
-                </tr>
-              </tfoot>
-            </table>
+      <!-- TAB 1 Übersicht 
+      <div id="tabs-1" style="padding-left: 0px; padding-top: 0px;">
+      <!-- Übersicht  
+      <div id="ausgabediv1" style="background-color: #e9e9e9;">
+        <table  id="table_bsueb" style="padding-top: 0px;" >
+      <!-- 1. Titelzeile 
+      <thead>
+        <tr>
+          <th scope="colgroup" colspan="5">Teil</th>
+          <th scope="colgroup" colspan="3">LE</th>
+          <th scope="colgroup" colspan="2">Inventur</th>              
+          <th scope="colgroup" colspan="4">Bestände</th>              
+          <th scope="col" rowspan="2">TR</th>
+          <th scope="col" rowspan="2">SP</th>          
+          <th scope="col" rowspan="2">DS</th>          
+          <th scope="col" rowspan="2">QS-Status</th>
+          <th scope="col" rowspan="2">Hostlager</th>
+          <th scope="colgroup" colspan="3">Avis</th>
+          <th scope="col" rowspan="2">Kistendispo</th>
+          <th scope="colgroup" colspan="1">Inventur</th>     
+          <th scope="col" rowspan="2">Verpackungsmenge</th>              
+        </tr>
+      <!-- 2. Titelzeile 
+      <tr>
+      <!-- Teil  
+      <th class="table2title" scope="col">MD</th>
+      <th class="table2title" scope="col">HC</th>
+      <th class="table2title" scope="col">Teilenummer</th>
+      <th class="table2title" scope="col" style="white-space: nowrap;">H-Teilenummer</th>
+      <th class="table2title" scope="col">Bezeichnung</th>              
+      <!-- LE 
+      <th class="table2title" scope="col">Nr.</th>
+      <th class="table2title" scope="col">Lagerort</th>
+      <th class="table2title" scope="col">EZO</th>              
+      <!-- Inventur 
+      <th class="table2title" scope="col">INV</th>
+      <th class="table2title" scope="col">Grund</th>
+      <!-- Bestände 
+      <th class="table2title" scope="col">total</th>
+      <th class="table2title" scope="col">verfüg.</th>
+      <th class="table2title" scope="col">reser.</th>
+      <th class="table2title" scope="col">gesperrt</th>
+      <!-- Avis 
+      <th class="table2title" scope="col">Nr.</th>
+      <th class="table2title" scope="col">Kiste</th>
+      <th class="table2title" scope="col">Container</th>  
+      <!-- Inventur 
+      <th class="table2title" scope="col">INA</th>                                                                                  
+    </tr>
+  </thead>             
+  <tfoot>
+    <tr>
+      <th>Summe:</th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>              
+      <td></td>
+      <td></td>              
+    </tr>
+  </tfoot>
+</table>
 
-            <div id="buttonsdiv1" style="width: 150px; ">  
-              <button id="clearbtn1" type="button" 
-                      onclick="alert('Button hostlager clicked !!');">Hostlager ändern</button>
-            </div> 
-          </div>
-        </div>
+<div id="buttonsdiv1" style="width: 150px; ">  
+  <button id="clearbtn1" type="button" 
+          onclick="alert('Button hostlager clicked !!');">Hostlager ändern</button>
+</div> 
+</div>
+</div>
 
-        <!-- TAB 2 Detail, Bestände, Status, Datum -->
-        <div id="tabs-2" style="padding-left: 0px; padding-top: 0px;">
-          <table style="width: 100px; border: none;">
-            <tr>
-              <!-- Detail--> 
-              <td class="tdfield">
-                <table style="border: none; ">
-                  <tr>    
-                    <td class="tdfield"> 
-                      <div id="ausgabedivdet1" >
-                        <table id="table_bsueb_det" style="border: none;">                                                    
-                          <tr>
-                            <td class="tdlabel"><label>LE-Nr</label></td>
-                            <td class="tdfield">
-                              <input id="lenrdet" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr >
-                            <td class="tdlabel"><label>LHM-Typ</label></td>
-                            <td class="tdfield">
-                              <input id="lhmtypdet" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label>Mandant</label></td>
-                            <td class="tdfield">
-                              <input id="mandantdet" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label>Hersteller</label></td>
-                            <td class="tdfield">
-                              <input id="herstellerdet" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr >
-                            <td class="tdlabel"><label>Teile-Nr.</label></td>
-                            <td class="tdfield">
-                              <input id="teilenrdet" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label>H.-Teile-Nr.</label></td>
-                            <td class="tdfield">
-                              <input id="hteilenrdet" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label>Bezeichnung</label></td>
-                            <td class="tdfield">
-                              <input id="bezeichnungdet" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label>LO-Typ</label></td>
-                            <td class="tdfield">
-                              <input id="lotypdet" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label>Lagerort</label></td>
-                            <td class="tdfield">
-                              <input id="lagerortdet" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>              
-                          <tr >
-                            <td class="tdlabel"><label>Zone aktuell</label></td>
-                            <td class="tdfield">
-                              <input id="zoneaktuelldet" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>              
-                          <tr >
-                            <td class="tdlabel"><label>Zone avisiert</label></td>
-                            <td class="tdfield">
-                              <input id="zoneavisiertdet" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>              
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-
-              </td>
-
-              <!-- Bestände -->              
-              <td class="tdfield">
-                <table style="border: none;">
+      <!-- TAB 2 Detail, Bestände, Status, Datum 
+      <div id="tabs-2" style="padding-left: 0px; padding-top: 0px;">
+        <table style="width: 100px; border: none;">
+          <tr>
+      <!-- Detail 
+      <td class="tdfield">
+        <table style="border: none; ">
+          <tr>    
+            <td class="tdfield"> 
+              <div id="ausgabedivdet1" >
+                <table id="table_bsueb_det" style="border: none;">                                                    
                   <tr>
-                    <td  style="width: 50px; border: none;">  
-                      <div id="ausgabedivdet2" style="padding-bottom: 70px;">
-                        <table id="table_bsueb_best" style="border: 2x solid;">
-                          <tr >
-                            <td class="tdlabel"><label>total</label></td>
-                            <td class="tdfield">
-                              <input id="total" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr >
-                            <td class="tdlabel"><label>verfügbar</label></td>
-                            <td class="tdfield">
-                              <input id="verfuegbar" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label>reserviert</label></td>
-                            <td class="tdfield">
-                              <input id="reserviert" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label>gesperrt</label></td>
-                            <td class="tdfield">
-                              <input id="gesperrt" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr >
-                            <td class="tdlabel"><label>nachgefragt</label></td>
-                            <td class="tdfield">
-                              <input id="nachgefragt" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label>geplant</label></td>
-                            <td class="tdfield">
-                              <input id="geplant" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label>läuft</label></td>
-                            <td class="tdfield">
-                              <input id="laeuft" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label>Einheit</label></td>
-                            <td class="tdfield">
-                              <input id="einheit" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                        </table>
-                      </div> 
-                    </td>
-                  </tr>
-                </table>
-              </td>
-
-              <!-- Status, Datum--> 
-              <td style="border: none; padding-top: 0px; ">
-                <table style="border: none; ">
-                  <tr> 
-                    <td class="tdfield"> 
-                      <div id="ausgabedivdet3" style="border: none; padding-left: 23px;">
-                        <table id="table_bsueb_det_status" style="border: none;">
-                          <tr >
-                            <td class="tdlabel"><label>Dispostatus</label></td>
-                            <td class="tdfield">
-                              <input id="dispostatusdet" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr >
-                            <td class="tdlabel"><label>QS-Status</label></td>
-                            <td class="tdfield">
-                              <input id="qsstatusdet" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label>Int. Sperre</label></td>
-                            <td class="tdfield">
-                              <input id="intsperredet" type="text" style="max-width: 95px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label>Transport</label></td>
-                            <td class="tdfield">
-                              <input id="transportdet" type="checkbox" disabled>
-                            </td>                
-                          </tr>
-                          <tr >
-                            <td class="tdlabel"><label>Inventur</label></td>
-                            <td class="tdfield">
-                              <input id="inventurdet" type="checkbox" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label>Retoure</label></td>
-                            <td class="tdfield">
-                              <input id="retouredet" type="checkbox" disabled>
-                            </td>                
-                          </tr>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <!-- Datum -->
-                  <tr> 
+                    <td class="tdlabel"><label>LE-Nr</label></td>
                     <td class="tdfield">
-                      <fieldset>
-                        <legend>Datum</legend>                      
-                        <table style="border: none;">                  
-                          <tr>
-                            <td class="tdlabel"><label class="tdlabel">FIFO-Datum</label></td>
-                            <td class="tdfield">
-                              <input id="fifodatumdet" type="text" style="max-width: 135px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label class="tdlabel">Bildung-Datum</label></td>
-                            <td class="tdfield">
-                              <input id="bildungdatumdet" type="text" style="max-width: 135px;" disabled>
-                            </td>                
-                          </tr>
-                          <tr>
-                            <td class="tdlabel"><label class="tdlabel">Inventur-Datum</label></td>
-                            <td class="tdfield">
-                              <input id="inventurdatumdet" type="text" style="max-width: 135px;" disabled>
-                            </td>                
-                          </tr>                          
-                        </table>
-                      </fieldset>
-                    </td>
+                      <input id="lenrdet" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr >
+                    <td class="tdlabel"><label>LHM-Typ</label></td>
+                    <td class="tdfield">
+                      <input id="lhmtypdet" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr>
+                    <td class="tdlabel"><label>Mandant</label></td>
+                    <td class="tdfield">
+                      <input id="mandantdet" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr>
+                    <td class="tdlabel"><label>Hersteller</label></td>
+                    <td class="tdfield">
+                      <input id="herstellerdet" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr >
+                    <td class="tdlabel"><label>Teile-Nr.</label></td>
+                    <td class="tdfield">
+                      <input id="teilenrdet" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr>
+                    <td class="tdlabel"><label>H.-Teile-Nr.</label></td>
+                    <td class="tdfield">
+                      <input id="hteilenrdet" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr>
+                    <td class="tdlabel"><label>Bezeichnung</label></td>
+                    <td class="tdfield">
+                      <input id="bezeichnungdet" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr>
+                    <td class="tdlabel"><label>LO-Typ</label></td>
+                    <td class="tdfield">
+                      <input id="lotypdet" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr>
+                    <td class="tdlabel"><label>Lagerort</label></td>
+                    <td class="tdfield">
+                      <input id="lagerortdet" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>              
+                  <tr >
+                    <td class="tdlabel"><label>Zone aktuell</label></td>
+                    <td class="tdfield">
+                      <input id="zoneaktuelldet" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>              
+                  <tr >
+                    <td class="tdlabel"><label>Zone avisiert</label></td>
+                    <td class="tdfield">
+                      <input id="zoneavisiertdet" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>              
+                </table>
+              </div>
+            </td>
+          </tr>
+        </table>
+
+      </td>
+
+      <!-- Bestände               
+      <td class="tdfield">
+        <table style="border: none;">
+          <tr>
+            <td  style="width: 50px; border: none;">  
+              <div id="ausgabedivdet2" style="padding-bottom: 70px;">
+                <table id="table_bsueb_best" style="border: 2x solid;">
+                  <tr >
+                    <td class="tdlabel"><label>total</label></td>
+                    <td class="tdfield">
+                      <input id="total" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr >
+                    <td class="tdlabel"><label>verfügbar</label></td>
+                    <td class="tdfield">
+                      <input id="verfuegbar" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr>
+                    <td class="tdlabel"><label>reserviert</label></td>
+                    <td class="tdfield">
+                      <input id="reserviert" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr>
+                    <td class="tdlabel"><label>gesperrt</label></td>
+                    <td class="tdfield">
+                      <input id="gesperrt" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr >
+                    <td class="tdlabel"><label>nachgefragt</label></td>
+                    <td class="tdfield">
+                      <input id="nachgefragt" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr>
+                    <td class="tdlabel"><label>geplant</label></td>
+                    <td class="tdfield">
+                      <input id="geplant" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr>
+                    <td class="tdlabel"><label>läuft</label></td>
+                    <td class="tdfield">
+                      <input id="laeuft" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr>
+                    <td class="tdlabel"><label>Einheit</label></td>
+                    <td class="tdfield">
+                      <input id="einheit" type="text" style="max-width: 95px;" disabled>
+                    </td>                
                   </tr>
                 </table>
-              </td>              
-            </tr>
-          </table>
-        </div>
-      </div>
+              </div> 
+            </td>
+          </tr>
+        </table>
+      </td>
+
+      <!-- Status, Datum 
+      <td style="border: none; padding-top: 0px; ">
+        <table style="border: none; ">
+          <tr> 
+            <td class="tdfield"> 
+              <div id="ausgabedivdet3" style="border: none; padding-left: 23px;">
+                <table id="table_bsueb_det_status" style="border: none;">
+                  <tr >
+                    <td class="tdlabel"><label>Dispostatus</label></td>
+                    <td class="tdfield">
+                      <input id="dispostatusdet" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr >
+                    <td class="tdlabel"><label>QS-Status</label></td>
+                    <td class="tdfield">
+                      <input id="qsstatusdet" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr>
+                    <td class="tdlabel"><label>Int. Sperre</label></td>
+                    <td class="tdfield">
+                      <input id="intsperredet" type="text" style="max-width: 95px;" disabled>
+                    </td>                
+                  </tr>
+                  <tr>
+                    <td class="tdlabel"><label>Transport</label></td>
+                    <td class="tdfield">
+                      <input id="transportdet" type="checkbox" disabled>
+                    </td>                
+                  </tr>
+                  <tr >
+                    <td class="tdlabel"><label>Inventur</label></td>
+                    <td class="tdfield">
+                      <input id="inventurdet" type="checkbox" disabled>
+                    </td>                
+                  </tr>
+                  <tr>
+                    <td class="tdlabel"><label>Retoure</label></td>
+                    <td class="tdfield">
+                      <input id="retouredet" type="checkbox" disabled>
+                    </td>                
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </tr>
+
+      <!-- Datum 
+      <tr> 
+        <td class="tdfield">
+          <fieldset>
+            <legend>Datum</legend>                      
+            <table style="border: none;">                  
+              <tr>
+                <td class="tdlabel"><label class="tdlabel">FIFO-Datum</label></td>
+                <td class="tdfield">
+                  <input id="fifodatumdet" type="text" style="max-width: 135px;" disabled>
+                </td>                
+              </tr>
+              <tr>
+                <td class="tdlabel"><label class="tdlabel">Bildung-Datum</label></td>
+                <td class="tdfield">
+                  <input id="bildungdatumdet" type="text" style="max-width: 135px;" disabled>
+                </td>                
+              </tr>
+              <tr>
+                <td class="tdlabel"><label class="tdlabel">Inventur-Datum</label></td>
+                <td class="tdfield">
+                  <input id="inventurdatumdet" type="text" style="max-width: 135px;" disabled>
+                </td>                
+              </tr>                          
+            </table>
+          </fieldset>
+        </td>
+      </tr>
+    </table>
+  </td>              
+</tr>
+</table>
+</div>
+</div>
+      -->
     </div>    
   </body>
 </html>
