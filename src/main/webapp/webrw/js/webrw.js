@@ -12,9 +12,43 @@ $(document).ready(function () {
   }
   //localStorage.clear();
 
+  //Alle Einträge im Status closed löschen
+  for (let i = 0; i < localStorage.length; i++) {
+    let key = localStorage.key(i);
+    let value = localStorage.getItem(key);
+    UTIL.logger(dialogname + ': start: key: ' + key + '; value: ' + value);
+    if (value === 'closed') {
+      localStorage.removeItem(key);
+      UTIL.logger(dialogname + ': start: key: ' + key + '; value: ' + value + ' gelöscht');
+    }
+  }
+
   //Start Navigator im localStorage eintragen 
   localStorage.setItem("starttime", Date().toString());
   UTIL.logger(dialogname + ': ready(): starttime: ' + Date().toString() + ' gesetzt');
+
+  //Window close Event
+  $(window).on("beforeunload", function (e) {
+    e.preventDefault();
+
+    //Startzeit löschen
+    localStorage.removeItem("starttime");
+    UTIL.logger(dialogname + ':  beforeunload(): starttime in storage gelöscht'
+      + '; localStorage.length: ' + localStorage.length);
+
+    //Noch vorhanden Dialogeinträge löschen
+    for (let i = 0; i < localStorage.length; i++) {
+      let key = localStorage.key(i);
+      let value = localStorage.getItem(key);
+      //localStorage: key: bsueb; value: focus
+      if ((value === 'focus')) {
+        localStorage.setItem(key, 'closed');
+        UTIL.logger(dialogname + ':  beforeunload(): key: ' + key + '; auf closed gesetzt');
+      }
+    }
+
+    return "Wollen Sie tatsächlich den Dialog schließen?";
+  });
 
   //Eventlistener: Eintrag in localstorage
   function onStorageEvent(storageEvent) {
@@ -34,6 +68,7 @@ $(document).ready(function () {
       + '; eintrag: ' + eintrag);
 
     //eintrag für key: bsueb; oldvalue: *; newvalue: closed; eintrag: closed
+    // eintrag für key: bsueb; oldvalue: closed; newvalue: null; eintrag: null
     if (newvalue === 'closed')
     {
       //localStorage Eintrag wurde im Dialog auf closed gesetzt
@@ -65,7 +100,6 @@ $(document).ready(function () {
       localStorage.setItem(aktdialog, 'focus');
       UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
         + aktdialog + ' auf focus gesetzt');
-
     }
   }
   window.addEventListener('storage', onStorageEvent, false);
@@ -102,30 +136,6 @@ $(document).ready(function () {
     }
   }
   devicedaten();
-
-  //Window close Event
-  $(window).on("beforeunload", function (e) {
-    e.preventDefault();
-
-    //Startzeit löschen
-    localStorage.removeItem("starttime");
-    UTIL.logger(dialogname + ':  beforeunload(): starttime in storage gelöscht'
-      + '; localStorage.length: ' + localStorage.length);
-
-    //Noch vorhanden Dialogeinträge löschen
-    for (let i = 0; i < localStorage.length; i++) {
-      let key = localStorage.key(i);
-      let value = localStorage.getItem(key);
-      //localStorage: key: bsueb; value: focus
-      if ((value === 'focus') || (value === 'focus')) {
-        localStorage.removeItem(key);
-        UTIL.logger(dialogname + ':  beforeunload(): localStorage: key: ' + key
-          + '; value: ' + value + ' in storage gelöscht');
-      }
-    }
-
-    return "Wollen Sie tatsächlich den Dialog schließen?";
-  });
 
   //Function: hole Browsertyp (Edge, Chrome, Firefox,   )
   getbrowser = function getBrowser() {

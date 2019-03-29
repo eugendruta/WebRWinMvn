@@ -2,8 +2,6 @@ $(document).ready(function () {
   dialogname = 'bsueb';
   UTIL.logger(dialogname + ': ready(): Start');
 
-  //Include navigator webrw.html
-  //$('#navigator').load('../webrw/webrw.html');
   //Navigator
   var data = [
     {
@@ -119,6 +117,89 @@ $(document).ready(function () {
       ]
     }
   ];
+
+  //Window close Event
+  var closed = false;
+  $(window).on("beforeunload", function () {
+    if (!closed) {
+      localStorage.setItem(dialogname, 'closed');
+      //Size speichern
+      localStorage.setItem(dialogname + ".width", $(window).width());
+      localStorage.setItem(dialogname + ".height", $(window).height());
+      UTIL.logger(dialogname + ': beforeunload(): Dialog: ' + dialogname
+        + ': ' + localStorage.getItem(dialogname));
+    }
+    /* !!!TEST
+     for (let i = 0; i < localStorage.length; i++) {
+     let key = localStorage.key(i);
+     let value = localStorage.getItem(key);
+     UTIL.logger(dialogname + ': beforeunload(): localStorage: key: ' + key
+     + '; value: ' + value);
+     }
+     */ //!!!TEST
+
+    return "Wollen Sie tatsächlich den Dialog schließen?";
+  });
+
+  //Eventlistener: Eintrag in localstorage
+  function onStorageEvent(storageEvent) {
+    /* StorageEvent {
+     key; name of the property set, changed etc.; oldValue; old value of property before change
+     newValue; new value of property after change;  url; url of page that made the change
+     storageArea; localStorage or sessionStorage,
+     }     
+     */
+    var key = storageEvent.key;
+    var newvalue = storageEvent.newValue;
+    var oldvalue = storageEvent.oldValue;
+    var url = storageEvent.url;
+    var eintrag = localStorage.getItem(key);
+    UTIL.logger(dialogname + ": onStorageEvent(): eintrag für key: "
+      + key + '; oldvalue: ' + oldvalue + '; newvalue: ' + newvalue
+      + '; eintrag: ' + eintrag);
+
+    //eintrag für key: bsueb; oldvalue: *; newvalue: closed; eintrag: closed
+
+    /* webrw.html closed
+     * bsueb: onStorageEvent(): eintrag für key: bsueb; oldvalue: focus; newvalue: null; 
+     * eintrag: null
+     */
+    closed = false;
+    if (newvalue === 'closed') 
+    {
+      //localStorage Eintrag wurde im Dialog auf closed gesetzt
+      closed = true;
+      localStorage.removeItem(key);
+      window.close();      
+      UTIL.logger(dialogname + ": onStorageEvent(): Dialog: " + key + ' gelöscht und closed');      
+    } else if (newvalue === 'folge')
+    {
+      //Folgedialog starten
+      aktdialog = key;
+      UTIL.logger(dialogname + ": onStorageEvent(): folgedialog: " + key);
+      var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+      var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+      //var winProps = 'height=300,width=400,resizable=no,'
+      //  + 'status=no,toolbar=no,location=no,menubar=no,' + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
+      var _width = localStorage.getItem(aktdialog + ".width");
+      _width = _width - _width / 120;
+      var _height = localStorage.getItem(aktdialog + ".height");
+      _height = _height - _height / 120;
+      UTIL.logger(dialogname + ': onStorageEvent(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
+      if (_width && _height) {
+        var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
+      } else {
+        var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
+      }
+
+      var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
+      UTIL.logger(dialogname + ': onStorageEvent: dialog: ' + newWin.name + ' gestartet');
+
+      localStorage.setItem(aktdialog, 'focus');
+      UTIL.logger(dialogname + ': onStorageEvent: aktdialog: ' + aktdialog + ' auf focus gesetzt');
+    }
+  }
+  window.addEventListener('storage', onStorageEvent, false);
 
   //Navigator
   $('#navigator').tree({
@@ -351,28 +432,6 @@ $(document).ready(function () {
       UTIL.logger(dialogname + ': onclick() Dialog: ' + dialogname
         + ' im localStorage eingetragen');
     }
-  });
-
-  //Window close Event
-  $(window).on("beforeunload", function () {
-    localStorage.setItem(dialogname, 'closed');
-
-    //Size speichern
-    localStorage.setItem(dialogname + ".width", $(window).width());
-    localStorage.setItem(dialogname + ".height", $(window).height());
-    UTIL.logger(dialogname + ': beforeunload(): Dialog: ' + dialogname
-      + ' closed eingetragen; width: ' + localStorage.getItem(dialogname + ".width")
-      + ': height: ' + localStorage.getItem(dialogname + ".height"));
-    /* !!!TEST
-     for (let i = 0; i < localStorage.length; i++) {
-     let key = localStorage.key(i);
-     let value = localStorage.getItem(key);
-     UTIL.logger(dialogname + ': beforeunload(): localStorage: key: ' + key
-     + '; value: ' + value);
-     }
-     */ //!!!TEST
-
-    return "Wollen Sie tatsächlich den Dialog schließen?";
   });
 
   //Customisationdialog
