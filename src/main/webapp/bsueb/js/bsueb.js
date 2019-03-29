@@ -333,12 +333,12 @@ $(document).ready(function () {
       //Navigator minify
       let val = e.target.value;
       UTIL.logger(dialogname + ': window.click(): Button value: ' + val);
-      if (val === '<<') {
+      if (val === '<') {
         $('#navigator').hide();
-        $('#navmini').val('>>');
-      } else if (val === '>>') {
+        $('#navmini').val('>');
+      } else if (val === '>') {
         $('#navigator').show();
-        $('#navmini').val('<<');
+        $('#navmini').val('<');
       } else {
         alert('Navigatoreintrag falsch');
       }
@@ -386,7 +386,7 @@ $(document).ready(function () {
   });
 
   //TAB: Übersicht, Detail
-  $("#tabs").tabs();
+  //$("#tabs").tabs();
 
   //Init. Listbox
   function initLb(lbname) {
@@ -851,24 +851,5 @@ $(document).ready(function () {
         //}
       });
     }
-  };
-
-  //tabelle aktualisieren
-  navmini = function navmini() {
-    UTIL.logger(dialogname + ': navmini()');
-    $('#navigator').val('ab');
-    /*
-     if (node === '<<') {
-     UTIL.logger(dialogname + ': navigator.click(): node: ' + node + ' minify');
-     $('#navigator').hide();
-     $('#navigator').html('>>');
-     } else if (node === '>>') {
-     UTIL.logger(dialogname + ': navigator.click(): node: ' + node + ' maximize');
-     $('#navigator').show();
-     $('#navigator').html('<<');        
-     } else {
-     alert('Navigatoreintrag falsch');
-     } 
-     */
   };
 }); // end ready
