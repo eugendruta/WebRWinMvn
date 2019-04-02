@@ -263,7 +263,11 @@ $(document).ready(function () {
   var ctrl;
 
   UTIL.logger(dialogname + ': ready(): localStorage.length: ' + localStorage.length);
-
+  for (let i = 0; i < localStorage.length; i++) {
+    let key = localStorage.key(i);
+    let value = localStorage.getItem(key);
+    UTIL.logger(dialogname + ': ready(): localStorage: key: ' + key + '; value: ' + value);
+  }
   var browser = localStorage.getItem("browser");
 
   //Navigator aktiv ??

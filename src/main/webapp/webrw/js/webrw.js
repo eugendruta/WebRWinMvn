@@ -390,9 +390,40 @@ $(document).ready(function () {
 
     $("#navigatortbl").show();
     $("#aktivewindows").show();
-
     $("#login").hide();
 
+    //Default Startdialog starten
+    var defdialog = config.startdialog;
+    if (defdialog) {
+      var eingetragen = localStorage.getItem(defdialog);
+      UTIL.logger(dialogname + ': login(): defaultstart: dialog: ' + defdialog
+        + ' localStorage eintrag: ' + eingetragen);
+      if (!eingetragen) {
+        var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+        var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+        //var winProps = 'height=300,width=400,resizable=no,'
+        //  + 'status=no,toolbar=no,location=no,menubar=no,' + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
+        var _width = localStorage.getItem(defdialog + ".width");
+        _width = _width - _width / 120;
+        var _height = localStorage.getItem(defdialog + ".height");
+        _height = _height - _height / 120;
+        UTIL.logger(dialogname + ': login(): defaultstart: ' + defdialog + ';_width: ' + _width + '; _height: ' + _height);
+        if (_width && _height) {
+          var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
+        } else {
+          var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
+        }
+
+        localStorage.setItem(defdialog, 'focus');
+        UTIL.logger(dialogname + ': login(): defaultstart:  defdialog: '
+          + defdialog + ' auf focus gesetzt');
+
+        var newWin = window.open("../" + defdialog + "/" + defdialog + ".html", "_blank");
+        UTIL.logger(dialogname + ': login(): defaultstart: ' + newWin.name + ' gestartet');
+      }
+    }
+
+    /*
     //tree_json: [{"name":"Administration", "is_open":true, "children":[{"name":"ADUEB: Administration-Übersicht"},
     var tree_json = $('#navigator').tree('toJson');
     var tree = JSON.parse(tree_json);
@@ -403,7 +434,8 @@ $(document).ready(function () {
     var state = $('#navigator').tree('getState');
     //$('#navigator').tree('setState', state);
     UTIL.logger(dialogname + '; login(): state.open_nodes.length: ' + state.open_nodes.length
-      + '; state.selected_node.length: ' + state.selected_node.length);
+      + '; state.selected_node.length: ' + state.selected_node.length);F     
+     */
   };
 
   //Devicedaten speichern
@@ -418,5 +450,6 @@ $(document).ready(function () {
     $('#pcname').prop('disabled', true);
     $('#devspeichernbtn').hide();
   };
+
 }); // end ready
 
