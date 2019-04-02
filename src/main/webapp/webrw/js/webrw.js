@@ -1,6 +1,6 @@
 $(document).ready(function () {
   dialogname = 'webrw';
-  UTIL.logger(dialogname + ': ready(): Start');
+  UTIL.logger(dialogname + ': ready(): Start; startdialog: ' + config.startdialog);
 
   //localStorage available ??
   if (typeof (Storage) !== "undefined") {
@@ -319,32 +319,31 @@ $(document).ready(function () {
     var eingetragen = localStorage.getItem(aktdialog);
     UTIL.logger(dialogname + ': navigator.click(): dialog: ' + aktdialog
       + ' localStorage eintrag: ' + eingetragen);
-    var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
-    var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
-    //var winProps = 'height=300,width=400,resizable=no,'
-    //  + 'status=no,toolbar=no,location=no,menubar=no,' + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
-    var _width = localStorage.getItem(aktdialog + ".width");
-    _width = _width - _width / 120;
-    var _height = localStorage.getItem(aktdialog + ".height");
-    _height = _height - _height / 120;
-    UTIL.logger(dialogname + ': navigator.click(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
-    if (_width && _height) {
-      var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
-    } else {
-      var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
+    if (!eingetragen) {
+      var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+      var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+      //var winProps = 'height=300,width=400,resizable=no,'
+      //  + 'status=no,toolbar=no,location=no,menubar=no,' + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
+      var _width = localStorage.getItem(aktdialog + ".width");
+      _width = _width - _width / 120;
+      var _height = localStorage.getItem(aktdialog + ".height");
+      _height = _height - _height / 120;
+      UTIL.logger(dialogname + ': navigator.click(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
+      if (_width && _height) {
+        var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
+      } else {
+        var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
+      }
+
+      var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
+      UTIL.logger(dialogname + ': navigator.click(): dialog: ' + newWin.name + ' gestartet');
+
+      localStorage.setItem(aktdialog, 'focus');
+      UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
+        + aktdialog + ' auf focus gesetzt');
+
+      $('#navigator').tree('closeNode', event.node);
     }
-
-    var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
-    UTIL.logger(dialogname + ': navigator.click(): dialog: ' + newWin.name + ' gestartet');
-
-    localStorage.setItem(aktdialog, 'focus');
-    UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
-      + aktdialog + ' auf focus gesetzt');
-
-    var selectednode = $('#navigator').tree('getSelectedNode');
-    UTIL.logger(dialogname + '; tree.click(): selectednode: ' + selectednode);
-
-    $('#navigator').tree('closeNode', event.node);
   });
 
   //Start: Navigator und Liste aktiver Dialoge nicht anzeigen

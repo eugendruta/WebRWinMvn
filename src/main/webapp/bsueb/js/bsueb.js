@@ -1,5 +1,6 @@
 $(document).ready(function () {
   dialogname = 'bsueb';
+  var _eingetragen = false;
   UTIL.logger(dialogname + ': ready(): Start');
 
   //Navigator
@@ -123,6 +124,7 @@ $(document).ready(function () {
   $(window).on("beforeunload", function () {
     if (!closed) {
       localStorage.setItem(dialogname, 'closed');
+      _eingetragen = false;
       //Size speichern
       localStorage.setItem(dialogname + ".width", $(window).width());
       localStorage.setItem(dialogname + ".height", $(window).height());
@@ -165,13 +167,13 @@ $(document).ready(function () {
      * eintrag: null
      */
     closed = false;
-    if (newvalue === 'closed') 
+    if (newvalue === 'closed')
     {
       //localStorage Eintrag wurde im Dialog auf closed gesetzt
       closed = true;
       localStorage.removeItem(key);
-      window.close();      
-      UTIL.logger(dialogname + ": onStorageEvent(): Dialog: " + key + ' gelöscht und closed');      
+      window.close();
+      UTIL.logger(dialogname + ": onStorageEvent(): Dialog: " + key + ' gelöscht und closed');
     } else if (newvalue === 'folge')
     {
       //Folgedialog starten
@@ -226,27 +228,30 @@ $(document).ready(function () {
     var eingetragen = localStorage.getItem(aktdialog);
     UTIL.logger(dialogname + ': navigator.click(): dialog: ' + aktdialog
       + ' localStorage eintrag: ' + eingetragen);
-    var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
-    var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
-    //var winProps = 'height=300,width=400,resizable=no,'
-    //  + 'status=no,toolbar=no,location=no,menubar=no,' + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
-    var _width = localStorage.getItem(aktdialog + ".width");
-    _width = _width - _width / 120;
-    var _height = localStorage.getItem(aktdialog + ".height");
-    _height = _height - _height / 120;
-    UTIL.logger(dialogname + ': navigator.click(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
-    if (_width && _height) {
-      var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
-    } else {
-      var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
+    if (!eingetragen) {
+      var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+      var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+      //var winProps = 'height=300,width=400,resizable=no,'
+      //  + 'status=no,toolbar=no,location=no,menubar=no,' + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
+      var _width = localStorage.getItem(aktdialog + ".width");
+      _width = _width - _width / 120;
+      var _height = localStorage.getItem(aktdialog + ".height");
+      _height = _height - _height / 120;
+      UTIL.logger(dialogname + ': navigator.click(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
+      if (_width && _height) {
+        var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
+      } else {
+        var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
+      }
+
+      var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
+      UTIL.logger(dialogname + ': navigator.click(): dialog: ' + newWin.name + ' gestartet');
+
+      localStorage.setItem(aktdialog, 'focus');
+      _eingetragen = true;
+      UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
+        + aktdialog + ' auf focus gesetzt');
     }
-
-    var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
-    UTIL.logger(dialogname + ': navigator.click(): dialog: ' + newWin.name + ' gestartet');
-
-    localStorage.setItem(aktdialog, 'focus');
-    UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
-      + aktdialog + ' auf focus gesetzt');
   });
 
   //Start: Navigator und Liste aktiver Dialoge nicht anzeigen
