@@ -3,122 +3,6 @@ $(document).ready(function () {
   var _eingetragen = false;
   UTIL.logger(dialogname + ': ready(): Start');
 
-  //Navigator
-  var data = [
-    {
-      label: 'Administration',
-      children: [
-        {label: 'ADUEB: Administration-Übersicht'},
-        {label: 'AUUEB: Auftragsübersicht'}
-      ]
-    }, {
-      label: 'Stammdaten',
-      children: [
-        {label: 'WA 1',
-          children: [
-            {label: 'WAUE1: WA1-Übersicht'},
-            {label: 'POUEB: Positions-Übersicht'}
-          ]
-        },
-        {label: 'WA 2'}
-      ]
-    }, {
-      label: 'Lagerverwaltung',
-      children: [
-        {label: 'WA 1',
-          children: [
-            {label: 'WAUE1: WA1-Übersicht'},
-            {label: 'POUEB: Positions-Übersicht'}
-          ]
-        },
-        {label: 'WA 2'}
-      ]
-    }, {
-      label: 'Geräteverwaltung',
-      children: [
-        {label: 'WA 1',
-          children: [
-            {label: 'WAUE1: WA1-Übersicht'},
-            {label: 'POUEB: Positions-Übersicht'}
-          ]
-        },
-        {label: 'WA 2'}
-      ]
-    }, {
-      label: 'Bestandsverwaltung',
-      children: [
-        {label: 'BSUEB: Bestands-Übersicht'},
-        {label: 'AVUEB: Auftragsübersicht'}
-      ]
-    }, {
-      label: 'Wareneingang',
-      children: [
-        {label: 'WA 1',
-          children: [
-            {label: 'WAUE1: WA1-Übersicht'},
-            {label: 'POUEB: Positions-Übersicht'}
-          ]
-        },
-        {label: 'WA 2'}
-      ]
-    }, {
-      label: 'Auftragsabwicklung',
-      children: [
-        {label: 'WA 1',
-          children: [
-            {label: 'WAUE1: WA1-Übersicht'},
-            {label: 'POUEB: Positions-Übersicht'}
-          ]
-        },
-        {label: 'WA 2'}
-      ]
-    }, {
-      label: 'Transportverwaltung',
-      children: [
-        {label: 'WA 1',
-          children: [
-            {label: 'WAUE1: WA1-Übersicht'},
-            {label: 'POUEB: Positions-Übersicht'}
-          ]
-        },
-        {label: 'WA 2'}
-      ]
-    }, {
-      label: 'Kommissionierung',
-      children: [
-        {label: 'WA 1',
-          children: [
-            {label: 'WAUE1: WA1-Übersicht'},
-            {label: 'POUEB: Positions-Übersicht'}
-          ]
-        },
-        {label: 'WA 2'}
-      ]
-    }, {
-      label: 'Warenausgang',
-      children: [
-        {label: 'WA 1',
-          children: [
-            {label: 'WAUE1: WA1-Übersicht'},
-            {label: 'POUEB: Positions-Übersicht'}
-          ]
-        },
-        {label: 'WA 2'}
-      ]
-    }, {
-      label: 'Leitstand',
-      children: [
-        {label: 'WA 1',
-          children: [
-            {label: 'WAUE1: WA1-Übersicht'},
-            {label: 'POUEB: Positions-Übersicht'}
-          ]
-        },
-        {label: 'WA 2'}
-      ]
-    }
-  ];
-
   //Window close Event
   var closed = false;
   $(window).on("beforeunload", function () {
@@ -167,92 +51,49 @@ $(document).ready(function () {
      * eintrag: null
      */
     closed = false;
-    if (newvalue === 'closed')
-    {
-      //localStorage Eintrag wurde im Dialog auf closed gesetzt
-      closed = true;
-      localStorage.removeItem(key);
-      window.close();
-      UTIL.logger(dialogname + ": onStorageEvent(): Dialog: " + key + ' gelöscht und closed');
-    } else if (newvalue === 'folge')
-    {
-      //Folgedialog starten
-      aktdialog = key;
-      UTIL.logger(dialogname + ": onStorageEvent(): folgedialog: " + key);
-      var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
-      var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
-      //var winProps = 'height=300,width=400,resizable=no,'
-      //  + 'status=no,toolbar=no,location=no,menubar=no,' + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
-      var _width = localStorage.getItem(aktdialog + ".width");
-      _width = _width - _width / 120;
-      var _height = localStorage.getItem(aktdialog + ".height");
-      _height = _height - _height / 120;
-      UTIL.logger(dialogname + ': onStorageEvent(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
-      if (_width && _height) {
-        var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
-      } else {
-        var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
+    if (dialogname === key) {
+      if (newvalue === 'closed')
+      {
+        //localStorage Eintrag wurde im Dialog auf closed gesetzt
+        closed = true;
+        localStorage.removeItem(key);
+        window.close();
+        UTIL.logger(dialogname + ": onStorageEvent(): Dialog: " + key + ' gelöscht und closed');
+      } else if (newvalue === 'folge')
+      {
+        //Folgedialog starten
+        aktdialog = key;
+        UTIL.logger(dialogname + ": onStorageEvent(): folgedialog: " + key);
+        var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+        var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+        //var winProps = 'height=300,width=400,resizable=no,'
+        //  + 'status=no,toolbar=no,location=no,menubar=no,' + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
+        var _width = localStorage.getItem(aktdialog + ".width");
+        _width = _width - _width / 120;
+        var _height = localStorage.getItem(aktdialog + ".height");
+        _height = _height - _height / 120;
+        UTIL.logger(dialogname + ': onStorageEvent(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
+        if (_width && _height) {
+          var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
+        } else {
+          var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
+        }
+
+        var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
+        UTIL.logger(dialogname + ': onStorageEvent: dialog: ' + newWin.name + ' gestartet');
+
+        localStorage.setItem(aktdialog, 'focus');
+        UTIL.logger(dialogname + ': onStorageEvent: aktdialog: ' + aktdialog + ' auf focus gesetzt');
       }
-
-      var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
-      UTIL.logger(dialogname + ': onStorageEvent: dialog: ' + newWin.name + ' gestartet');
-
-      localStorage.setItem(aktdialog, 'focus');
-      UTIL.logger(dialogname + ': onStorageEvent: aktdialog: ' + aktdialog + ' auf focus gesetzt');
     }
   }
   window.addEventListener('storage', onStorageEvent, false);
 
   //Navigator
-  $('#navigator').tree({
-    data: data,
-    selectable: true,
-    autoOpen: false,
-    closedIcon: $('<i class="fas fa-folder" style="color: lightblue"></i>'),
-    openedIcon: $('<i class="fas fa-folder-open" style="color: lightblue"></i>')
-  });
+  navinit();
 
   //'Navigator click event
-  $('#navigator').bind('tree.click', function (event) {
-    var node = event.node.name; // node === "BSUEB: Bestands-Übersicht"
-    UTIL.logger(dialogname + ': navigator.click(): node: ' + node); // # 2
-    var pos = node.toString().indexOf(":");
-    var aktdialog;
-    if (pos !== -1) {
-      aktdialog = node.toString().toLowerCase().substring(0, pos);
-    } else {
-      alert('Navigatoreintrag falsch');
-      return;
-    }
-
-    var eingetragen = localStorage.getItem(aktdialog);
-    UTIL.logger(dialogname + ': navigator.click(): dialog: ' + aktdialog
-      + ' localStorage eintrag: ' + eingetragen);
-    if (!eingetragen) {
-      var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
-      var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
-      //var winProps = 'height=300,width=400,resizable=no,'
-      //  + 'status=no,toolbar=no,location=no,menubar=no,' + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
-      var _width = localStorage.getItem(aktdialog + ".width");
-      _width = _width - _width / 120;
-      var _height = localStorage.getItem(aktdialog + ".height");
-      _height = _height - _height / 120;
-      UTIL.logger(dialogname + ': navigator.click(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
-      if (_width && _height) {
-        var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
-      } else {
-        var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
-      }
-
-      var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
-      UTIL.logger(dialogname + ': navigator.click(): dialog: ' + newWin.name + ' gestartet');
-
-      localStorage.setItem(aktdialog, 'focus');
-      _eingetragen = true;
-      UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
-        + aktdialog + ' auf focus gesetzt');
-    }
-  });
+  naviclick(dialogname);
 
   //Start: Navigator und Liste aktiver Dialoge nicht anzeigen
   $("#navigatortbl").hide();
@@ -417,8 +258,7 @@ $(document).ready(function () {
   //Window click event  
   $(window).on("click", function (e) {
     //e.preventDefault();
-    UTIL.logger(dialogname + ': onclick() event.target: ' + e.target.id
-      + '; value: ' + e.target.value);
+    //UTIL.logger(dialogname + ': onclick() event.target: ' + e.target.id + '; value: ' + e.target.value);
     if (e.target.id === 'navmini') {
       //Navigator minify
       let val = e.target.value;
@@ -452,9 +292,6 @@ $(document).ready(function () {
     'modal': true,
     'closeText': ""
   });
-
-  //TAB: Übersicht, Detail
-  //$("#tabs").tabs();
 
   //Init. Listbox
   function initLb(lbname) {

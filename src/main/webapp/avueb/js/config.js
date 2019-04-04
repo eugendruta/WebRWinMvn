@@ -1,10 +1,12 @@
 //Initialisierung Dialoge
 var aktdialog;
+var table1;
+var url;
 var config = {
   "default":
     {"showonstart": false,
       "data": {
-        "inputfelder": [                    
+        "inputfelder": [
           {"name": "lenr", "visible": "true", "dbcolumn": "le", "eingabe": ""},
           {"name": "lotyplb", "visible": "true", "eingabe": ""},
           {"name": "ezolb", "visible": "true", "eingabe": ""},
@@ -64,7 +66,7 @@ var config = {
             "constkey": "LE.Sperre", "dbcolumn": "INTERNESPERRE"}
         ],
         "table1": {
-          "name": "table_bsueb",
+          "name": "table_avueb",
           "view": "v_dlg_bsueb",
           "servlet": "../Auftueb?",
           "anzcolumns": "57",
@@ -130,6 +132,24 @@ var config = {
           ]
         }
       }
+    },
+  "obj":
+    {"width": 700,
+      "height": 400,
+      "colModel": [
+        {"title": "MD", "width": 100, dataType: "string",
+          "colModel": [
+            {"title": "Company A"},
+            {"title": "Company B"}
+          ]},
+        {"title": "HC", "width": 100, dataType: "string"},
+        {"title": "Teilenummer", "width": 100, dataType: "string"},
+        {"title": "H-Teilenummer", "width": 150, dataType: "string", "hidden": false},
+        {"title": "H-Bezeichnung", "width": 150, "dataType": "string"}
+      ],
+      "dataModel": {"location": "remote", "url": url},
+      "filterModel": {"on": false, "header": true},
+      "selectionModel": {"type": "row", "fireSelectChange": ""}
     },
   "variante1":
     {"showonstart": true,

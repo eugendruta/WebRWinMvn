@@ -1,21 +1,72 @@
 $(document).ready(function () {
-  dialogname = 'bsueb';
+  dialogname = 'avueb';
   UTIL.logger(dialogname + ': ready(): Start');
+  UTIL.logger(dialogname + ': ready(): config.obj.width: ' + config.obj.width);
+
 
   var table; // AJAX Tabelle
   var key;
   var ctrl;
-
   UTIL.logger(dialogname + ': ready(): localStorage.length: ' + localStorage.length);
 
   var browser = localStorage.getItem("browser");
-
   //Navigator aktiv ??
   var starttime = localStorage.getItem("starttime");
   if (starttime === null) {
     alert('Navigator nicht aktiv !!  Bitte diesen Browser schließen und  Navigator starten');
     window.close(); //Funzt nur für Edge
   }
+
+  //Navigator
+  $('#navigator').tree({
+    data: data,
+    selectable: true,
+    autoOpen: false,
+    closedIcon: $('<i class="fas fa-folder" style="color: lightblue"></i>'),
+    openedIcon: $('<i class="fas fa-folder-open" style="color: lightblue"></i>')
+  });
+
+  //'Navigator click event
+  $('#navigator').bind('tree.click', function (event) {
+    var node = event.node.name; // node === "BSUEB: Bestands-Übersicht"
+    UTIL.logger(dialogname + ': navigator.click(): node: ' + node); // # 2
+    var pos = node.toString().indexOf(":");
+    var aktdialog;
+    if (pos !== -1) {
+      aktdialog = node.toString().toLowerCase().substring(0, pos);
+    } else {
+      alert('Navigatoreintrag falsch');
+      return;
+    }
+
+    var eingetragen = localStorage.getItem(aktdialog);
+    UTIL.logger(dialogname + ': navigator.click(): dialog: ' + aktdialog
+      + ' localStorage eintrag: ' + eingetragen);
+    if (!eingetragen) {
+      var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+      var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+      //var winProps = 'height=300,width=400,resizable=no,'
+      //  + 'status=no,toolbar=no,location=no,menubar=no,' + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
+      var _width = localStorage.getItem(aktdialog + ".width");
+      _width = _width - _width / 120;
+      var _height = localStorage.getItem(aktdialog + ".height");
+      _height = _height - _height / 120;
+      UTIL.logger(dialogname + ': navigator.click(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
+      if (_width && _height) {
+        var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
+      } else {
+        var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
+      }
+
+      var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
+      UTIL.logger(dialogname + ': navigator.click(): dialog: ' + newWin.name + ' gestartet');
+
+      localStorage.setItem(aktdialog, 'focus');
+      _eingetragen = true;
+      UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
+        + aktdialog + ' auf focus gesetzt');
+    }
+  });
 
   //Hole gespeichetes Customising aus localStorage
   customize = function customize(param) {
@@ -40,7 +91,6 @@ $(document).ready(function () {
           }
           $("#" + name + "lbl").css('display', _display);
           $("#" + name).css('display', _display);
-
           //Setze Eingaben
           if (eingabe) {
             $("#" + name).val(eingabe);
@@ -157,6 +207,22 @@ $(document).ready(function () {
   //Window click event  
   $(window).on("click", function (e) {
     //e.preventDefault();
+
+    if (e.target.id === 'navmini') {
+      //Navigator minify
+      let val = e.target.value;
+      UTIL.logger(dialogname + ': window.click(): Button value: ' + val);
+      if (val === '<') {
+        $('#navigator').hide();
+        $('#navmini').val('>');
+      } else if (val === '>') {
+        $('#navigator').show();
+        $('#navmini').val('<');
+      } else {
+        alert('Navigatoreintrag falsch');
+      }
+    }
+
     var status = localStorage.getItem(dialogname);
     if (status === null) {
       //Dialog noch nicht in localstorage eingetragen: eintragen.
@@ -169,7 +235,6 @@ $(document).ready(function () {
   //Window close Event
   $(window).on("beforeunload", function () {
     localStorage.setItem(dialogname, 'closed');
-
     //Size speichern
     localStorage.setItem(dialogname + ".width", $(window).width());
     localStorage.setItem(dialogname + ".height", $(window).height());
@@ -187,6 +252,68 @@ $(document).ready(function () {
 
     return "Wollen Sie tatsächlich den Dialog schließen?";
   });
+
+  //Eventlistener: Eintrag in localstorage
+  function onStorageEvent(storageEvent) {
+    /* StorageEvent {
+     key; name of the property set, changed etc.; oldValue; old value of property before change
+     newValue; new value of property after change;  url; url of page that made the change
+     storageArea; localStorage or sessionStorage,
+     }     
+     */
+    var key = storageEvent.key;
+    var newvalue = storageEvent.newValue;
+    var oldvalue = storageEvent.oldValue;
+    var url = storageEvent.url;
+    var eintrag = localStorage.getItem(key);
+    UTIL.logger(dialogname + ": onStorageEvent(): eintrag für key: "
+      + key + '; oldvalue: ' + oldvalue + '; newvalue: ' + newvalue
+      + '; eintrag: ' + eintrag);
+
+    //eintrag für key: bsueb; oldvalue: *; newvalue: closed; eintrag: closed
+
+    /* webrw.html closed
+     * bsueb: onStorageEvent(): eintrag für key: bsueb; oldvalue: focus; newvalue: null; 
+     * eintrag: null
+     */
+    closed = false;
+    if (dialogname === key) {
+      if (newvalue === 'closed')
+      {
+        //localStorage Eintrag wurde im Dialog auf closed gesetzt
+        closed = true;
+        localStorage.removeItem(key);
+        window.close();
+        UTIL.logger(dialogname + ": onStorageEvent(): Dialog: " + key + ' gelöscht und closed');
+      } else if (newvalue === 'folge')
+      {
+        //Folgedialog starten
+        aktdialog = key;
+        UTIL.logger(dialogname + ": onStorageEvent(): folgedialog: " + key);
+        var left = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+        var top = 100 + (Math.floor((Math.random() * 100) + 1) * 5);
+        //var winProps = 'height=300,width=400,resizable=no,'
+        //  + 'status=no,toolbar=no,location=no,menubar=no,' + 'titlebar=no,scrollbars=no,' + 'left=' + left + ',top=' + top;
+        var _width = localStorage.getItem(aktdialog + ".width");
+        _width = _width - _width / 120;
+        var _height = localStorage.getItem(aktdialog + ".height");
+        _height = _height - _height / 120;
+        UTIL.logger(dialogname + ': onStorageEvent(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
+        if (_width && _height) {
+          var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
+        } else {
+          var winProps = 'height=500,width=600,left=' + left + ',top=' + top;
+        }
+
+        var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
+        UTIL.logger(dialogname + ': onStorageEvent: dialog: ' + newWin.name + ' gestartet');
+
+        localStorage.setItem(aktdialog, 'focus');
+        UTIL.logger(dialogname + ': onStorageEvent: aktdialog: ' + aktdialog + ' auf focus gesetzt');
+      }
+    }
+  }
+  window.addEventListener('storage', onStorageEvent, false);
 
   //Customisationdialog
   $('#custom').dialog({
@@ -342,7 +469,6 @@ $(document).ready(function () {
     var delay = 200;
     UTIL.logger(dialogname + ": showtable(tabelle): " + tabelle + '; anzcolumns: '
       + config.default.data[tabelle].anzcolumns);
-
     //SQL SELECT zusammenbauen
     var sqlstm = "SELECT ";
     for (let i = 0; i < config.default.data[tabelle].anzcolumns; i++) {
@@ -410,164 +536,29 @@ $(document).ready(function () {
     var url = config.default.data[tabelle].servlet + "sqlstm=" + sqlstm;
     var table1 = config.default.data[tabelle].name;
 
-    var url = config.default.data[tabelle].servlet + "sqlstm=" + sqlstm;
-    //UTIL.logger(dialogname + ': table1: ' + table1 + '; showtable(): url: ' + url);
-    var table1 = config.default.data[tabelle].name;
-    if ($.fn.DataTable.isDataTable('#' + table1)) {
-      //if ($.fn.dataTable.fnIsDataTable($('#' + table1))) {
-      UTIL.logger(dialogname + ': showTable(): load');
-      table = $('#' + table1).DataTable();
-      table.ajax.url(url).load();
-      table.pageLength = 7;
-    } else {
-      //Tabelle init.
-      UTIL.logger(dialogname + ': showTable(): init; tabelle: ' + tabelle);
-      //UTIL.logger(dialogname + ': showTable(): init; visible: '
-      //+ ((config.default.data[tabelle].columns[0].visible) == "true" ? true : false));
-      table = $('#' + table1).DataTable({
-        "ajax": url,
-        "autoWidth": false,
-        "pageLength": 5,
-        "keys": true,
-        "select": {style: 'single'},
-        "columnDefs": [
-          {"targets": [0], "visible": (config.default.data[tabelle].columns[0].visible) === "true" ? true : false},
-          {"targets": [1], "visible": (config.default.data[tabelle].columns[1].visible) === "true" ? true : false},
-          {"targets": [2], "visible": (config.default.data[tabelle].columns[2].visible) === "true" ? true : false},
-          {"targets": [3], "visible": (config.default.data[tabelle].columns[3].visible) === "true" ? true : false},
-          {"targets": [4], "visible": (config.default.data[tabelle].columns[4].visible) === "true" ? true : false},
-          {"targets": [5], "visible": (config.default.data[tabelle].columns[5].visible) === "true" ? true : false},
-          {"targets": [6], "visible": (config.default.data[tabelle].columns[6].visible) === "true" ? true : false},
-          {"targets": [7], "visible": (config.default.data[tabelle].columns[7].visible) === "true" ? true : false},
-          {"targets": [8], "readonly": false,
-            "visible": (config.default.data[tabelle].columns[8].visible) === "true" ? true : false,
-            render: function (data, type, row) {
-              if (data === '0') {
-                return '<label class="checkbox-inactive"> <input type="checkbox" disabled="true"></label>';
-              } else {
-                return '<label class="checkbox-active"> <input type="checkbox" disabled="true" checked></label>';
-              }
-              return data;
-            }
-          },
-          {"targets": [9], "visible": (config.default.data[tabelle].columns[9].visible) === "true" ? true : false},
-          {"targets": [10], "visible": (config.default.data[tabelle].columns[10].visible) === "true" ? true : false},
-          {"targets": [11], "visible": (config.default.data[tabelle].columns[11].visible) === "true" ? true : false},
-          {"targets": [12], "visible": (config.default.data[tabelle].columns[12].visible) === "true" ? true : false},
-          {"targets": [13], "visible": (config.default.data[tabelle].columns[13].visible) === "true" ? true : false},
-          {"targets": [14],
-            "visible": (config.default.data[tabelle].columns[14].visible) === "true" ? true : false,
-            render: function (data, type, row) {
-              if (data === '0') {
-                return '<label class="checkbox-inactive"> <input type="checkbox" disabled="true"></label>';
-              } else {
-                return '<label class="checkbox-active"> <input type="checkbox" disabled="true" checked></label>';
-              }
-              return data;
-            }
-          },
-          {"targets": [15], "visible": (config.default.data[tabelle].columns[15].visible) === "true" ? true : false},
-          {"targets": [16], "visible": (config.default.data[tabelle].columns[16].visible) === "true" ? true : false},
-          {"targets": [17], "visible": (config.default.data[tabelle].columns[17].visible) === "true" ? true : false},
-          {"targets": [18], "visible": (config.default.data[tabelle].columns[18].visible) === "true" ? true : false},
-          {"targets": [19], "visible": (config.default.data[tabelle].columns[19].visible) === "true" ? true : false},
-          {"targets": [20], "visible": (config.default.data[tabelle].columns[20].visible) === "true" ? true : false},
-          {"targets": [21], "visible": (config.default.data[tabelle].columns[21].visible) === "true" ? true : false},
-          {"targets": [22],
-            "visible": (config.default.data[tabelle].columns[22].visible) === "true" ? true : false,
-            render: function (data, type, row) {
-              if (data === '0') {
-                return '<label class="checkbox-inactive"> <input type="checkbox" disabled="true"></label>';
-              } else {
-                return '<label class="checkbox-active"> <input type="checkbox" disabled="true" checked></label>';
-              }
-              return data;
-            }
-          },
-          {"targets": [23],
-            "visible": (config.default.data[tabelle].columns[23].visible) === "true" ? true : false,
-            render: function (data, type, row) {
-              if (data === '0') {
-                return '<label class="checkbox-inactive"> <input type="checkbox" disabled="true"></label>';
-              } else {
-                return '<label class="checkbox-active"> <input type="checkbox" disabled="true" checked></label>';
-              }
-              return data;
-            }
-          },
-          {"targets": [24], "visible": (config.default.data[tabelle].columns[24].visible) === "true" ? true : false},
-          {"targets": [25], "visible": (config.default.data[tabelle].columns[25].visible) === "true" ? true : false},
-          {"targets": [26], "visible": (config.default.data[tabelle].columns[26].visible) === "true" ? true : false},
-          {"targets": [27], "visible": (config.default.data[tabelle].columns[27].visible) === "true" ? true : false},
-          {"targets": [28], "visible": (config.default.data[tabelle].columns[28].visible) === "true" ? true : false},
-          {"targets": [29], "visible": (config.default.data[tabelle].columns[29].visible) === "true" ? true : false},
-          {"targets": [30], "visible": (config.default.data[tabelle].columns[30].visible) === "true" ? true : false},
-          {"targets": [31], "visible": (config.default.data[tabelle].columns[31].visible) === "true" ? true : false},
-          {"targets": [32], "visible": (config.default.data[tabelle].columns[32].visible) === "true" ? true : false},
-          {"targets": [33], "visible": (config.default.data[tabelle].columns[33].visible) === "true" ? true : false},
-          {"targets": [34], "visible": (config.default.data[tabelle].columns[34].visible) === "true" ? true : false},
-          {"targets": [35], "visible": (config.default.data[tabelle].columns[35].visible) === "true" ? true : false},
-          {"targets": [36], "visible": (config.default.data[tabelle].columns[36].visible) === "true" ? true : false},
-          {"targets": [37], "visible": (config.default.data[tabelle].columns[37].visible) === "true" ? true : false},
-          {"targets": [38], "visible": (config.default.data[tabelle].columns[38].visible) === "true" ? true : false},
-          {"targets": [39], "visible": (config.default.data[tabelle].columns[39].visible) === "true" ? true : false},
-          {"targets": [40], "visible": (config.default.data[tabelle].columns[40].visible) === "true" ? true : false},
-          {"targets": [41], "visible": (config.default.data[tabelle].columns[41].visible) === "true" ? true : false},
-          {"targets": [42], "visible": (config.default.data[tabelle].columns[42].visible) === "true" ? true : false},
-          {"targets": [43], "visible": (config.default.data[tabelle].columns[43].visible) === "true" ? true : false},
-          {"targets": [44], "visible": (config.default.data[tabelle].columns[44].visible) === "true" ? true : false},
-          {"targets": [45], "visible": (config.default.data[tabelle].columns[45].visible) === "true" ? true : false},
-          {"targets": [46], "visible": (config.default.data[tabelle].columns[46].visible) === "true" ? true : false},
-          {"targets": [47], "visible": (config.default.data[tabelle].columns[47].visible) === "true" ? true : false},
-          {"targets": [48], "visible": (config.default.data[tabelle].columns[48].visible) === "true" ? true : false},
-          {"targets": [49], "visible": (config.default.data[tabelle].columns[49].visible) === "true" ? true : false},
-          {"targets": [50], "visible": (config.default.data[tabelle].columns[50].visible) === "true" ? true : false},
-          {"targets": [51], "visible": (config.default.data[tabelle].columns[51].visible) === "true" ? true : false},
-          {"targets": [52], "visible": (config.default.data[tabelle].columns[52].visible) === "true" ? true : false},
-          {"targets": [53], "visible": (config.default.data[tabelle].columns[53].visible) === "true" ? true : false},
-          {"targets": [54], "visible": (config.default.data[tabelle].columns[54].visible) === "true" ? true : false},
-          {"targets": [55], "visible": (config.default.data[tabelle].columns[55].visible) === "true" ? true : false},
-        ]
-          /* "scrollX": true,
-           fixedColumns: {
-           leftColumns: 1
-           }
-           */
-      });
-    }
-
-    //Onclick handler auf Tabelle 
-    $('#table_bsueb1 tbody').on('click', 'tr', function () {
-      UTIL.logger(dialogname + ': onclick() auf tablerow: table: ' + '#'
-        + config.default.data['table1'].name + '; row index: ' + table.row(this).index());
-      clicktime = Date.now();
-      if (lastclicktime === 0) {
-        lastclicktime = clicktime;
-      } else if ((clicktime - lastclicktime) <= delay) {
-        //Doubleclick
-        doubleclick = true;
-      } else {
-        //singleclick
-        doubleclick = false;
-      }
-      lastclicktime = clicktime;
-      if ($(this).hasClass('selected')) {
-        if (!doubleclick) {
-          $(this).removeClass('selected');
-          action = 'deselect';
+    config.obj.colModel[3].hidden =
+      config.default.data.table1.columns[2].visible === "true" ? false : true;
+    config.obj.dataModel.location = "local";
+    config.obj.selectionModel.type = "row";
+    config.obj.selectionModel.fireSelectChange = true;
+    config.obj.selectChange = function (evt, ui) {
+      var rows = ui.rows;
+      if (rows && rows.length) {
+        for (var i = 0; i < rows.length; i++) {
+          console.log("rows[i].rowData[5]: " + rows[i].rowData[5]);
         }
-      } else {
-        table.$('tr.selected').removeClass('selected');
-        $(this).addClass('selected');
-        action = 'select';
       }
+    };
 
-      selectedrow = table.row(this).data()[0];
-      UTIL.logger(dialogname + ': onclick() auf tablerow action: ' + action + '; doubleclick:'
-        + doubleclick + '; data: ' + table.row(this).data()[0]);
-      //var mandant = table.row(this).data()[0];
-      var rowdata = table.row(this).data();
-      rowclickaction(action, doubleclick, rowdata);
+    $.getJSON(url, function (data) {
+      //data = [["INTERN", "ASTON MARTIN", "adsf", "adsf", "asd", "7005100", ...], 
+      //  ["INTERN", "ASTON MARTIN", "adsf", "adsf", "asd", "7005099", ...
+      $.getJSON(url, function (data) {
+        //UTIL.logger(dialogname + ': showtable(): data.data[0][0]: ' + data.data[0][0]);
+        config.obj.dataModel.data = data.data;
+        $("#ausgabediv1").pqGrid(config.obj);
+        $("#ausgabediv1").pqGrid("refreshDataAndView");
+      });
     });
   };
 
@@ -581,12 +572,10 @@ $(document).ready(function () {
     }
     localStorage.setItem(aktdialog, 'folge');
   };
-
   //tabelle aktualisieren
   aktualisieren = function aktualisieren() {
     showtable('table1');
   };
-
   //Customising speichern
   speicherncust = function speicherncust(tabelle) {
     let _display = "none";
@@ -609,10 +598,8 @@ $(document).ready(function () {
       $("#" + _id + "lbl").css('display', _display);
       $("#" + _id).css('display', _display);
     });
-
     //In localStorage speichern
     localStorage.setItem(dialogname + ".eingabe", JSON.stringify(config.default.data.inputfelder));
-
     _display = "none";
     //Ausgabefelder(Tabelle)
     $('.custausgabe').each(function (index, value) {
@@ -627,17 +614,13 @@ $(document).ready(function () {
       }
       config.default.data[tabelle].columns[index].visible = _display;
     });
-
     //In localStorage speichern
     localStorage.setItem(dialogname + ".ausgabe", JSON.stringify(config.default.data[tabelle].columns));
-
     $("#custom").css('display', 'none');
     $('#custom').dialog('close');
   };
-
   resetcust = function resetcust(block, param) {
     UTIL.logger(dialogname + ': resetcust(): block: ' + block + '; param: ' + param);
-
     if (block === 'eingabe') {
       //Alle Checkboxen checked
       $('.custinput').each(function (index, value) {
