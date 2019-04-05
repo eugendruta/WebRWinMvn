@@ -2,13 +2,10 @@ $(document).ready(function () {
   dialogname = 'avueb';
   UTIL.logger(dialogname + ': ready(): Start');
   UTIL.logger(dialogname + ': ready(): config.obj.width: ' + config.obj.width);
-
-
   var table; // AJAX Tabelle
   var key;
   var ctrl;
   UTIL.logger(dialogname + ': ready(): localStorage.length: ' + localStorage.length);
-
   var browser = localStorage.getItem("browser");
   //Navigator aktiv ??
   var starttime = localStorage.getItem("starttime");
@@ -17,7 +14,7 @@ $(document).ready(function () {
     window.close(); //Funzt nur für Edge
   }
 
-  //Navigator
+//Navigator
   $('#navigator').tree({
     data: data,
     selectable: true,
@@ -25,7 +22,6 @@ $(document).ready(function () {
     closedIcon: $('<i class="fas fa-folder" style="color: lightblue"></i>'),
     openedIcon: $('<i class="fas fa-folder-open" style="color: lightblue"></i>')
   });
-
   //'Navigator click event
   $('#navigator').bind('tree.click', function (event) {
     var node = event.node.name; // node === "BSUEB: Bestands-Übersicht"
@@ -60,14 +56,12 @@ $(document).ready(function () {
 
       var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
       UTIL.logger(dialogname + ': navigator.click(): dialog: ' + newWin.name + ' gestartet');
-
       localStorage.setItem(aktdialog, 'focus');
       _eingetragen = true;
       UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
         + aktdialog + ' auf focus gesetzt');
     }
   });
-
   //Hole gespeichetes Customising aus localStorage
   customize = function customize(param) {
     if (param === "param") {
@@ -123,7 +117,6 @@ $(document).ready(function () {
     }
   };
   customize("custfelder");
-
   //Key event: F-tasten abfangen
   $(document).bind('keydown', function (e) {
     key = e.which;
@@ -203,13 +196,12 @@ $(document).ready(function () {
 //      return false;
 //    }    
   });
-
   //Window click event  
   $(window).on("click", function (e) {
-    //e.preventDefault();
+//e.preventDefault();
 
     if (e.target.id === 'navmini') {
-      //Navigator minify
+//Navigator minify
       let val = e.target.value;
       UTIL.logger(dialogname + ': window.click(): Button value: ' + val);
       if (val === '<') {
@@ -225,13 +217,12 @@ $(document).ready(function () {
 
     var status = localStorage.getItem(dialogname);
     if (status === null) {
-      //Dialog noch nicht in localstorage eingetragen: eintragen.
+//Dialog noch nicht in localstorage eingetragen: eintragen.
       localStorage.setItem(dialogname, 'focus');
       UTIL.logger(dialogname + ': onclick() Dialog: ' + dialogname
         + ' im localStorage eingetragen');
     }
   });
-
   //Window close Event
   $(window).on("beforeunload", function () {
     localStorage.setItem(dialogname, 'closed');
@@ -252,7 +243,6 @@ $(document).ready(function () {
 
     return "Wollen Sie tatsächlich den Dialog schließen?";
   });
-
   //Eventlistener: Eintrag in localstorage
   function onStorageEvent(storageEvent) {
     /* StorageEvent {
@@ -269,7 +259,6 @@ $(document).ready(function () {
     UTIL.logger(dialogname + ": onStorageEvent(): eintrag für key: "
       + key + '; oldvalue: ' + oldvalue + '; newvalue: ' + newvalue
       + '; eintrag: ' + eintrag);
-
     //eintrag für key: bsueb; oldvalue: *; newvalue: closed; eintrag: closed
 
     /* webrw.html closed
@@ -307,14 +296,12 @@ $(document).ready(function () {
 
         var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
         UTIL.logger(dialogname + ': onStorageEvent: dialog: ' + newWin.name + ' gestartet');
-
         localStorage.setItem(aktdialog, 'focus');
         UTIL.logger(dialogname + ': onStorageEvent: aktdialog: ' + aktdialog + ' auf focus gesetzt');
       }
     }
   }
   window.addEventListener('storage', onStorageEvent, false);
-
   //Customisationdialog
   $('#custom').dialog({
     'title': 'Customize',
@@ -324,10 +311,8 @@ $(document).ready(function () {
     'modal': true,
     'closeText': ""
   });
-
   //TAB: Übersicht, Detail
   $("#tabs").tabs();
-
   //Init. Listbox
   function initLb(lbname) {
     if ($('#' + lbname).val() === null) {
@@ -395,7 +380,6 @@ $(document).ready(function () {
       }
     }
   };
-
   //Listboxen init.
   function initLbs() {
     $("#eingabediv1 select").each(function (lb) {
@@ -407,7 +391,6 @@ $(document).ready(function () {
     });
   }
   initLbs();
-
   //Click auf Tabellenrow (aufgerufen: .on('click', 'tr')
   rowclickaction = function rowClickAction(action, doubleclick, rowdata) {
     UTIL.logger(dialogname + ': rowClickAction(): action: ' + action + '/'
@@ -461,7 +444,6 @@ $(document).ready(function () {
       $('#inventurdatumdet').val(UTIL.datum2String(rowdata[56])); //"ColumnFormat": "dd.MM.yyyy"          
     }
   };
-
   //Tabelle anzeigen
   showtable = function showtable(tabelle) {
     var lastclicktime = 0;
@@ -502,10 +484,8 @@ $(document).ready(function () {
         }
       }
     });
-
     //Sel.kriteingaben in localStorage speichern
     localStorage.setItem(dialogname + ".eingabe", JSON.stringify(config.default.data.inputfelder));
-
     //Klausel für <select> (Listboxen)
     $("#eingabediv1 select").each(function (lb) {
       var lbname = $(this).attr('id');
@@ -535,33 +515,68 @@ $(document).ready(function () {
 
     var url = config.default.data[tabelle].servlet + "sqlstm=" + sqlstm;
     var table1 = config.default.data[tabelle].name;
+    //Spalten visible/huidden
+    //config.obj.colModel[2].hidden = config.default.data.table1.columns[2].visible === "true" ? false : true;
 
-    config.obj.colModel[3].hidden =
-      config.default.data.table1.columns[2].visible === "true" ? false : true;
     config.obj.dataModel.location = "local";
     config.obj.selectionModel.type = "row";
     config.obj.selectionModel.fireSelectChange = true;
+    /*  "obj":
+     {"width": 700,
+     "height": 400,
+     "colModel": [
+     {"title": "Teil", "width": 100, dataType: "string",
+     "colModel": [
+     {"title": "MD"},
+     {"title": "HC"},
+     {"title": "Teilenummer"},
+     {"title": "H-Teilenummer"},
+     {"title": "Bezeichnung"}
+     ]
+     },
+     {"title": "LE", "width": 100, dataType: "string",     
+     */
+    config.obj.colModel[0].colModel[0].width = 75;
+    config.obj.colModel[0].colModel[1].width = 100;
+    UTIL.logger(dialogname + ": showtable(tabelle): config.obj.colModel[0].title: " +
+      config.obj.colModel[0].colModel[0].title);
     config.obj.selectChange = function (evt, ui) {
       var rows = ui.rows;
       if (rows && rows.length) {
         for (var i = 0; i < rows.length; i++) {
-          console.log("rows[i].rowData[5]: " + rows[i].rowData[5]);
+          UTIL.logger(dialogname + "; rows[" + i + "].rowData[5]: " + rows[i].rowData[5]);
+          UTIL.logger(dialogname + "; rows[" + i + "].rowData[8]: " + rows[i].rowData[8]);
         }
       }
     };
-
+    //$.getJSON(url, function (data) {
+    //data = [["INTERN", "ASTON MARTIN", "adsf", "adsf", "asd", "7005100", ...], 
+    //  ["INTERN", "ASTON MARTIN", "adsf", "adsf", "asd", "7005099", ...
     $.getJSON(url, function (data) {
-      //data = [["INTERN", "ASTON MARTIN", "adsf", "adsf", "asd", "7005100", ...], 
-      //  ["INTERN", "ASTON MARTIN", "adsf", "adsf", "asd", "7005099", ...
-      $.getJSON(url, function (data) {
-        //UTIL.logger(dialogname + ': showtable(): data.data[0][0]: ' + data.data[0][0]);
-        config.obj.dataModel.data = data.data;
-        $("#ausgabediv1").pqGrid(config.obj);
-        $("#ausgabediv1").pqGrid("refreshDataAndView");
-      });
-    });
-  };
+      config.obj.dataModel.data = data.data;
+      config.obj.colModel[2].colModel[0].render = function () {
+        for (var i = 0; i < data.data.length; i++) {
+          UTIL.logger(dialogname + ': showtable(): data.data[i][8]: ' + data.data[i][8]);
 
+          if (data.data[i][8] !== '0') {
+            return "<input type='checkbox' checked/>";
+          } else {
+            return "<input type='checkbox'>";
+          }
+        }
+      };
+      $("#ausgabediv1").pqGrid(config.obj);
+      $("#ausgabediv1").pqGrid({
+        beforeCheck: function (event, ui) {
+          UTIL.logger(dialogname + "; beforeCheck(): event: " + event
+            + "; ui.rowData[8]: INV: " + ui.rowData[8]);
+          return false;
+        }
+      });
+      $("#ausgabediv1").pqGrid("refreshDataAndView");
+    });
+    //});
+  };
   //Folgedialog starten
   detail = function detail(aktdialog) {
     //Eintrag localStorage

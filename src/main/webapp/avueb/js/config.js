@@ -137,15 +137,37 @@ var config = {
     {"width": 700,
       "height": 400,
       "colModel": [
-        {"title": "MD", "width": 100, dataType: "string",
+        {"title": "Teil", "width": 100, dataType: "string",
           "colModel": [
-            {"title": "Company A"},
-            {"title": "Company B"}
-          ]},
-        {"title": "HC", "width": 100, dataType: "string"},
-        {"title": "Teilenummer", "width": 100, dataType: "string"},
-        {"title": "H-Teilenummer", "width": 150, dataType: "string", "hidden": false},
-        {"title": "H-Bezeichnung", "width": 150, "dataType": "string"}
+            {"title": "MD"},
+            {"title": "HC"},
+            {"title": "Teilenummer"},
+            {"title": "H-Teilenummer"},
+            {"title": "Bezeichnung"}
+          ]
+        },
+        {"title": "LE", "width": 100, dataType: "string", hidden: false,
+          "colModel": [
+            {"title": "Nr."},
+            {"title": "Lagerort"},
+            {"title": "EZO"}
+          ]
+        },
+        {"title": "Inventur", "width": 100, dataType: "string", hidden: false,
+          "colModel": [
+            {"title": "INV", dataIndx: "state", maxWidth: 30, minWidth: 30, align: "center",
+              resizable: false,
+              menuIcon: false,
+              type: 'checkBoxSelection', sortable: false,
+              editor: false, dataType: 'bool', editable: false, 
+              cb: {
+                all: false, //checkbox selection in the header affect current page only.
+                header: false //show checkbox in header. 
+              }
+            },
+            {"title": "Grund"}
+          ]
+        }
       ],
       "dataModel": {"location": "remote", "url": url},
       "filterModel": {"on": false, "header": true},
