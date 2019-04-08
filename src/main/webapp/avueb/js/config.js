@@ -134,8 +134,7 @@ var config = {
       }
     },
   "obj":
-    {"width": 700,
-      "height": 400,
+    {height: 400,
       "colModel": [
         {"title": "Teil", "width": 100, dataType: "string",
           "colModel": [
@@ -159,7 +158,7 @@ var config = {
               resizable: false,
               menuIcon: false,
               type: 'checkBoxSelection', sortable: false,
-              editor: false, dataType: 'bool', editable: false, 
+              editor: false, dataType: 'bool', editable: false,
               cb: {
                 all: false, //checkbox selection in the header affect current page only.
                 header: false //show checkbox in header. 
@@ -167,6 +166,50 @@ var config = {
             },
             {"title": "Grund"}
           ]
+        },
+        {"title": "Bestände", "width": 100, dataType: "string",
+          "colModel": [
+            {"title": "total"},
+            {"title": "verfüg."},
+            {"title": "reser."},
+            {"title": "gesperrt"}
+          ]
+        },
+
+        {"title": "TR", dataIndx: "state", maxWidth: 30, minWidth: 30, align: "center",
+          resizable: false,
+          menuIcon: false,
+          type: 'checkBoxSelection', sortable: false,
+          editor: false, dataType: 'bool', editable: false, 
+          cb: {
+            all: false, //checkbox selection in the header affect current page only.
+            header: false //show checkbox in header. 
+          }        
+        },
+
+        {"title": "SP", dataType: "string", minWidth: 30
+        },
+        {"title": "DS", dataType: "string", "minWidth": 70
+        },
+        {"title": "QS-Status", dataType: "string", minWidth: 100
+        },
+        {"title": "Hostlager", dataType: "string", "minWidth": 100
+        },
+        {"title": "Avis", "width": 150, dataType: "string", hidden: false,
+          "colModel": [
+            {"title": "Nr."},
+            {"title": "Kiste"},
+            {"title": "Container", "minWidth": 65}
+          ]
+        },
+        {"title": "Kistendispo", dataType: "string", "minWidth": 80
+        },
+        {"title": "Inventur", dataType: "string", hidden: false,
+          "colModel": [
+            {"title": "INA", "minWidth": 60}
+          ]
+        },
+        {"title": "Verpackungsmenge", dataType: "string", "minWidth": 80
         }
       ],
       "dataModel": {"location": "remote", "url": url},

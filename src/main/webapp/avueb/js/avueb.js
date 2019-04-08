@@ -521,21 +521,6 @@ $(document).ready(function () {
     config.obj.dataModel.location = "local";
     config.obj.selectionModel.type = "row";
     config.obj.selectionModel.fireSelectChange = true;
-    /*  "obj":
-     {"width": 700,
-     "height": 400,
-     "colModel": [
-     {"title": "Teil", "width": 100, dataType: "string",
-     "colModel": [
-     {"title": "MD"},
-     {"title": "HC"},
-     {"title": "Teilenummer"},
-     {"title": "H-Teilenummer"},
-     {"title": "Bezeichnung"}
-     ]
-     },
-     {"title": "LE", "width": 100, dataType: "string",     
-     */
     config.obj.colModel[0].colModel[0].width = 75;
     config.obj.colModel[0].colModel[1].width = 100;
     UTIL.logger(dialogname + ": showtable(tabelle): config.obj.colModel[0].title: " +
@@ -545,26 +530,42 @@ $(document).ready(function () {
       if (rows && rows.length) {
         for (var i = 0; i < rows.length; i++) {
           UTIL.logger(dialogname + "; rows[" + i + "].rowData[5]: " + rows[i].rowData[5]);
-          UTIL.logger(dialogname + "; rows[" + i + "].rowData[8]: " + rows[i].rowData[8]);
         }
       }
     };
-    //$.getJSON(url, function (data) {
     //data = [["INTERN", "ASTON MARTIN", "adsf", "adsf", "asd", "7005100", ...], 
     //  ["INTERN", "ASTON MARTIN", "adsf", "adsf", "asd", "7005099", ...
     $.getJSON(url, function (data) {
       config.obj.dataModel.data = data.data;
+      config.obj.scrollModel = {
+        pace: "fast", horizontal: true, autoFit: false, theme: false
+      };
+
+      //Cgheckbox INV
       config.obj.colModel[2].colModel[0].render = function () {
         for (var i = 0; i < data.data.length; i++) {
-          UTIL.logger(dialogname + ': showtable(): data.data[i][8]: ' + data.data[i][8]);
-
           if (data.data[i][8] !== '0') {
+            UTIL.logger(dialogname + ': showtable(): data.data[i][8]: ' + data.data[i][8]);
             return "<input type='checkbox' checked/>";
           } else {
             return "<input type='checkbox'>";
           }
         }
       };
+
+      //Checkbox TR
+      config.obj.colModel[4].render = function () {
+        for (var i = 0; i < data.data.length; i++) {
+          if (data.data[i][14] !== '0') {
+            UTIL.logger(dialogname + ': showtable(): data.data[i][14]: ' + data.data[i][14]);
+            return "<input type='checkbox' checked/>";
+          } else {
+            UTIL.logger(dialogname + ': showtable(): data.data[i][14]: ' + data.data[i][14]);
+            return "<input type='checkbox'>";
+          }
+        }
+      };
+
       $("#ausgabediv1").pqGrid(config.obj);
       $("#ausgabediv1").pqGrid({
         beforeCheck: function (event, ui) {
@@ -577,6 +578,7 @@ $(document).ready(function () {
     });
     //});
   };
+
   //Folgedialog starten
   detail = function detail(aktdialog) {
     //Eintrag localStorage
