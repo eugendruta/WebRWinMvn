@@ -134,7 +134,7 @@ var config = {
       }
     },
   "obj":
-    {height: 400,
+    {height: 600, sortIndx: 0,
       "colModel": [
         {"title": "Teil", "width": 100, dataType: "string",
           "colModel": [
@@ -145,7 +145,7 @@ var config = {
             {"title": "Bezeichnung"}
           ]
         },
-        {"title": "LE", "width": 100, dataType: "string", hidden: false,
+        {"title": "LE", dataIndx: "le", "width": 100, dataType: "string", hidden: false,
           "colModel": [
             {"title": "Nr."},
             {"title": "Lagerort"},
@@ -154,14 +154,28 @@ var config = {
         },
         {"title": "Inventur", "width": 100, dataType: "string", hidden: false,
           "colModel": [
-            {"title": "INV", dataIndx: "state", maxWidth: 30, minWidth: 30, align: "center",
+            {"title": "INV", dataIndx: "inv", maxWidth: 30, minWidth: 30, align: "center",
               resizable: false,
               menuIcon: false,
-              type: 'checkBoxSelection', sortable: false,
+              type: 'checkBoxSelection',
               editor: false, dataType: 'bool', editable: false,
               cb: {
                 all: false, //checkbox selection in the header affect current page only.
                 header: false //show checkbox in header. 
+              },
+              sortType: function (rowData1, rowData2, dataIndx) {
+                var val1 = rowData1[dataIndx],
+                  val2 = rowData2[dataIndx],
+                  c1 = $.trim(val1).length,
+                  c2 = $.trim(val2).length;
+                console.log('INV:sortType(): c1: ' + c1 + '; c2: ' + c2);
+                if (c1 > c2) {
+                  return 1;
+                } else if (c1 < c2) {
+                  return -1;
+                } else {
+                  return 0;
+                }
               }
             },
             {"title": "Grund"}
@@ -176,15 +190,34 @@ var config = {
           ]
         },
 
-        {"title": "TR", dataIndx: "state", maxWidth: 30, minWidth: 30, align: "center",
-          resizable: false,
-          menuIcon: false,
-          type: 'checkBoxSelection', sortable: false,
-          editor: false, dataType: 'bool', editable: false, 
-          cb: {
-            all: false, //checkbox selection in the header affect current page only.
-            header: false //show checkbox in header. 
-          }        
+        {"title": "TR", dataIndx: "tr", maxWidth: 30, minWidth: 30, align: "center",
+          "colModel": [
+            {"title": "TR", dataIndx: "tr", maxWidth: 30, minWidth: 30, align: "center",
+              resizable: false,
+              menuIcon: false,
+              type: 'checkBoxSelection',
+              editor: false, dataType: 'bool', editable: false,
+              cb: {
+                all: false, //checkbox selection in the header affect current page only.
+                header: false //show checkbox in header. 
+              },
+              sortType: function (rowData1, rowData2, dataIndx) {
+                var val1 = rowData1[dataIndx],
+                  val2 = rowData2[dataIndx],
+                  c1 = $.trim(val1).length,
+                  c2 = $.trim(val2).length;
+                console.log('TR: sortType(): c1: ' + c1 + '; c2: ' + c2);
+                if (c1 > c2) {
+                  return 1;
+                } else if (c1 < c2) {
+                  return -1;
+                } else {
+                  return 0;
+                }
+              }
+            },
+            {"title": "Grund"}
+          ]
         },
 
         {"title": "SP", dataType: "string", minWidth: 30
@@ -212,7 +245,7 @@ var config = {
         {"title": "Verpackungsmenge", dataType: "string", "minWidth": 80
         }
       ],
-      "dataModel": {"location": "remote", "url": url},
+      "dataModel": {"location": "remote", "url": url, "sorting": "local"},
       "filterModel": {"on": false, "header": true},
       "selectionModel": {"type": "row", "fireSelectChange": ""}
     },

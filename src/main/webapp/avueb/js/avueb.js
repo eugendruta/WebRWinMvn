@@ -541,11 +541,11 @@ $(document).ready(function () {
         pace: "fast", horizontal: true, autoFit: false, theme: false
       };
 
-      //Cgheckbox INV
+      //Checkbox INV
       config.obj.colModel[2].colModel[0].render = function () {
         for (var i = 0; i < data.data.length; i++) {
+          //UTIL.logger(dialogname + ': colModel[2].colModel[0].render data[i][8]: ' + data.data[i][8]);
           if (data.data[i][8] !== '0') {
-            UTIL.logger(dialogname + ': showtable(): data.data[i][8]: ' + data.data[i][8]);
             return "<input type='checkbox' checked/>";
           } else {
             return "<input type='checkbox'>";
@@ -554,13 +554,12 @@ $(document).ready(function () {
       };
 
       //Checkbox TR
-      config.obj.colModel[4].render = function () {
+      config.obj.colModel[4].colModel[0].render = function () {
         for (var i = 0; i < data.data.length; i++) {
+          //UTIL.logger(dialogname + ': colModel[4].colModel[0].render data[i][14]: ' + data.data[i][14]);
           if (data.data[i][14] !== '0') {
-            UTIL.logger(dialogname + ': showtable(): data.data[i][14]: ' + data.data[i][14]);
             return "<input type='checkbox' checked/>";
           } else {
-            UTIL.logger(dialogname + ': showtable(): data.data[i][14]: ' + data.data[i][14]);
             return "<input type='checkbox'>";
           }
         }
