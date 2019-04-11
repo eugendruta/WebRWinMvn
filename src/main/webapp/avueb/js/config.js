@@ -136,23 +136,23 @@ var config = {
   "obj":
     {height: 600, sortIndx: 0,
       "colModel": [
-        {"title": "Teil", "width": 100, dataType: "string",
+        {"title": "Teil", "width": 100, dataType: "string", //# 0
           "colModel": [
             {"title": "MD"},
             {"title": "HC"},
-            {"title": "Teilenummer"},
-            {"title": "H-Teilenummer"},
-            {"title": "Bezeichnung"}
+            {"title": "Teilenr.", minWidth: 60},
+            {"title": "H-Teilenr.", minWidth: 70, hidden: true},
+            {"title": "Bezeichnung", minWidth: 90}
           ]
         },
-        {"title": "LE", dataIndx: "le", "width": 100, dataType: "string", hidden: false,
+        {"title": "LE", "width": 100, dataType: "string", //# 1
           "colModel": [
-            {"title": "Nr."},
+            {"title": "Nr.", minWidth: 60},
             {"title": "Lagerort"},
             {"title": "EZO"}
           ]
         },
-        {"title": "Inventur", "width": 100, dataType: "string", hidden: false,
+        {"title": "Inventur", dataIndx: "inv", //# 2
           "colModel": [
             {"title": "INV", dataIndx: "inv", maxWidth: 30, minWidth: 30, align: "center",
               resizable: false,
@@ -176,12 +176,20 @@ var config = {
                 } else {
                   return 0;
                 }
+              },
+              render: function (ui) {
+                var rowData = ui.rowData;
+                if (rowData[8] !== '0') {
+                  return "<input type='checkbox' checked/>";
+                } else {
+                  return "<input type='checkbox'>";
+                }
               }
             },
             {"title": "Grund"}
           ]
         },
-        {"title": "Bestände", "width": 100, dataType: "string",
+        {"title": "Bestände", "width": 100, dataType: "string", //# 3
           "colModel": [
             {"title": "total"},
             {"title": "verfüg."},
@@ -190,9 +198,9 @@ var config = {
           ]
         },
 
-        {"title": "TR", dataIndx: "tr", maxWidth: 30, minWidth: 30, align: "center",
+        {"title": "TR", dataIndx: "tr", cls: 'green', //# 4          
           "colModel": [
-            {"title": "TR", dataIndx: "tr", maxWidth: 30, minWidth: 30, align: "center",
+            {"title": "", dataIndx: "tr", minWidth: 30, align: "center",
               resizable: false,
               menuIcon: false,
               type: 'checkBoxSelection',
@@ -214,37 +222,131 @@ var config = {
                 } else {
                   return 0;
                 }
+              },
+              render: function (ui) {
+                var rowData = ui.rowData;
+                if (rowData[14] !== '0') {
+                  return "<input type='checkbox' checked/>";
+                } else {
+                  return "<input type='checkbox'>";
+                }
               }
-            },
-            {"title": "Grund"}
+            }
           ]
         },
 
-        {"title": "SP", dataType: "string", minWidth: 30
+        {"title": "SP", dataType: "string", "cls": 'red', //# 5
+          "colModel": [
+            {"title": "", "minWidth": 30, "cls": 'beige'}
+          ]
         },
-        {"title": "DS", dataType: "string", "minWidth": 70
+
+        {"title": "DS", dataType: "string", //# 6
+          "colModel": [
+            {"title": "", "minWidth": 60}
+          ]
         },
-        {"title": "QS-Status", dataType: "string", minWidth: 100
+
+        {"title": "QS-Status", dataType: "string", //# 7
+          "colModel": [
+            {"title": "", "minWidth": 75}
+          ]
         },
-        {"title": "Hostlager", dataType: "string", "minWidth": 100
+
+        {"title": "Hostlager", dataType: "string", //# 8
+          "colModel": [
+            {"title": "", "minWidth": 100}
+          ]
         },
-        {"title": "Avis", "width": 150, dataType: "string", hidden: false,
+
+        {"title": "Avis", "width": 150, dataType: "string", //# 9
           "colModel": [
             {"title": "Nr."},
             {"title": "Kiste"},
             {"title": "Container", "minWidth": 65}
           ]
         },
-        {"title": "Kistendispo", dataType: "string", "minWidth": 80
-        },
-        {"title": "Inventur", dataType: "string", hidden: false,
+
+        {"title": "Kistendispo", dataIndx: "kd", //# 10
           "colModel": [
-            {"title": "INA", "minWidth": 60}
+            {"title": "", dataIndx: "kd", minWidth: 80, align: "center",
+              resizable: false,
+              menuIcon: false,
+              type: 'checkBoxSelection',
+              editor: false, dataType: 'bool', editable: false,
+              cb: {
+                all: false, //checkbox selection in the header affect current page only.
+                header: false //show checkbox in header. 
+              },
+              sortType: function (rowData1, rowData2, dataIndx) {
+                var val1 = rowData1[dataIndx],
+                  val2 = rowData2[dataIndx],
+                  c1 = $.trim(val1).length,
+                  c2 = $.trim(val2).length;
+                console.log('Kistendispo: sortType(): c1: ' + c1 + '; c2: ' + c2);
+                if (c1 > c2) {
+                  return 1;
+                } else if (c1 < c2) {
+                  return -1;
+                } else {
+                  return 0;
+                }
+              },
+              render: function (ui) {
+                var rowData = ui.rowData;
+                if (rowData[22] !== '0') {
+                  return "<input type='checkbox' checked/>";
+                } else {
+                  return "<input type='checkbox'>";
+                }
+              }
+            }
           ]
         },
-        {"title": "Verpackungsmenge", dataType: "string", "minWidth": 80
+
+        {"title": "Inventur", dataIndx: "ina", //# 11
+          "colModel": [
+            {"title": "INA", dataIndx: "ina", minWidth: 60, align: "center",
+              resizable: false,
+              menuIcon: false,
+              type: 'checkBoxSelection',
+              editor: false, dataType: 'bool', editable: false,
+              cb: {
+                all: false, //checkbox selection in the header affect current page only.
+                header: false //show checkbox in header. 
+              },
+              sortType: function (rowData1, rowData2, dataIndx) {
+                var val1 = rowData1[dataIndx],
+                  val2 = rowData2[dataIndx],
+                  c1 = $.trim(val1).length,
+                  c2 = $.trim(val2).length;
+                console.log('INA: sortType(): c1: ' + c1 + '; c2: ' + c2);
+                if (c1 > c2) {
+                  return 1;
+                } else if (c1 < c2) {
+                  return -1;
+                } else {
+                  return 0;
+                }
+              },
+              render: function (ui) {
+                var rowData = ui.rowData;
+                if (rowData[23] !== '0') {
+                  return "<input type='checkbox' checked/>";
+                } else {
+                  return "<input type='checkbox'>";
+                }
+              }
+            }
+          ]
+        },
+        {"title": "Verp.menge", dataType: "string",
+          "colModel": [
+            {"title": "", "minWidth": 80}
+          ]//# 12
         }
       ],
+      "scrollModel": {pace: "fast", horizontal: true, autoFit: false, theme: false},
       "dataModel": {"location": "remote", "url": url, "sorting": "local"},
       "filterModel": {"on": false, "header": true},
       "selectionModel": {"type": "row", "fireSelectChange": ""}

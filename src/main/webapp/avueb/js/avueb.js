@@ -515,8 +515,9 @@ $(document).ready(function () {
 
     var url = config.default.data[tabelle].servlet + "sqlstm=" + sqlstm;
     var table1 = config.default.data[tabelle].name;
-    //Spalten visible/huidden
-    //config.obj.colModel[2].hidden = config.default.data.table1.columns[2].visible === "true" ? false : true;
+    //Spalte 1 LE  visible/hidden
+    //config.obj.colModel[1].colModel[0].hidden = config.default.data.table1.columns[2].visible === "true" ? false : true;
+    //config.obj.colModel[1].colModel[0].hidden = false;
 
     config.obj.dataModel.location = "local";
     config.obj.selectionModel.type = "row";
@@ -529,7 +530,7 @@ $(document).ready(function () {
       var rows = ui.rows;
       if (rows && rows.length) {
         for (var i = 0; i < rows.length; i++) {
-          UTIL.logger(dialogname + "; rows[" + i + "].rowData[5]: " + rows[i].rowData[5]);
+          UTIL.logger(dialogname + "; selectChange(): rows[" + i + "].rowData[5]: " + rows[i].rowData[5]);
         }
       }
     };
@@ -537,45 +538,19 @@ $(document).ready(function () {
     //  ["INTERN", "ASTON MARTIN", "adsf", "adsf", "asd", "7005099", ...
     $.getJSON(url, function (data) {
       config.obj.dataModel.data = data.data;
-      config.obj.scrollModel = {
-        pace: "fast", horizontal: true, autoFit: false, theme: false
-      };
-
-      //Checkbox INV
-      config.obj.colModel[2].colModel[0].render = function () {
-        for (var i = 0; i < data.data.length; i++) {
-          //UTIL.logger(dialogname + ': colModel[2].colModel[0].render data[i][8]: ' + data.data[i][8]);
-          if (data.data[i][8] !== '0') {
-            return "<input type='checkbox' checked/>";
-          } else {
-            return "<input type='checkbox'>";
-          }
-        }
-      };
-
-      //Checkbox TR
-      config.obj.colModel[4].colModel[0].render = function () {
-        for (var i = 0; i < data.data.length; i++) {
-          //UTIL.logger(dialogname + ': colModel[4].colModel[0].render data[i][14]: ' + data.data[i][14]);
-          if (data.data[i][14] !== '0') {
-            return "<input type='checkbox' checked/>";
-          } else {
-            return "<input type='checkbox'>";
-          }
-        }
-      };
 
       $("#ausgabediv1").pqGrid(config.obj);
       $("#ausgabediv1").pqGrid({
+        //Checkboxen nicht editierbar
         beforeCheck: function (event, ui) {
-          UTIL.logger(dialogname + "; beforeCheck(): event: " + event
-            + "; ui.rowData[8]: INV: " + ui.rowData[8]);
+          //UTIL.logger(dialogname + "; beforeCheck(): INV: " + ui.rowData[8] + 
+            //"; TR: " + ui.rowData[14] + "; Kistendisp: " + ui.rowData[22] 
+            //+ "; Inv. INA: " + ui.rowData[23]);
           return false;
         }
       });
       $("#ausgabediv1").pqGrid("refreshDataAndView");
     });
-    //});
   };
 
   //Folgedialog starten
