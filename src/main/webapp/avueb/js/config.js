@@ -141,7 +141,7 @@ var config = {
             {"title": "MD"},
             {"title": "HC"},
             {"title": "Teilenr.", minWidth: 60},
-            {"title": "H-Teilenr.", minWidth: 70, hidden: true},
+            {"title": "H-Teilenr.", minWidth: 70},
             {"title": "Bezeichnung", minWidth: 90}
           ]
         },

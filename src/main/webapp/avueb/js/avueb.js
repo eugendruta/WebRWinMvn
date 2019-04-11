@@ -534,6 +534,27 @@ $(document).ready(function () {
     $.getJSON(url, function (data) {
       config.obj.dataModel.data = data.data;
 
+      //Summenzeile
+      config.obj.render = function (evt, ui) {
+        UTIL.logger(dialogname + "; render(): ui.dataModel.data[1][1]: " 
+          + ui.dataModel.data[1][1]);
+        //F+ "; LE: " + ui.rowData[5] + "; Best.total: " + ui.rowData[10]);
+
+        $summary = $("<div class='pq-grid-summary'><label style=\"font-size: 16px;\">Summe: 123,45</label></div>")
+          .prependTo($(".pq-grid-bottom"));
+        summenzeile = calculateSummary(ui);
+        console.log('obj.render(): summenzeile.rank: ' + summenzeile[0]
+          + "; revenues: " + summenzeile[2] + "; profit: " + summenzeile[3]);
+      };
+      config.obj.refresh = function (evt, ui) {
+        console.log('obj.refresh(): summenzeile.rank: ' + summenzeile[0]
+          + "; revenues: " + summenzeile[2] + "; profit: " + summenzeile[3]);
+        var _data = data.data; //JSON (array of objects)
+        var _data = [summenzeile]; //JSON (array of objects)
+        var obj = {data: _data, $cont: $summary};
+        $(this).pqGrid("createTable", obj);
+      };
+
       $("#ausgabediv1").pqGrid(config.obj);
       $("#ausgabediv1").pqGrid({
         //Checkboxen nicht editierbar
@@ -547,6 +568,36 @@ $(document).ready(function () {
       $("#ausgabediv1").pqGrid("refreshDataAndView");
     });
   };
+
+  //Summenzeile berechnen
+  //calculate sum of 3rd and 4th column.
+  function calculateSummary(ui) {
+    var revenueTotal;
+    var profitTotal;
+    /*
+     for (var i = 0; i < arrayData.length; i++) {
+     var row = arrayData[i];
+     revenueTotal += parseFloat(row["revenues"]);
+     profitTotal += parseFloat(row["profits"]);
+     }
+     var revenueAverage = $.paramquery.formatCurrency(revenueTotal / arrayData.length);
+     var profitAverage = $.paramquery.formatCurrency(profitTotal / arrayData.length);
+     
+     revenueTotal = $.paramquery.formatCurrency(revenueTotal);
+     profitTotal = $.paramquery.formatCurrency(profitTotal);
+     */
+
+    //UTIL.logger(dialogname + "; calculateSummary(): MD: " + ui.rowData[0]
+    //+ "; LE: " + ui.rowData[5] + "; Best.total: " + ui.rowData[10]);
+
+    revenueTotal = "123.45";
+    profitTotal = "678.90";
+    var totalData = {rank: "<b>Total</b>", company: "T+P", revenues: revenueTotal,
+      profit: profitTotal, pq_rowcls: 'green'};
+
+    return [totalData.rank, totalData.company, totalData.revenues,
+      totalData.profit, totalData.pq_rowcls];
+  }
 
   //Folgedialog starten
   detail = function detail(aktdialog) {

@@ -25,6 +25,11 @@ tr.pq-grid-title-row > .pq-grid-col.green{
   color: black;
 }
 
+.summary {
+  background: lightgrey;
+  font-size: 18px;
+  height: 40px;
+}
 .butn {
   background: lightblue;  
   background-image: -webkit-linear-gradient(top, grey, lightgrey);
