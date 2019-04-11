@@ -1,6 +1,6 @@
 /* CSS Document */
 .pq-grid-cell{        
-    background: lightgreen;   
+    background: white;   
 }
 
 .pq-grid-cell.beige{        
@@ -18,6 +18,11 @@ tr.pq-grid-title-row > .pq-grid-col.red{
 }
 tr.pq-grid-title-row > .pq-grid-col.green{
     background: lightgreen;
+}
+
+.pq-grid .pq-grid-row.ui-state-highlight .pq-grid-cell{
+  background: lightblue;  
+  color: black;
 }
 
 .butn {

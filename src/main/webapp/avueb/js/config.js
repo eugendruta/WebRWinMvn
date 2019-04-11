@@ -347,9 +347,9 @@ var config = {
         }
       ],
       "scrollModel": {pace: "fast", horizontal: true, autoFit: false, theme: false},
-      "dataModel": {"location": "remote", "url": url, "sorting": "local"},
+      "dataModel": {"location": "local", "url": url, "sorting": "local"},
       "filterModel": {"on": false, "header": true},
-      "selectionModel": {"type": "row", "fireSelectChange": ""}
+      "selectionModel": {"type": "row", "fireSelectChange": true}
     },
   "variante1":
     {"showonstart": true,

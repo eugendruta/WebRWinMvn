@@ -519,11 +519,6 @@ $(document).ready(function () {
     //config.obj.colModel[1].colModel[0].hidden = config.default.data.table1.columns[2].visible === "true" ? false : true;
     //config.obj.colModel[1].colModel[0].hidden = false;
 
-    config.obj.dataModel.location = "local";
-    config.obj.selectionModel.type = "row";
-    config.obj.selectionModel.fireSelectChange = true;
-    config.obj.colModel[0].colModel[0].width = 75;
-    config.obj.colModel[0].colModel[1].width = 100;
     UTIL.logger(dialogname + ": showtable(tabelle): config.obj.colModel[0].title: " +
       config.obj.colModel[0].colModel[0].title);
     config.obj.selectChange = function (evt, ui) {
@@ -544,8 +539,8 @@ $(document).ready(function () {
         //Checkboxen nicht editierbar
         beforeCheck: function (event, ui) {
           //UTIL.logger(dialogname + "; beforeCheck(): INV: " + ui.rowData[8] + 
-            //"; TR: " + ui.rowData[14] + "; Kistendisp: " + ui.rowData[22] 
-            //+ "; Inv. INA: " + ui.rowData[23]);
+          //"; TR: " + ui.rowData[14] + "; Kistendisp: " + ui.rowData[22] 
+          //+ "; Inv. INA: " + ui.rowData[23]);
           return false;
         }
       });
