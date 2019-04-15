@@ -72,63 +72,63 @@ var config = {
           "anzcolumns": "57",
           "pageLength": 5,
           "columns": [
-            {"name": "AC_MANDANT", "typdata": "AppConst", "visible": "true"},
-            {"name": "AC_HERSTELLER", "typdata": "AppConst", "visible": "true"},
-            {"name": "TEILENUMMER", "typdata": "String", "visible": "true"},
-            {"name": "HERSTELLERTEILENUMMER", "typdata": "String", "visible": "true"},
-            {"name": "TEILBEZ", "typdata": "String", "visible": "true"},
-            {"name": "LE", "typdata": "String", "visible": "true"},
-            {"name": "LAGERORTBEZ", "typdata": "String", "visible": "true"},
-            {"name": "AC_ZONEAKTUELL", "typdata": "AppConst", "visible": "true"},
-            {"name": "INVENTUR", "typdata": "Boolean", "visible": "true"},
-            {"name": "AC_INVENTURGRUND", "typdata": "AppConst", "visible": "true"},
-            {"name": "BESTANDTOTAL", "typdata": "Numeric", "visible": "true"},
-            {"name": "BESTANDFREI", "typdata": "Numeric", "visible": "true"},
-            {"name": "BESTANDRESERVIERT", "typdata": "Numeric", "visible": "true"},
-            {"name": "BESTANDGESPERRT", "typdata": "Numeric", "visible": "true"},
-            {"name": "TRANSPORT", "typdata": "Boolean", "visible": "true"},
-            {"name": "INTERNESPERRE", "typdata": "Numeric", "visible": "true"},
-            {"name": "CK_DISPOSTATUS", "typdata": "ConstKey", "visible": "true"},
-            {"name": "CK_QSSTATUS", "typdata": "ConstKey", "visible": "true"},
-            {"name": "AC_HOSTLAGER", "typdata": "AppConst", "visible": "true"},
-            {"name": "AVISNR", "typdata": "String", "visible": "true"},
-            {"name": "KISTENNR", "typdata": "String", "visible": "true"},
-            {"name": "CONTAINERNR", "typdata": "String", "visible": "true"},
-            {"name": "KISTENDISPO", "typdata": "Boolean", "visible": "true"},
-            {"name": "INVENTURAVISIERUNG", "typdata": "Boolean", "visible": "true"},
-            {"name": "VERPACKUNGSMENGE", "typdata": "Numeric", "visible": "true"}, //24
-            {"name": "ND_LEOID", "typdata": "String", "visible": "false"},
-            {"name": "MANDANT", "typdata": "String", "visible": "false"},
-            {"name": "HERSTELLER", "typdata": "String", "visible": "false"},
-            {"name": "FLSLAGERORTTYP", "typdata": "String", "visible": "false"},
-            {"name": "AC_FLSLAGERORTTYP", "typdata": "AppConst", "visible": "false"},
-            {"name": "ZONEAKTUELL", "typdata": "String", "visible": "false"}, //30
-            {"name": "AC_ZONEAKTUELL", "typdata": "AppConst", "visible": "false"},
-            {"name": "LHMTYP", "typdata": "String", "visible": "false"},
-            {"name": "AC_LHMTYP", "typdata": "AppConst", "visible": "false"},
-            {"name": "ZONEAVISIERT", "typdata": "String", "visible": "false"},
-            {"name": "AC_ZONEAVISIERT", "typdata": "AppConst", "visible": "false"},
-            {"name": "ND_LAGERBEREICHOID", "typdata": "String", "visible": "false"},
-            {"name": "ND_LAGERORTOID", "typdata": "String", "visible": "false"},
-            {"name": "LAGERORTBEZ", "typdata": "String", "visible": "false"},
-            {"name": "LB", "typdata": "String", "visible": "false"},
-            {"name": "ZEILE", "typdata": "String", "visible": "false"}, //40
-            {"name": "X", "typdata": "String", "visible": "false"},
-            {"name": "Y", "typdata": "String", "visible": "false"},
-            {"name": "BESTANDNACHGEFRAGT", "typdata": "Numeric", "visible": "false"},
-            {"name": "BESTANDGEPLANT", "typdata": "Numeric", "visible": "false"},
-            {"name": "BESTANDLAUEFT", "typdata": "Numeric", "visible": "false"},
-            {"name": "EINHEIT", "typdata": "String", "visible": "false"},
-            {"name": "ISRETOURE", "typdata": "Boolean", "visible": "false"},
-            {"name": "INVENTURGRUND", "typdata": "String", "visible": "false"},
-            {"name": "CK_INTERNESPERRE", "typdata": "ConstKey", "visible": "false"},
-            {"name": "DISPOSTATUS", "typdata": "String", "visible": "false"}, //50
-            {"name": "QSSTATUS", "typdata": "Numeric", "visible": "false"},
-            {"name": "HOSTLAGER", "typdata": "String", "visible": "false"},
-            {"name": "WEDATUM", "typdata": "Date", "visible": "false", "ColumnFormat": "dd.MM.yyyy"},
-            {"name": "ERZEUGTDATUM", "typdata": "Date", "visible": "false", "ColumnFormat": "dd.MM.yyyy HH:MI"},
-            {"name": "EINLAGERDATUM", "typdata": "String", "visible": "false"},
-            {"name": "INVENTURDATUM", "typdata": "Date", "visible": "false", "ColumnFormat": "dd.MM.yyyy"}
+            {"name": "AC_MANDANT", "typdata": "AppConst", "visible": "true", summe: ""},
+            {"name": "AC_HERSTELLER", "typdata": "AppConst", "visible": "true", summe: ""},
+            {"name": "TEILENUMMER", "typdata": "String", "visible": "true", summe: ""},
+            {"name": "HERSTELLERTEILENUMMER", "typdata": "String", "visible": "true", summe: ""},
+            {"name": "TEILBEZ", "typdata": "String", "visible": "true", summe: ""},
+            {"name": "LE", "typdata": "String", "visible": "true", summe: ""},
+            {"name": "LAGERORTBEZ", "typdata": "String", "visible": "true", summe: ""},
+            {"name": "AC_ZONEAKTUELL", "typdata": "AppConst", "visible": "true", summe: ""},
+            {"name": "INVENTUR", "typdata": "String", "visible": "true", summe: "J"},
+            {"name": "AC_INVENTURGRUND", "typdata": "AppConst", "visible": "true", summe: ""},
+            {"name": "BESTANDTOTAL", "typdata": "Numeric", "visible": "true", summe: "J"},
+            {"name": "BESTANDFREI", "typdata": "Numeric", "visible": "true", summe: "J"},
+            {"name": "BESTANDRESERVIERT", "typdata": "Numeric", "visible": "true", summe: ""},
+            {"name": "BESTANDGESPERRT", "typdata": "Numeric", "visible": "true", summe: ""},
+            {"name": "TRANSPORT", "typdata": "Boolean", "visible": "true", summe: "J"},
+            {"name": "INTERNESPERRE", "typdata": "Numeric", "visible": "true", summe: ""},
+            {"name": "CK_DISPOSTATUS", "typdata": "ConstKey", "visible": "true", summe: ""},
+            {"name": "CK_QSSTATUS", "typdata": "ConstKey", "visible": "true", summe: ""},
+            {"name": "AC_HOSTLAGER", "typdata": "AppConst", "visible": "true", summe: ""},
+            {"name": "AVISNR", "typdata": "String", "visible": "true", summe: ""},
+            {"name": "KISTENNR", "typdata": "String", "visible": "true", summe: ""},
+            {"name": "CONTAINERNR", "typdata": "String", "visible": "true", summe: ""},
+            {"name": "KISTENDISPO", "typdata": "Boolean", "visible": "true", summe: "J"},
+            {"name": "INVENTURAVISIERUNG", "typdata": "Boolean", "visible": "true", summe: "J"},
+            {"name": "VERPACKUNGSMENGE", "typdata": "Numeric", "visible": "true"}, //, summe: ""24
+            {"name": "ND_LEOID", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "MANDANT", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "HERSTELLER", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "FLSLAGERORTTYP", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "AC_FLSLAGERORTTYP", "typdata": "AppConst", "visible": "false", summe: ""},
+            {"name": "ZONEAKTUELL", "typdata": "String", "visible": "false"}, //, summe: ""30
+            {"name": "AC_ZONEAKTUELL", "typdata": "AppConst", "visible": "false", summe: ""},
+            {"name": "LHMTYP", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "AC_LHMTYP", "typdata": "AppConst", "visible": "false", summe: ""},
+            {"name": "ZONEAVISIERT", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "AC_ZONEAVISIERT", "typdata": "AppConst", "visible": "false", summe: ""},
+            {"name": "ND_LAGERBEREICHOID", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "ND_LAGERORTOID", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "LAGERORTBEZ", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "LB", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "ZEILE", "typdata": "String", "visible": "false"}, //, summe: ""40
+            {"name": "X", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "Y", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "BESTANDNACHGEFRAGT", "typdata": "Numeric", "visible": "false", summe: ""},
+            {"name": "BESTANDGEPLANT", "typdata": "Numeric", "visible": "false", summe: ""},
+            {"name": "BESTANDLAUEFT", "typdata": "Numeric", "visible": "false", summe: ""},
+            {"name": "EINHEIT", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "ISRETOURE", "typdata": "Boolean", "visible": "false", summe: ""},
+            {"name": "INVENTURGRUND", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "CK_INTERNESPERRE", "typdata": "ConstKey", "visible": "false", summe: ""},
+            {"name": "DISPOSTATUS", "typdata": "String", "visible": "false"}, //, summe: ""50
+            {"name": "QSSTATUS", "typdata": "Numeric", "visible": "false", summe: ""},
+            {"name": "HOSTLAGER", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "WEDATUM", "typdata": "Date", "visible": "false", "ColumnFormat": "dd.MM.yyyy", summe: ""},
+            {"name": "ERZEUGTDATUM", "typdata": "Date", "visible": "false", "ColumnFormat": "dd.MM.yyyy HH:MI", summe: ""},
+            {"name": "EINLAGERDATUM", "typdata": "String", "visible": "false", summe: ""},
+            {"name": "INVENTURDATUM", "typdata": "Date", "visible": "false", "ColumnFormat": "dd.MM.yyyy, summe ="}
           ]
         }
       }
@@ -138,7 +138,7 @@ var config = {
       "colModel": [
         {"title": "Teil", "width": 100, dataType: "string", //# 0
           "colModel": [
-            {"title": "MD"},
+            {"title": "MD", minWidth: 60},
             {"title": "HC"},
             {"title": "Teilenr.", minWidth: 60},
             {"title": "H-Teilenr.", minWidth: 70},
@@ -180,9 +180,9 @@ var config = {
               render: function (ui) {
                 var rowData = ui.rowData;
                 if (rowData[8] !== '0') {
-                  return "<input type='checkbox' checked/>";
+                  return "<input type='checkbox' checked disabled/>";
                 } else {
-                  return "<input type='checkbox'>";
+                  return "<input type='checkbox' disabled/>";
                 }
               }
             },
@@ -226,9 +226,9 @@ var config = {
               render: function (ui) {
                 var rowData = ui.rowData;
                 if (rowData[14] !== '0') {
-                  return "<input type='checkbox' checked/>";
+                  return "<input type='checkbox' checked disabled/>";
                 } else {
-                  return "<input type='checkbox'>";
+                  return "<input type='checkbox' disabled>";
                 }
               }
             }
@@ -295,9 +295,9 @@ var config = {
               render: function (ui) {
                 var rowData = ui.rowData;
                 if (rowData[22] !== '0') {
-                  return "<input type='checkbox' checked/>";
+                  return "<input type='checkbox' checked disabled/>";
                 } else {
-                  return "<input type='checkbox'>";
+                  return "<input type='checkbox' disabled>";
                 }
               }
             }
@@ -332,9 +332,9 @@ var config = {
               render: function (ui) {
                 var rowData = ui.rowData;
                 if (rowData[23] !== '0') {
-                  return "<input type='checkbox' checked/>";
+                  return "<input type='checkbox' checked disabled/>";
                 } else {
-                  return "<input type='checkbox'>";
+                  return "<input type='checkbox' disabled>";
                 }
               }
             }
