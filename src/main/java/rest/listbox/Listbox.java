@@ -99,7 +99,7 @@ public class Listbox extends HttpServlet {
         //  SELECT OID as id, NAME FROM V_DLG_BSUEB_LAGERORT WHERE name is not null order by 2
         String _name = table.split(" ")[1].substring(0, (table.split(" ")[1].length()));
         _table = table.split("FROM")[1].split(" ")[1];
-        MyLogger.log(className, "XXX _name: " + _name + "; _table: " + _table);
+        //MyLogger.log(className, "XXX _name: " + _name + "; _table: " + _table);
         cntstmt = "SELECT COUNT(" + _name + " ) "
                 + "FROM EFLSSYSTEM." + _table + " WHERE " + _name + " is not null";
         selstmt = table;
@@ -113,7 +113,7 @@ public class Listbox extends HttpServlet {
         if ((constkey != null) && (constkeyval != null)) {
           selstmt += " WHERE " + constkey + "='" + constkeyval + "'";
         }
-        MyLogger.log(className, "YYY selstmt: " + selstmt);
+        //MyLogger.log(className, "YYY selstmt: " + selstmt);
         _name = selstmt.split(" ")[1].substring(0, (selstmt.split(" ")[1].length() - 1));
         _table = selstmt.split("FROM")[1].split(" ")[1];
 
@@ -122,23 +122,22 @@ public class Listbox extends HttpServlet {
           String _where = selstmt.split("WHERE")[1];
           cntstmt += " WHERE " + _where;
         }
-        MyLogger.log(className, "YYY cntstmt: " + cntstmt);
+        //MyLogger.log(className, "YYY cntstmt: " + cntstmt);
         break;
       default:
-        MyLogger.log(className, "typ: " + typ + " ist falsch; table: " + table
-                + "; constkey: " + constkey);
+        //MyLogger.log(className, "typ: " + typ + " ist falsch; table: " + table                + "; constkey: " + constkey);
         try (PrintWriter out = response.getWriter()) {
           //korrekt: jsonString: [{"id":"1", "name":"LB #1"}, {"id":"2", "name":"LB #2" } ]
           //fehler: jsonString: [{"id":"-1", "name":"typ ist falsch"}, {"id":"2", "name":"LB #2" } ]
           jsonString = "[{\"id\": \"-1\", \"name\": \"fehler: typ falsch\"}]";
-          MyLogger.log(className, "typ: " + typ + "; table: " + table
-                  + "; constkey: " + constkey + "; jsonStringlength(): "
-                  + jsonString.length() + "; jsonString: " + jsonString);
+          //MyLogger.log(className, "typ: " + typ + "; table: " + table
+                  //+ "; constkey: " + constkey + "; jsonStringlength(): "
+                  //+ jsonString.length() + "; jsonString: " + jsonString);
           out.println(jsonString);
         }
         return;
     }
-    MyLogger.log(className, "_table: " + _table + "; constkey: " + constkey);
+    //MyLogger.log(className, "_table: " + _table + "; constkey: " + constkey);
 
     //Gibt es diesen Eintrag im Cache ??
     anzRow = 0;
@@ -151,15 +150,16 @@ public class Listbox extends HttpServlet {
         //Hole Daten aus dem cache
         //cacheeintrag:  V_DLG_BSUEB_ZONEAKTUELL#null#FEZO-mk11 Vaalue: MK11
         String[] _wert = name.split("#");
+        /*
         for (int i = 0; i < _wert.length; i++) {
-          MyLogger.log(className, "cache wert[" + i + "]:  " + _wert[i]);
+          //MyLogger.log(className, "cache wert[" + i + "]:  " + _wert[i]);
         }
+         */
         if (context.getAttribute(name) != null) {
           anzeige_txt = ((String[]) context.getAttribute(name))[0];
-          MyLogger.log(className, "cacheeintrag name:  " + name
-                  + "; anzeige_txt: " + anzeige_txt);
+          //MyLogger.log(className, "cacheeintrag name:  " + name  + "; anzeige_txt: " + anzeige_txt);
         } else {
-          MyLogger.log(className, "cacheeintrag name:  " + name + " nicht gefunden");
+          //MyLogger.log(className, "cacheeintrag name:  " + name + " nicht gefunden");
         }
 
 //        DropdownItem[] options = new DropdownItem[anzRow];
@@ -173,7 +173,7 @@ public class Listbox extends HttpServlet {
 //        }
 //        if (anzCol == 3) {
 //          dependency = rs.getObject(3).toString();
-//          MyLogger.log(className, "anzCol == 3:  table: " + table + "; anzRow: " + anzRow
+//          //MyLogger.log(className, "anzCol == 3:  table: " + table + "; anzRow: " + anzRow
 //                  + "; anzCol: " + anzCol + "; dependency: " + dependency);
 //        }
 //
@@ -185,15 +185,15 @@ public class Listbox extends HttpServlet {
 //        cachekey = key0 + columns.get(0);
 //        attrvalue[0] = (String) columns.get(1);
 //        context.setAttribute(cachekey, attrvalue);
-//        MyLogger.log(className, "cacheeintrag ok: cachekey: " + cachekey
+//        //MyLogger.log(className, "cacheeintrag ok: cachekey: " + cachekey
 //                + "; attrvalue[0]: " + attrvalue[0]);
       }
     }
 
     if (!cachefound) {
-      MyLogger.log(className, "kein cacheeintrag für: " + _table);
-      MyLogger.log(className, "cntstmt: " + cntstmt);
-      MyLogger.log(className, "selstmt: " + selstmt);
+      //MyLogger.log(className, "kein cacheeintrag für: " + _table);
+      //MyLogger.log(className, "cntstmt: " + cntstmt);
+      //MyLogger.log(className, "selstmt: " + selstmt);
 
       try {
         // Obtain a database connection:
@@ -211,9 +211,9 @@ public class Listbox extends HttpServlet {
         DropdownItem[] options = new DropdownItem[anzRow];
         rs = stmt.executeQuery(selstmt);
         int anzCol = rs.getMetaData().getColumnCount();
-        MyLogger.log(className, "WWWW table: " + table + "; anzRow: " + anzRow
-                + "; anzCol: " + anzCol + "; _table: " + _table
-                + "; constkey: " + constkey + "; constkeyval: " + constkeyval);
+        //MyLogger.log(className, "WWWW table: " + table + "; anzRow: " + anzRow
+                //+ "; anzCol: " + anzCol + "; _table: " + _table
+                //+ "; constkey: " + constkey + "; constkeyval: " + constkeyval);
 
         int i = 0;
         ArrayList<Object> columns;
@@ -223,10 +223,10 @@ public class Listbox extends HttpServlet {
             columns.add(rs.getObject(j));
           }
           dependency = null;
-          if (anzCol == 3) {
+          if (anzCol == 3) { 
             dependency = rs.getObject(3).toString();
-            MyLogger.log(className, "anzCol == 3:  table: " + table + "; anzRow: " + anzRow
-                    + "; anzCol: " + anzCol + "; dependency: " + dependency);
+            //MyLogger.log(className, "anzCol == 3:  table: " + table + "; anzRow: " + anzRow
+                    //+ "; anzCol: " + anzCol + "; dependency: " + dependency);
           }
 
           options[i] = new DropdownItem(columns);
@@ -304,12 +304,12 @@ public class Listbox extends HttpServlet {
       }
     }
 
-    //TEST     
+    /*TEST     
     if (context.getAttribute("V_AC_HERSTELLER##HER-SUZ") != null) {
       anzeige_txt = ((String[]) context.getAttribute("V_AC_HERSTELLER##HER-SUZ"))[0];
       MyLogger.log(className, "TEST: cacheeintrag name: V_AC_HERSTELLER##HER-SUZ; anzeige_txt: " + anzeige_txt);
     }
-
+     */
 //    //Hole den Wert aus dem Cache
 //    Object attribute;
 //    String s_anzeige_txt;
@@ -370,7 +370,8 @@ public class Listbox extends HttpServlet {
       //korrekt: jsonString: [{"id":"1", "name":"LB #1"}, {"id":"2", "name":"LB #2" } ]
       MyLogger.log(className, "typ: " + typ + "; table: " + table
               + "; constkey: " + constkey + "; jsonStringlength(): "
-              + jsonString.length() + "; jsonString: " + jsonString);
+              + jsonString.length());
+      //+ jsonString.length() + "; jsonString: " + jsonString);      
       out.println(jsonString);
     }
   }
@@ -381,8 +382,7 @@ public class Listbox extends HttpServlet {
 
     value[0] = attrvalue;
     context.setAttribute(cachekey, value);
-    MyLogger.log("BSUEB: storeDataInContext", "cacheeintrag ok: cachekey: " + cachekey
-            + "; value[0]: " + value[0]);
+    //MyLogger.log("rest.listbox.Listbox: storeDataInContext()", "cacheeintrag ok: cachekey: "            + cachekey + "; value[0]: " + value[0]);
   }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 

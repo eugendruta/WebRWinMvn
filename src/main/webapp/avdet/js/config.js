@@ -66,7 +66,7 @@ var config = {
             "constkey": "LE.Sperre", "dbcolumn": "INTERNESPERRE"}
         ],
         "table1": {
-          "name": "table_avueb",
+          "name": "table_avdet",
           "view": "v_dlg_bsueb",
           "servlet": "../Auftueb?",
           "anzcolumns": "57",

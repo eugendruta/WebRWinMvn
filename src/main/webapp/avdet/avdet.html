@@ -2,7 +2,7 @@
 <html style="height: 100%;">
   <head>
     <meta charset="UTF-8">
-    <title>AVUEB</title>  
+    <title>AVDET</title>  
     <link rel="manifest" href="../manifest.json">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"> 
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>        
@@ -18,12 +18,11 @@
     <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>    
     <link href="../resources/css/dialog.css" rel="stylesheet">  
     <link href="../resources/css/style.css" rel="stylesheet"> 
-    <link href="../resources/css/main.css" rel="stylesheet">     
-    <link href="resources/css/style.css" rel="stylesheet">          
+    <link href="../resources/css/main.css" rel="stylesheet">            
     <script src="../resources/js/util.js" ></script>
     <script src="../resources/js/navigator.js" ></script>    
     <script src="js/config.js"></script>  
-    <script src="js/avueb.js" ></script>      
+    <script src="js/avdet.js" ></script>      
     <!--ParamQuery Grid files-->
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" />    
     <link rel="stylesheet" href="resources/css/pqgrid.min.css" />
@@ -32,12 +31,13 @@
 
   <body >
     <div class="wrapper">
+      <!--Toolbarbutton  .header-->
       <header class="header">
         <div>
           <table style="width: 100%;">
             <tr>
               <td style="border: none; width: 200px; font-size: 14px; font-weight: normal;">
-                <label>AVUEB - Auftagsübersicht</label>
+                <label>AVDET - Auftagsdetail</label>
               </td>
               <td style="border: none;">
                 <div id='toolbarbuttons' >
@@ -45,7 +45,7 @@
                           title="Aktualisieren" style="height: 30px;" onclick="aktualisieren()">
                     <span class="ui-icon ui-icon-refresh" ></span></button>
                   <button id="detail" class="ui-button ui-widget ui-corner-all ui-button-icon-only" 
-                          title="Detail" style="height: 30px;" onclick="detail('avdet')" >
+                          title="Detail" style="height: 30px;" >
                     <span class="ui-icon ui-icon-zoomin"></span></button>
                   <button id="neu" class="ui-button ui-widget ui-corner-all ui-button-icon-only" 
                           title="Neu" style="height: 30px;" >
@@ -79,7 +79,7 @@
             </tr>
           </table>
         </div>      
-      </header><!-- .header-->
+      </header>
 
       <div class="middle">
         <div class="container">
@@ -95,84 +95,13 @@
 
           <!-- Eingabeblock (Flow) -->
           <div id="eingabediv1" style="left: 5px;" >
-            <label id="lenrlbl" class="custlabel">LE-Nr
-              <input id="lenr" type="text" style="max-width: 95px;">
-            </label>
-            <label id="lotyplblbl" class="custlabel">LO-Typ                  
-              <select id="lotyplb" style="width: 100px;"> </select>    
-            </label>
-            <label id="ezolblbl" class="custlabel">EZO
-              <select id="ezolb" style="width: 100px;" > </select>
-            </label>
-            <label id="dispostatuslblbl" class="custlabel">Dispostatus
-              <select id="dispostatuslb"  style="width: 100px;"> </select>        
-            </label>
-            <label id="kistelbl" class="custlabel">Kiste
-              <input id="kiste" type="text" style="max-width: 70px;">
-            </label>
             <label id="mandantlblbl" class="custlabel">Mandant
               <select id="mandantlb" style="width: 100px;" onchange="changelb(this.id, this.value);"></select>
             </label>        
-            <label id="lagerortlblbl" class="custlabel">Lagerort
-              <select id="lagerortlb" style="width: 100px;"> </select>                
+            <label id="auftraglbl" class="custlabel">Auftrag/TL
+              <input id="auftrag" type="text" style="max-width: 70px;">
             </label>
-            <label id="ezoavisiertlblbl" class="custlabel">EZO avisiert
-              <select id="ezoavisiertlb" style="width: 100px;"> </select> 
-            </label>
-            <label id="qsstatuslblbl" class="custlabel">QS-Status
-              <select id="qsstatuslb" style="width: 100px;"> </select> 
-            </label>
-            <label id="containerlbl" class="custlabel">Container
-              <input id="container" type="text" style="max-width: 70px;">
-            </label>
-            <label id="hostlagerlblbl" class="custlabel">Hostlager
-              <select id="hostlagerlb" style="width: 100px;"> </select> 
-            </label>              
-            <label id="lagerbereichlblbl" class="custlabel">Lagerbereich
-              <select id="lagerbereichlb" style="width: 100px;"> </select> 
-            </label>       
-            <label id="vonzlbl"  class="custlabel">von Z       
-              <input id="vonz" type="text" style="max-width: 20px;">
-            </label>            
-            <label id="vonxlbl"  class="custlabel">von X       
-              <input id="vonx" type="text" style="max-width: 20px; margin-left: 5px;">
-            </label>
-            <label id="vonylbl"  class="custlabel">von Y       
-              <input id="vony" type="text" style="max-width: 20px; margin-left: 5px;">
-            </label>
-            <label id="biszlbl" class="custlabel">bis Z
-              <input id="bisz" type="text" style="max-width: 20px;">
-            </label>
-            <label id="bisxlbl" class="custlabel">bis X      
-              <input id="bisx" type="text" style="max-width: 20px; margin-left: 5px;">
-            </label>              
-            <label id="bisylbl" class="custlabel">bis Y      
-              <input id="bisy" type="text" style="max-width: 20px; margin-left: 5px;">
-            </label>
-            <label id="transportlblbl" class="custlabel">Transport
-              <select id="transportlb" style="width: 100px;"> </select>
-            </label>
-            <label id="herstellerlblbl" class="custlabel">Hersteller
-              <select id="herstellerlb" style="width: 100px;"> </select> 
-            </label>               
-            <label id="lhmtyplblbl" class="custlabel">LHM-Typ
-              <select id="lhmtyplb" style="width: 100px;"> </select> 
-            </label>       
-            <label id="inventurlblbl" class="custlabel">Inventur
-              <select id="inventurlb" style="width: 100px;"> </select>
-            </label>
-            <label id="teilenummerlbl" class="custlabel">Teilenummer
-              <input id="teilenummer" type="text" style="max-width: 95px;">
-            </label>
-            <label id="letzteinvvonlblbl" class="custlabel">letzte Inv. von        
-              <select id="letzteinvvonlb" style="width: 48px;"> </select>
-            </label>
-            <label id="letzteinvbislblbl" class="custlabel">bis        
-              <select id="letzteinvbislb" style="width: 48px;"> </select> 
-            </label>       
-            <label id="intsperrelblbl" class="custlabel">int.-Sperre
-              <select id="intsperrelb"  style="width: 100px;"> </select>
-            </label>              
+            <input id="tl" type="text" style="max-width: 30px;">
             <br>
             <input id="anzeigen1" value="Anzeigen" type="submit" class="butn"
                    style="max-width: 90px; float: left;" onclick="showtable('table1')"> 
@@ -180,7 +109,257 @@
                    style="margin-left: 10px; width: 90px;"> 
           </div>
 
+          <div id="tabs" style="top: 180px;">
+            <ul style="height: 40px;">
+              <li><a href="#tabs-1">Nunc tincidunt</a></li>
+              <li><a href="#tabs-2">Proin dolor</a></li>
+              <li><a href="#tabs-3">Aenean lacinia</a></li>
+            </ul>
+            <!-- TAB 2 Detail, Bestände, Status, Datum  -->
+            <div id="tabs-1" style=" padding-top: 0px;" > 
+              xxxxxxxxxxxx
+              <table style="border: solid; top: 0px;">
+                <tr>
+                  <td class="tdfield">
+                    <table style="border: none; ">
+                      <tr>  
+                        <td class="tdfield"> 
+                          <div id="ausgabedivdet1" >
+                            <table id="table_bsueb_det" style="border: none;">                                                    
+                              <tr>
+                                <td class="tdlabel"><label>LE-Nr</label></td>
+                                <td class="tdfield">
+                                  <input id="lenrdet" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr >
+                                <td class="tdlabel"><label>LHM-Typ</label></td>
+                                <td class="tdfield">
+                                  <input id="lhmtypdet" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>Mandant</label></td>
+                                <td class="tdfield">
+                                  <input id="mandantdet" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>Hersteller</label></td>
+                                <td class="tdfield">
+                                  <input id="herstellerdet" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr >
+                                <td class="tdlabel"><label>Teile-Nr.</label></td>
+                                <td class="tdfield">
+                                  <input id="teilenrdet" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>H.-Teile-Nr.</label></td>
+                                <td class="tdfield">
+                                  <input id="hteilenrdet" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>Bezeichnung</label></td>
+                                <td class="tdfield">
+                                  <input id="bezeichnungdet" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>LO-Typ</label></td>
+                                <td class="tdfield">
+                                  <input id="lotypdet" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>Lagerort</label></td>
+                                <td class="tdfield">
+                                  <input id="lagerortdet" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>              
+                              <tr >
+                                <td class="tdlabel"><label>Zone aktuell</label></td>
+                                <td class="tdfield">
+                                  <input id="zoneaktuelldet" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>              
+                              <tr >
+                                <td class="tdlabel"><label>Zone avisiert</label></td>
+                                <td class="tdfield">
+                                  <input id="zoneavisiertdet" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>              
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
 
+                  </td>
+
+                  <!-- Bestände  -->              
+                  <td class="tdfield">
+                    <table style="border: none;">
+                      <tr>
+                        <td  style="width: 50px; border: none;">  
+                          <div id="ausgabedivdet2" style="padding-bottom: 70px;">
+                            <table id="table_bsueb_best" style="border: 2x solid;">
+                              <tr >
+                                <td class="tdlabel"><label>total</label></td>
+                                <td class="tdfield">
+                                  <input id="total" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr >
+                                <td class="tdlabel"><label>verfügbar</label></td>
+                                <td class="tdfield">
+                                  <input id="verfuegbar" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>reserviert</label></td>
+                                <td class="tdfield">
+                                  <input id="reserviert" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>gesperrt</label></td>
+                                <td class="tdfield">
+                                  <input id="gesperrt" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr >
+                                <td class="tdlabel"><label>nachgefragt</label></td>
+                                <td class="tdfield">
+                                  <input id="nachgefragt" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>geplant</label></td>
+                                <td class="tdfield">
+                                  <input id="geplant" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>läuft</label></td>
+                                <td class="tdfield">
+                                  <input id="laeuft" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>Einheit</label></td>
+                                <td class="tdfield">
+                                  <input id="einheit" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                            </table>
+                          </div> 
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+
+                  <!-- Status, Datum  -->
+                  <td style="border: none; padding-top: 0px; ">
+                    <table style="border: none; ">
+                      <tr> 
+                        <td class="tdfield"> 
+                          <div id="ausgabedivdet3" style="border: none; padding-left: 23px;">
+                            <table id="table_bsueb_det_status" style="border: none;">
+                              <tr >
+                                <td class="tdlabel"><label>Dispostatus</label></td>
+                                <td class="tdfield">
+                                  <input id="dispostatusdet" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr >
+                                <td class="tdlabel"><label>QS-Status</label></td>
+                                <td class="tdfield">
+                                  <input id="qsstatusdet" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>Int. Sperre</label></td>
+                                <td class="tdfield">
+                                  <input id="intsperredet" type="text" style="max-width: 95px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>Transport</label></td>
+                                <td class="tdfield">
+                                  <input id="transportdet" type="checkbox" disabled>
+                                </td>                
+                              </tr>
+                              <tr >
+                                <td class="tdlabel"><label>Inventur</label></td>
+                                <td class="tdfield">
+                                  <input id="inventurdet" type="checkbox" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>Retoure</label></td>
+                                <td class="tdfield">
+                                  <input id="retouredet" type="checkbox" disabled>
+                                </td>                
+                              </tr>
+                            </table>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Datum  -->
+                      <tr> 
+                        <td class="tdfield">
+                          <fieldset>
+                            <legend>Datum</legend>                      
+                            <table style="border: none;">                  
+                              <tr>
+                                <td class="tdlabel"><label class="tdlabel">FIFO-Datum</label></td>
+                                <td class="tdfield">
+                                  <input id="fifodatumdet" type="text" style="max-width: 135px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label class="tdlabel">Bildung-Datum</label></td>
+                                <td class="tdfield">
+                                  <input id="bildungdatumdet" type="text" style="max-width: 135px;" disabled>
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label class="tdlabel">Inventur-Datum</label></td>
+                                <td class="tdfield">
+                                  <input id="inventurdatumdet" type="text" style="max-width: 135px;" disabled>
+                                </td>                
+                              </tr>                          
+                            </table>
+                          </fieldset>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>              
+                </tr>
+              </table>
+            </div>        
+
+            <div id="tabs-2">
+              <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+            </div>
+            <div id="tabs-3">
+              <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
+              <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+            </div>
+          </div>
+
+          <!-- TAB 1 & 2: Übersicht, Detail 
+          <div id="tabs" style="height: 350px;">
+            <ul style="height: 50px;">
+              <li><a href="#tabs-1">Detail</a></li>
+            </ul>
+          </div>          
+          -->
           <!-- Customize -->
           <div id="custom" style="left: 5px; display: none" > 
             <b>Selektionskriterien</b> <br>
@@ -370,10 +549,9 @@
             </table>           
           </div>
 
-          <!-- Übersicht-->     
-          <div id="ausgabediv1" style="margin:auto;">
-          </div>          
         </div><!-- .container-->
+
+
       </div><!-- .middle-->
 
       <!-- footer -->

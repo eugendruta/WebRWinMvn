@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -55,7 +56,10 @@ public class Auftueb extends HttpServlet {
     String name = null;
     String s_anzeige_txt = null;
     Boolean b_anzeige_txt;
-
+    double start;
+    double ende;
+    double duration;    
+    
     response.setContentType("text/html;charset=UTF-8");
 
     ServletContext context = request.getSession().getServletContext();
@@ -63,11 +67,13 @@ public class Auftueb extends HttpServlet {
     String sqlstm = request.getParameter("sqlstm");
     MyLogger.log(className, "sqlstm: " + sqlstm);
 
+    start = ((new Date()).getTime()) / 1000.;
+
     //Table und WHERE-Klausel
     if (sqlstm.contains("WHERE")) {
       table = sqlstm.substring(sqlstm.lastIndexOf("FROM") + 5, sqlstm.indexOf("WHERE"));
       where = sqlstm.substring(sqlstm.lastIndexOf("WHERE"));
-      MyLogger.log(className, "table: " + table + "; where: " + where);
+      //MyLogger.log(className, "table: " + table + "; where: " + where);
     } else {
       table = sqlstm.substring(sqlstm.lastIndexOf("FROM") + 5);
       where = "";
@@ -76,7 +82,7 @@ public class Auftueb extends HttpServlet {
     //Beginn mit SELECT 
     _sqlstmt = sqlstm;
     _sqlstmt = _sqlstmt.substring(sqlstm.indexOf(" ") + 1);
-    MyLogger.log(className, "_sqlstmt:" + _sqlstmt + ";");
+    //MyLogger.log(className, "_sqlstmt:" + _sqlstmt + ";");
 
     try {
       // Obtain a database connection:
@@ -95,20 +101,20 @@ public class Auftueb extends HttpServlet {
       } else {
         view = sqlstm.substring(startpos).substring(0, endpos);
       }
-      MyLogger.log(className, "view: " + view);
+      //MyLogger.log(className, "view: " + view);
 
       //WHERE-Klausel hinzufügen (wenn vorhanden)
       String _from = sqlstm.substring(sqlstm.lastIndexOf("FROM"));
       startpos = _from.lastIndexOf("WHERE");
       if (startpos > 0) {
         where = _from.substring(startpos);
-        MyLogger.log(className, "; where: " + where);
+        //MyLogger.log(className, "; where: " + where);
         cntStm = "SELECT COUNT(*) FROM " + view + " " + where;
       } else {
         //SELECT count(*) ohne WHERE-Klausel
         cntStm = "SELECT COUNT(*) FROM " + view;
       }
-      MyLogger.log(className, "cntStm: " + cntStm);
+      //MyLogger.log(className, "cntStm: " + cntStm);
 
       rs = stmt.executeQuery(cntStm);
       anzRow = 0;
@@ -118,7 +124,7 @@ public class Auftueb extends HttpServlet {
 
       rs = stmt.executeQuery(sqlstm);
       anzCol = rs.getMetaData().getColumnCount();
-      MyLogger.log(className, "table: " + "anzRow: " + anzRow + "; anzCol: " + anzCol);
+      //MyLogger.log(className, "table: " + "anzRow: " + anzRow + "; anzCol: " + anzCol);
 
       String[] dataItem = new String[anzCol];
       String[][] data = new String[anzRow][anzCol];
@@ -143,10 +149,10 @@ public class Auftueb extends HttpServlet {
             } else if (_colname.startsWith("CK_")) {
               key = "V_UX_KONSTANTEN#" + rs.getString(j) + "#" + dbcol;
             }
-            MyLogger.log(className, "DDDD colname: " + _colname + "; rs.getString("
-                    + j + "): " + rs.getString(j) + "; dbcolname: "
-                    + _colname.substring(3) + ";  dbcolwert: " + dbcol
-                    + ": key: " + key);
+            //MyLogger.log(className, "DDDD colname: " + _colname + "; rs.getString("
+            //+ j + "): " + rs.getString(j) + "; dbcolname: "
+            //+ _colname.substring(3) + ";  dbcolwert: " + dbcol
+            //+ ": key: " + key);
 
             //Hole den Wert aus dem Cache
             if (dbcol == null) {
@@ -158,7 +164,7 @@ public class Auftueb extends HttpServlet {
               attribute = context.getAttribute(key);
               if (attribute == null) {
                 //Cache leer: eintragen
-                MyLogger.log(className, "Cache leer: key: " + key);
+                //MyLogger.log(className, "Cache leer: key: " + key);
                 //String[] _val = new String[1];
                 //_val[0] = "";
                 //context.setAttribute(key, _val);
@@ -166,8 +172,7 @@ public class Auftueb extends HttpServlet {
               } else {
                 //Cache vorhanden
                 dataItem[j - 1] = ((String[]) attribute)[0];
-                MyLogger.log(className, "Cache vorhanden: key: " + key + "; value: "
-                        + ((String[]) attribute)[0] + ";");
+                //MyLogger.log(className, "Cache vorhanden: key: " + key + "; value: "                        + ((String[]) attribute)[0] + ";");
               }
             }
           }
@@ -181,7 +186,7 @@ public class Auftueb extends HttpServlet {
         String[] strings = data[j];
         for (int k = 0; k < strings.length; k++) {
           String string = strings[k];
-          MyLogger.log(className, "data[" + j + "][" + k + "]: " + data[j][k]);
+          //MyLogger.log(className, "data[" + j + "][" + k + "]: " + data[j][k]);
         }
       }
 
@@ -189,7 +194,7 @@ public class Auftueb extends HttpServlet {
 
       Gson gson = new Gson();
       jsonString = gson.toJson(auftuebItem);
-      MyLogger.log(className, "jsonString: " + jsonString);
+      //MyLogger.log(className, "jsonString: " + jsonString);
 
       rs.close();
       stmt.close();
@@ -208,7 +213,9 @@ public class Auftueb extends HttpServlet {
     }
 
     try (PrintWriter out = response.getWriter()) {
-      //MyLogger.log(className, "Table: " + table + "; jsonString.length: " + jsonString.length());
+      ende = ((new Date()).getTime()) / 1000.;
+      duration = ende - start;
+      MyLogger.log(className, "Ende: duration[Sek]: " + duration);
       out.println(jsonString);
     }
   }
