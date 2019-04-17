@@ -16,10 +16,10 @@ $(document).ready(function () {
   for (let i = 0; i < localStorage.length; i++) {
     let key = localStorage.key(i);
     let value = localStorage.getItem(key);
-    UTIL.logger(dialogname + ': start: key: ' + key + '; value: ' + value);
+    //UTIL.logger(dialogname + ': start: key: ' + key + '; value: ' + value);
     if (value === 'closed') {
       localStorage.removeItem(key);
-      UTIL.logger(dialogname + ': start: key: ' + key + '; value: ' + value + ' gelöscht');
+      //UTIL.logger(dialogname + ': start: key: ' + key + '; value: ' + value + ' gelöscht');
     }
   }
 

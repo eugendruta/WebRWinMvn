@@ -687,5 +687,13 @@ $(document).ready(function () {
       });
     }
   };
+
+  zurueck = function zurueck() {
+    UTIL.logger(dialogname + ': zurueck()');
+  };
+
+  vor = function vor() {
+    UTIL.logger(dialogname + ': vor()');
+  };
 }
 ); // end ready

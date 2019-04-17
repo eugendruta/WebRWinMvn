@@ -298,7 +298,7 @@
             </table>           
           </div>
 
-          <!-- TAB:  Detail, Positionen, Lieferung -->
+          <!-- TABS:  Detail, Positionen, Lieferung -->
           <div id="tabs" style="float: left;">
             <ul style="height: 40px;">
               <li><a href="#tabs-1">Detail</a></li>
@@ -306,9 +306,11 @@
               <li><a href="#tabs-3">Lieferung</a></li>
             </ul>
 
+            <!-- TAB:  Detail -->
             <div id="tabs-1" class="table_bsueb" > 
               <table>
                 <tr>
+                  <!-- Spalte 1 -->
                   <td class="tdfield">
                     <table style="border: none; ">
                       <tr>  
@@ -316,71 +318,62 @@
                           <div id="ausgabedivdet1" >
                             <table id="table_bsueb_det" style="border: none;">                                                    
                               <tr>
-                                <td class="tdlabel"><label>LE-Nr</label></td>
+                                <td class="tdlabel"><label>Tour</label></td>
                                 <td class="tdfield">
-                                  <input id="lenrdet" type="text" style="max-width: 95px;" disabled>
+                                  <input id="lenrdet" type="text" style="max-width: 140px;" disabled
+                                         value="Tagesexpress 12:00">
                                 </td>                
                               </tr>
                               <tr >
-                                <td class="tdlabel"><label>LHM-Typ</label></td>
+                                <td class="tdlabel"><label>K-Prio</label></td>
                                 <td class="tdfield">
-                                  <input id="lhmtypdet" type="text" style="max-width: 95px;" disabled>
+                                  <input id="lhmtypdet" type="text" style="max-width: 130px;" disabled 
+                                         value="03.11.2017 12:30">
                                 </td>                
                               </tr>
                               <tr>
-                                <td class="tdlabel"><label>Mandant</label></td>
+                                <td class="tdlabel"><label>Soll-Lieferdatum</label></td>
                                 <td class="tdfield">
-                                  <input id="mandantdet" type="text" style="max-width: 95px;" disabled>
+                                  <input id="mandantdet" type="text" style="max-width: 90px;" disabled 
+                                         value="20.06.2016">
                                 </td>                
                               </tr>
                               <tr>
-                                <td class="tdlabel"><label>Hersteller</label></td>
+                                <td class="tdlabel"><label>Erfassung</label></td>
                                 <td class="tdfield">
-                                  <input id="herstellerdet" type="text" style="max-width: 95px;" disabled>
+                                  <input id="herstellerdet" type="text" style="max-width: 90px;" disabled>
                                 </td>                
                               </tr>
                               <tr >
-                                <td class="tdlabel"><label>Teile-Nr.</label></td>
+                                <td class="tdlabel"><label>Kommission</label></td>
                                 <td class="tdfield">
-                                  <input id="teilenrdet" type="text" style="max-width: 95px;" disabled>
+                                  <input id="teilenrdet" type="text" style="max-width: 95px;" disabled 
+                                         value="425">
                                 </td>                
                               </tr>
                               <tr>
-                                <td class="tdlabel"><label>H.-Teile-Nr.</label></td>
+                                <td class="tdlabel"><label>Auftragsart</label></td>
                                 <td class="tdfield">
-                                  <input id="hteilenrdet" type="text" style="max-width: 95px;" disabled>
+                                  <input id="hteilenrdet" type="text" style="max-width: 95px;" disabled 
+                                         value="?????">
                                 </td>                
                               </tr>
                               <tr>
-                                <td class="tdlabel"><label>Bezeichnung</label></td>
+                                <td class="tdlabel"><label>Versanddat</label></td>
                                 <td class="tdfield">
-                                  <input id="bezeichnungdet" type="text" style="max-width: 95px;" disabled>
+                                  <input id="bezeichnungdet" type="text" style="max-width: 95px;" disabled 
+                                         value="Tagesexpress">
                                 </td>                
                               </tr>
                               <tr>
-                                <td class="tdlabel"><label>LO-Typ</label></td>
+                                <td class="tdlabel"><label>Tourenzuordnung</label></td>
                                 <td class="tdfield">
-                                  <input id="lotypdet" type="text" style="max-width: 95px;" disabled>
+                                  <input id="zurueck" value="<Zurück" type="submit" class="butn-disabled"
+                                         style="max-width: 90px; float: left;" onclick="zurueck()" disabled> 
+                                  <input id="vor" value="Vor>" type="submit" class="butn-disabled" 
+                                         style="margin-left: 10px; width: 90px;" onclick="vor()" disabled> 
                                 </td>                
-                              </tr>
-                              <tr>
-                                <td class="tdlabel"><label>Lagerort</label></td>
-                                <td class="tdfield">
-                                  <input id="lagerortdet" type="text" style="max-width: 95px;" disabled>
-                                </td>                
-                              </tr>              
-                              <tr >
-                                <td class="tdlabel"><label>Zone aktuell</label></td>
-                                <td class="tdfield">
-                                  <input id="zoneaktuelldet" type="text" style="max-width: 95px;" disabled>
-                                </td>                
-                              </tr>              
-                              <tr >
-                                <td class="tdlabel"><label>Zone avisiert</label></td>
-                                <td class="tdfield">
-                                  <input id="zoneavisiertdet" type="text" style="max-width: 95px;" disabled>
-                                </td>                
-                              </tr>              
+                              </tr>                              
                             </table>
                           </div>
                         </td>
@@ -388,59 +381,65 @@
                     </table>
                   </td>
 
-                  <!-- Bestände  -->              
+                  <!-- Spalte 2 -->
                   <td class="tdfield">
                     <table style="border: none;">
                       <tr>
                         <td  style="width: 50px; border: none;">  
                           <div id="ausgabedivdet2" style="padding-bottom: 70px;">
-                            <table id="table_bsueb_best" style="border: 2x solid;">
+                            <table id="table_bsueb_best">
                               <tr >
-                                <td class="tdlabel"><label>total</label></td>
+                                <td class="tdlabel"><label>Pool</label></td>
                                 <td class="tdfield">
-                                  <input id="total" type="text" style="max-width: 95px;" disabled>
-                                </td>                
-                              </tr>
-                              <tr >
-                                <td class="tdlabel"><label>verfügbar</label></td>
-                                <td class="tdfield">
-                                  <input id="verfuegbar" type="text" style="max-width: 95px;" disabled>
-                                </td>                
-                              </tr>
-                              <tr>
-                                <td class="tdlabel"><label>reserviert</label></td>
-                                <td class="tdfield">
-                                  <input id="reserviert" type="text" style="max-width: 95px;" disabled>
-                                </td>                
-                              </tr>
-                              <tr>
-                                <td class="tdlabel"><label>gesperrt</label></td>
-                                <td class="tdfield">
-                                  <input id="gesperrt" type="text" style="max-width: 95px;" disabled>
+                                  <input id="total" type="text" style="max-width: 95px;" disabled 
+                                         value="ME-Pool">
                                 </td>                
                               </tr>
                               <tr >
-                                <td class="tdlabel"><label>nachgefragt</label></td>
+                                <td class="tdlabel"><label>Abwicklungsprio</label></td>
                                 <td class="tdfield">
-                                  <input id="nachgefragt" type="text" style="max-width: 95px;" disabled>
+                                  <input id="verfuegbar" type="text" style="max-width: 20px;" disabled 
+                                         value="0">
                                 </td>                
                               </tr>
                               <tr>
-                                <td class="tdlabel"><label>geplant</label></td>
+                                <td class="tdlabel"><label>Hostprio</label></td>
                                 <td class="tdfield">
-                                  <input id="geplant" type="text" style="max-width: 95px;" disabled>
+                                  <input id="reserviert" type="text" style="max-width: 20px;" disabled 
+                                         value="5">
                                 </td>                
                               </tr>
                               <tr>
-                                <td class="tdlabel"><label>läuft</label></td>
+                                <td class="tdlabel"><label>QS-Status</label></td>
                                 <td class="tdfield">
-                                  <input id="laeuft" type="text" style="max-width: 95px;" disabled>
+                                  <input id="gesperrt" type="text" style="max-width: 17px;" disabled 
+                                         value="0">
+                                </td>                
+                              </tr>
+                              <tr >
+                                <td class="tdlabel"><label>Hostlager</label></td>
+                                <td class="tdfield">
+                                  <input id="nachefragt" type="text" style="max-width: 170px;" disabled 
+                                         value="Zentrallager Karlsruhe">
                                 </td>                
                               </tr>
                               <tr>
-                                <td class="tdlabel"><label>Einheit</label></td>
+                                <td class="tdlabel"><label>LS-Typ</label></td>
                                 <td class="tdfield">
-                                  <input id="einheit" type="text" style="max-width: 95px;" disabled>
+                                  <input id="geplant" type="text" style="max-width: 170px;" disabled 
+                                         value="Papier">
+                                </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>Preise ausdrucken</label></td>
+                                <td class="tdfield">
+                                  <input class="custinput" id="preisdrucken" type="checkbox" checked disabled>                                 </td>                
+                              </tr>
+                              <tr>
+                                <td class="tdlabel"><label>offene Lieferscheine</label></td>
+                                <td class="tdfield">
+                                  <input id="einheit" type="text" style="max-width: 65px;" disabled 
+                                         value="0">
                                 </td>                
                               </tr>
                             </table>
@@ -448,86 +447,7 @@
                         </td>
                       </tr>
                     </table>
-                  </td>
-
-                  <!-- Status, Datum  -->
-                  <td style="border: none; padding-top: 0px; ">
-                    <table style="border: none; ">
-                      <tr> 
-                        <td class="tdfield"> 
-                          <div id="ausgabedivdet3" style="border: none; padding-left: 23px;">
-                            <table id="table_bsueb_det_status" style="border: none;">
-                              <tr >
-                                <td class="tdlabel"><label>Dispostatus</label></td>
-                                <td class="tdfield">
-                                  <input id="dispostatusdet" type="text" style="max-width: 95px;" disabled>
-                                </td>                
-                              </tr>
-                              <tr >
-                                <td class="tdlabel"><label>QS-Status</label></td>
-                                <td class="tdfield">
-                                  <input id="qsstatusdet" type="text" style="max-width: 95px;" disabled>
-                                </td>                
-                              </tr>
-                              <tr>
-                                <td class="tdlabel"><label>Int. Sperre</label></td>
-                                <td class="tdfield">
-                                  <input id="intsperredet" type="text" style="max-width: 95px;" disabled>
-                                </td>                
-                              </tr>
-                              <tr>
-                                <td class="tdlabel"><label>Transport</label></td>
-                                <td class="tdfield">
-                                  <input id="transportdet" type="checkbox" disabled>
-                                </td>                
-                              </tr>
-                              <tr >
-                                <td class="tdlabel"><label>Inventur</label></td>
-                                <td class="tdfield">
-                                  <input id="inventurdet" type="checkbox" disabled>
-                                </td>                
-                              </tr>
-                              <tr>
-                                <td class="tdlabel"><label>Retoure</label></td>
-                                <td class="tdfield">
-                                  <input id="retouredet" type="checkbox" disabled>
-                                </td>                
-                              </tr>
-                            </table>
-                          </div>
-                        </td>
-                      </tr>
-
-                      <!-- Datum  -->
-                      <tr> 
-                        <td class="tdfield">
-                          <fieldset>
-                            <legend>Datum</legend>                      
-                            <table style="border: none;">                  
-                              <tr>
-                                <td class="tdlabel"><label class="tdlabel">FIFO-Datum</label></td>
-                                <td class="tdfield">
-                                  <input id="fifodatumdet" type="text" style="max-width: 135px;" disabled>
-                                </td>                
-                              </tr>
-                              <tr>
-                                <td class="tdlabel"><label class="tdlabel">Bildung-Datum</label></td>
-                                <td class="tdfield">
-                                  <input id="bildungdatumdet" type="text" style="max-width: 135px;" disabled>
-                                </td>                
-                              </tr>
-                              <tr>
-                                <td class="tdlabel"><label class="tdlabel">Inventur-Datum</label></td>
-                                <td class="tdfield">
-                                  <input id="inventurdatumdet" type="text" style="max-width: 135px;" disabled>
-                                </td>                
-                              </tr>                          
-                            </table>
-                          </fieldset>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>              
+                  </td>           
                 </tr>
               </table>
             </div>        
