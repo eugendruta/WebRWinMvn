@@ -263,12 +263,7 @@ $(document).ready(function () {
     UTIL.logger(dialogname + ": onStorageEvent(): eintrag für key: "
       + key + '; oldvalue: ' + oldvalue + '; newvalue: ' + newvalue
       + '; eintrag: ' + eintrag);
-    //eintrag für key: bsueb; oldvalue: *; newvalue: closed; eintrag: closed
 
-    /* webrw.html closed
-     * bsueb: onStorageEvent(): eintrag für key: bsueb; oldvalue: focus; newvalue: null; 
-     * eintrag: null
-     */
     closed = false;
     if (dialogname === key) {
       if (newvalue === 'closed')

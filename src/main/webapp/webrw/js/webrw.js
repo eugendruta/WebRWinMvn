@@ -98,7 +98,7 @@ $(document).ready(function () {
 
       var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
       if (!newWin) {
-        alert('Start Dialog' + aktdialog + ' nicht möglich; newWin === null');
+        alert('Start Dialog' + aktdialog + ' nicht möglich; Bitte POp-Up Blocker deaktivieren.');
       } else {
         UTIL.logger(dialogname + ': onStorageEvent(): dialog: ' + newWin.name + ' gestartet');
 
