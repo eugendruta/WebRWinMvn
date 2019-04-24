@@ -311,8 +311,7 @@ $(document).ready(function () {
     'modal': true,
     'closeText': ""
   });
-  //TAB: Übersicht, Detail
-  $("#tabs").tabs();
+
   //Init. Listbox
   function initLb(lbname) {
     if ($('#' + lbname).val() === null) {

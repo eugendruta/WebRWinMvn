@@ -40,10 +40,12 @@ $(document).ready(function () {
     for (let i = 0; i < localStorage.length; i++) {
       let key = localStorage.key(i);
       let value = localStorage.getItem(key);
-      //localStorage: key: bsueb; value: focus
-      if ((value === 'focus')) {
+      //Dialaoge im localStorage löschen (egal welcher status )
+      if ((value === 'focus') || (value === 'folge')) {
         localStorage.setItem(key, 'closed');
         UTIL.logger(dialogname + ':  beforeunload(): key: ' + key + '; auf closed gesetzt');
+        //localStorage.removeItem(key);
+        //UTIL.logger(dialogname + ": beforeunload(): Dialog: " + key + ' gelöscht');
       }
     }
 
@@ -87,7 +89,7 @@ $(document).ready(function () {
       _width = _width - _width / 120;
       var _height = localStorage.getItem(aktdialog + ".height");
       _height = _height - _height / 120;
-      UTIL.logger(dialogname + ': navigator.click(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
+      UTIL.logger(dialogname + ': onStorageEvent(): aktdialog: ' + aktdialog + ';_width: ' + _width + '; _height: ' + _height);
       if (_width && _height) {
         var winProps = 'height=' + _height + ',width=' + _width + 'left=' + left + ',top=' + top;
       } else {
@@ -95,11 +97,15 @@ $(document).ready(function () {
       }
 
       var newWin = window.open("../" + aktdialog + "/" + aktdialog + ".html", "_blank");
-      UTIL.logger(dialogname + ': navigator.click(): dialog: ' + newWin.name + ' gestartet');
+      if (!newWin) {
+        alert('Start Dialog' + aktdialog + ' nicht möglich; newWin === null');
+      } else {
+        UTIL.logger(dialogname + ': onStorageEvent(): dialog: ' + newWin.name + ' gestartet');
 
-      localStorage.setItem(aktdialog, 'focus');
-      UTIL.logger(dialogname + ': navigator.click(): localStorage: aktdialog: '
-        + aktdialog + ' auf focus gesetzt');
+        localStorage.setItem(aktdialog, 'focus');
+        UTIL.logger(dialogname + ': onStorageEvent(): localStorage: aktdialog: '
+          + aktdialog + ' auf focus gesetzt');
+      }
     }
   }
   window.addEventListener('storage', onStorageEvent, false);
@@ -424,17 +430,17 @@ $(document).ready(function () {
     }
 
     /*
-    //tree_json: [{"name":"Administration", "is_open":true, "children":[{"name":"ADUEB: Administration-Übersicht"},
-    var tree_json = $('#navigator').tree('toJson');
-    var tree = JSON.parse(tree_json);
-    UTIL.logger(dialogname + '; login(): tree.name: ' + tree[0].name + '; name: '
-      + tree[0].children[0].name + '; is_Open: ' + tree[0].is_open);
-
-    //{open_nodes: [12, 23, 45], selected_node: [88]}
-    var state = $('#navigator').tree('getState');
-    //$('#navigator').tree('setState', state);
-    UTIL.logger(dialogname + '; login(): state.open_nodes.length: ' + state.open_nodes.length
-      + '; state.selected_node.length: ' + state.selected_node.length);F     
+     //tree_json: [{"name":"Administration", "is_open":true, "children":[{"name":"ADUEB: Administration-Übersicht"},
+     var tree_json = $('#navigator').tree('toJson');
+     var tree = JSON.parse(tree_json);
+     UTIL.logger(dialogname + '; login(): tree.name: ' + tree[0].name + '; name: '
+     + tree[0].children[0].name + '; is_Open: ' + tree[0].is_open);
+     
+     //{open_nodes: [12, 23, 45], selected_node: [88]}
+     var state = $('#navigator').tree('getState');
+     //$('#navigator').tree('setState', state);
+     UTIL.logger(dialogname + '; login(): state.open_nodes.length: ' + state.open_nodes.length
+     + '; state.selected_node.length: ' + state.selected_node.length);F     
      */
   };
 
