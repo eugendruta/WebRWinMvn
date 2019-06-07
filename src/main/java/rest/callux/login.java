@@ -45,6 +45,7 @@ public class login extends HttpServlet {
     String retval = "{\"data\":[\"-99\",\"Init.\"]}";
 
     response.setContentType("text/html;charset=UTF-8");
+    response.setHeader("Access-Control-Allow-Origin", "*");  
 
     String benutzer = request.getParameter("benutzer");
     String kennwort = request.getParameter("kennwort");

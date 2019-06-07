@@ -58,15 +58,78 @@ public class Auftueb extends HttpServlet {
     Boolean b_anzeige_txt;
     double start;
     double ende;
-    double duration;    
-    
+    double duration;
+    AuftuebItem auftuebItem = new AuftuebItem(1, 1);
+
     response.setContentType("text/html;charset=UTF-8");
+    response.setHeader("Access-Control-Allow-Origin", "*");
 
     ServletContext context = request.getSession().getServletContext();
 
+    /* ?sort=&page=1&per_page=5    
+     */
     String sqlstm = request.getParameter("sqlstm");
     MyLogger.log(className, "sqlstm: " + sqlstm);
 
+    String sort = request.getParameter("sort");
+    MyLogger.log(className, "sort: " + sort);
+    String page = request.getParameter("page");
+    MyLogger.log(className, "page: " + page);
+    String per_page = request.getParameter("per_page");
+    MyLogger.log(className, "per_page: " + per_page);
+
+    /* !! TEST Vuetable-2
+    if (page != null) {
+      MyLogger.log(className, "TEST Vuetable-2");
+      //jsonString: [ {"id":"HOL-3506","name":"Fehlteile Wareneingang"},{"id":"HOL-1006","name":"Zentrallager Karlsruhe"},{"id":"HOL-1806","name":"Retouren AT Karlsruhe"},{"id":"HOL-1906","name":"Retourenlager Karlsruhe"},{"id":"HOL-3006","name":"Schrott / Edix-Lager Karlsruhe"},{"id":"HOL-3306","name":"Mehrmarken Karlsruhe"},{"id":"HOL-3706","name":"NON-Ford Reklamationen Karls"},{"id":"HOL-3906","name":"Ford-Retourenlager Karlsruhe"},{"id":"HOL-4006","name":"Express-Lager Karlsruhe"}] 
+      try (PrintWriter out = response.getWriter()) {
+        jsonString = "      {\n"
+                + "        \"links\": \n"
+                + "          {\n"
+                + "            \"pagination\": {\n"
+                + "            \"total\": 50,\n"
+                + "            \"per_page\": 15,\n"
+                + "            \"current_page\": 1,\n"
+                + "            \"last_page\": 4,\n"
+                + "            \"next_page_url\": \"...\",\n"
+                + "            \"prev_page_url\": \"...\",\n"
+                + "            \"from\": 1,\n"
+                + "            \"to\": 15\n"
+                + "          }\n"
+                + "      },\n"
+                + "        \"data\": \n"
+                + "        [\n"
+                + "          {\n"
+                + "            \"id\": 1,\n"
+                + "            \"name\": \"Eugen Druta\",\n"
+                + "            \"nickname\": \"J\",\n"
+                + "            \"email\": \"druta@tup.com\",\n"
+                + "            \"birthdate\": \"1949-16-07\",\n"
+                + "            \"gender\": \"M\",\n"
+                + "            \"age\": \"70\",\n"
+                + "            \"salary\": \"xxxx.x\",\n"
+                + "            \"group_id\": 1\n"
+                + "          },\n"
+                + "          {\n"
+                + "            \"id\": 2,\n"
+                + "            \"name\": \"Max Mustermann\",\n"
+                + "            \"nickname\": \"Nick\",\n"
+                + "            \"email\": \"m.muster@server.com\",\n"
+                + "            \"birthdate\": \"2011-28-12\",\n"
+                + "            \"gender\": \"M\",\n"
+                + "            \"age\": \"8\",\n"
+                + "            \"salary\": \"1.0\",\n"
+                + "            \"group_id\": 2\n"
+                + "          }\n"
+                + "        ]\n"
+                + "      }      \n"
+                + "";
+        MyLogger.log(className, "jsonString: " + jsonString);
+        out.println(jsonString);
+        return;
+      }
+    }
+     */
     start = ((new Date()).getTime()) / 1000.;
 
     //Table und WHERE-Klausel
@@ -123,8 +186,9 @@ public class Auftueb extends HttpServlet {
       }
 
       rs = stmt.executeQuery(sqlstm);
+      MyLogger.log(className, "ABCDEF: sqlstm: " + sqlstm);
       anzCol = rs.getMetaData().getColumnCount();
-      //MyLogger.log(className, "table: " + "anzRow: " + anzRow + "; anzCol: " + anzCol);
+      MyLogger.log(className, "table: " + "anzRow: " + anzRow + "; anzCol: " + anzCol);
 
       String[] dataItem = new String[anzCol];
       String[][] data = new String[anzRow][anzCol];
@@ -181,7 +245,7 @@ public class Auftueb extends HttpServlet {
         }
         i++;
       }
-      AuftuebItem auftuebItem = new AuftuebItem(anzRow, anzCol);
+      auftuebItem = new AuftuebItem(anzRow, anzCol);
       for (int j = 0; j < data.length; j++) {
         String[] strings = data[j];
         for (int k = 0; k < strings.length; k++) {
@@ -194,7 +258,29 @@ public class Auftueb extends HttpServlet {
 
       Gson gson = new Gson();
       jsonString = gson.toJson(auftuebItem);
-      //MyLogger.log(className, "jsonString: " + jsonString);
+      /* jsonString: {
+        "data":[
+          ["INTERN","ASTON MARTIN","adsf","adsf","asd","7005100","16 17 01 A 1",
+           "BYPG","0","","3","3","0","0","0","0","verfügbar","gesperrter Bestand",
+           "Interner Bestand",null,null,null,"0","0","1","LE1993837","MAN-int",
+           "HER-AST","FLOT-bp_sperr","BYPASS-SPERR","FEZO-bypg","BYPG","FLHT-kiste_a",
+           "A Kiste; 2 Euro",null,"","LZO-we","FFA156463","16 17 01 A 1","16","17",
+           "01","A","0","0","0","Stück","0",null,"keine","V","1","HOL-intka01",
+           "2017-10-04 00:00:00.0","2017-10-04 17:34:22.0",null,
+           "2017-10-04 17:34:22.809"],
+          ["INTERN","ASTON MARTIN","adsf","adsf","asd","7005099","16 17 01 A 1",
+           "BYPG","0","","1","1","0","0","0","0","verfügbar","freier Bestand",
+           "Interner Bestand",null,null,null,"0","0","1","LE1993831","MAN-int",
+           "HER-AST","FLOT-bp_sperr","BYPASS-SPERR","FEZO-bypg","BYPG","FLHT-kiste_a",
+           "A Kiste; 2 Euro",null,"","LZO-we","FFA156463","16 17 01 A 1","16","17",
+           "01","A","0","0","0","Stück","0",null,"keine","V","0","HOL-intka01",
+           "2017-10-04 00:00:00.0","2017-10-04 17:34:18.0",null,
+           "2017-10-04 17:34:18.084"]]}      
+       */
+      MyLogger.log(className, "XYZZ: jsonString: " + jsonString);
+      MyLogger.log(className, "XYZW: LE: jsonString.data[0][5]: "
+              + auftuebItem.getData()[0][5] + "; LE: jsonString.data[1][5]: "
+              + auftuebItem.getData()[1][5]);
 
       rs.close();
       stmt.close();
@@ -216,6 +302,146 @@ public class Auftueb extends HttpServlet {
       ende = ((new Date()).getTime()) / 1000.;
       duration = ende - start;
       MyLogger.log(className, "Ende: duration[Sek]: " + duration);
+      //jsonString: {"data": [ ["INTERN","ASTON MARTIN","adsf","adsf","asd","7005100","16 17 01 A 1","BYPG","0","","3","3","0","0","0","0","verfügbar","gesperrter Bestand","Interner Bestand",null,null,null,"0","0","1","LE1993837","MAN-int","HER-AST","FLOT-bp_sperr","BYPASS-SPERR","FEZO-bypg","BYPG","FLHT-kiste_a","A Kiste; 2 Euro",null,"","LZO-we","FFA156463","16 17 01 A 1","16","17","01","A","0","0","0","Stück","0",null,"keine","V","1","HOL-intka01","2017-10-04 00:00:00.0","2017-10-04 17:34:22.0",null,"2017-10-04 17:34:22.809"]]}
+      /*
+      if (page != null) {
+        jsonString = "      {\n"
+                + "        \"links\": \n"
+                + "          {\n"
+                + "            \"pagination\": {\n"
+                + "            \"total\": 50,\n"
+                + "            \"per_page\": 15,\n"
+                + "            \"current_page\": 1,\n"
+                + "            \"last_page\": 4,\n"
+                + "            \"next_page_url\": \"...\",\n"
+                + "            \"prev_page_url\": \"...\",\n"
+                + "            \"from\": 1,\n"
+                + "            \"to\": 15,\n"
+                + "          }\n"
+                + "      },\n"
+                + "        \"data\": \n"
+                + "        [\n"
+                + "          {\n"
+                + "            \"id\": 1,\n"
+                + "            \"name\": \"xxxxxxxxx\",\n"
+                + "            \"nickname\": \"xxxxxxx\",\n"
+                + "            \"email\": \"xxx@xxx.xxx\",\n"
+                + "            \"birthdate\": \"xxxx-xx-xx\",\n"
+                + "            \"gender\": \"X\",\n"
+                + "            \"group_id\": 1,\n"
+                + "          },\n"
+                + "          {\n"
+                + "            \"id\": 50,\n"
+                + "            \"name\": \"xxxxxxxxx\",\n"
+                + "            \"nickname\": \"xxxxxxx\",\n"
+                + "            \"email\": \"xxx@xxx.xxx\",\n"
+                + "            \"birthdate\": \"xxxx-xx-xx\",\n"
+                + "            \"gender\": \"X\",\n"
+                + "            \"group_id\": 3,\n"
+                + "          }\n"
+                + "        ]\n"
+                + "      }      \n"
+                + "";
+      
+        SELECT AC_MANDANT,AC_HERSTELLER,TEILENUMMER, HERSTELLERTEILENUMMER,TEILBEZ,LE,
+        LAGERORTBEZ,AC_ZONEAKTUELL,INVENTUR,AC_INVENTURGRUND,BESTANDTOTAL,BESTANDFREI,
+        BESTANDRESERVIERT,BESTANDGESPERRT,TRANSPORT,INTERNESPERRE,CK_DISPOSTATUS,
+        CK_QSSTATUS,AC_HOSTLAGER,AVISNR,KISTENNR,CONTAINERNR,KISTENDISPO,
+        INVENTURAVISIERUNG,VERPACKUNGSMENGE,ND_LEOID,MANDANT,HERSTELLER,FLSLAGERORTTYP,
+        AC_FLSLAGERORTTYP,ZONEAKTUELL,AC_ZONEAKTUELL,LHMTYP,AC_LHMTYP,ZONEAVISIERT,
+        AC_ZONEAVISIERT,ND_LAGERBEREICHOID,ND_LAGERORTOID,LAGERORTBEZ,LB,ZEILE,X,Y,
+        BESTANDNACHGEFRAGT,BESTANDGEPLANT,BESTANDLAUEFT,EINHEIT,ISRETOURE,
+        INVENTURGRUND,CK_INTERNESPERRE,DISPOSTATUS,QSSTATUS,HOSTLAGER,WEDATUM,
+        ERZEUGTDATUM,EINLAGERDATUM,INVENTURDATUM FROM v_dlg_bsueb WHERE 
+        MANDANT='MAN-int'
+      
+        jsonString: {
+          "data":[
+            ["INTERN","ASTON MARTIN","adsf","adsf","asd","7005100","16 17 01 A 1",
+              "BYPG",
+      "0","","3","3","0","0","0","0","verfügbar","gesperrter Bestand",
+              "Interner Bestand",null,null,null,"0","0","1","LE1993837","MAN-int",
+              "HER-AST","FLOT-bp_sperr","BYPASS-SPERR","FEZO-bypg","BYPG",
+              "FLHT-kiste_a","A Kiste; 2 Euro",null,"","LZO-we","FFA156463",
+              "16 17 01 A 1","16","17","01","A","0","0","0","Stück","0",null,"keine",
+              "V","1","HOL-intka01","2017-10-04 00:00:00.0","2017-10-04 17:34:22.0",
+              null,"2017-10-04 17:34:22.809"],
+            ["INTERN","ASTON MARTIN","adsf","adsf","asd","7005099","16 17 01 A 1",
+              "BYPG","0","","1","1","0","0","0","0","verfügbar","freier Bestand",
+              "Interner Bestand",null,null,null,"0","0","1","LE1993831","MAN-int",
+              "HER-AST","FLOT-bp_sperr","BYPASS-SPERR","FEZO-bypg","BYPG",
+              "FLHT-kiste_a","A Kiste; 2 Euro",null,"","LZO-we","FFA156463",
+              "16 17 01 A 1","16","17","01","A","0","0","0","Stück","0",null,"keine",
+              "V","0","HOL-intka01","2017-10-04 00:00:00.0","2017-10-04 17:34:18.0",
+              null,"2017-10-04 17:34:18.084"]]}      
+      }
+       */
+      if (page != null) {
+        jsonString = "      "
+                + "{\n"
+                + "        \"links\": \n"
+                + "          {\n"
+                + "            \"pagination\": {\n"
+                + "            \"total\": 50,\n"
+                + "            \"per_page\": 15,\n"
+                + "            \"current_page\": 1,\n"
+                + "            \"last_page\": 4,\n"
+                + "            \"next_page_url\": \"...\",\n"
+                + "            \"prev_page_url\": \"...\",\n"
+                + "            \"from\": 1,\n"
+                + "            \"to\": 15\n"
+                + "          }\n"
+                + "      },\n"
+                + "        \"data\": \n"
+                + "        [\n";
+
+        for (int i = 0; i < auftuebItem.getData().length; i++) {
+          jsonString += "{\n"
+                  + "            \"mandant\": \"" + auftuebItem.getData()[i][0] + "\",\n"
+                  + "            \"hersteller\": \"" + auftuebItem.getData()[i][1] + "\",\n"
+                  + "            \"teilenummer\": \"" + auftuebItem.getData()[i][2] + "\",\n"
+                  + "            \"HERSTELLERTEILENUMMER\": \"" + auftuebItem.getData()[i][3] + "\",\n"
+                  + "            \"TEILBEZ\": \"" + auftuebItem.getData()[i][4] + "\",\n"
+                  + "            \"le\": \"" + auftuebItem.getData()[i][5] + "\",\n"
+                  + "            \"LAGERORTBEZ\": \"" + auftuebItem.getData()[i][6] + "\",\n"
+                  + "            \"ZONEAKTUELL\": \"" + auftuebItem.getData()[i][7] + "\"\n";
+          if (i == (auftuebItem.getData().length - 1)) {
+            jsonString += "}\n";
+          } else {
+            jsonString += "},\n";
+          }
+        }
+        jsonString += "]\n"
+                + "}\n";
+
+        /*
+        jsonString += "{\n"
+        + "            \"mandant\": \"" + auftuebItem.getData()[0][0] + "\",\n"
+        + "            \"hersteller\": \"" + auftuebItem.getData()[0][1] + "\",\n"
+        + "            \"teilenummer\": \"" + auftuebItem.getData()[0][2] + "\",\n"
+        + "            \"HERSTELLERTEILENUMMER\": \"" + auftuebItem.getData()[0][3] + "\",\n"
+        + "            \"TEILBEZ\": \"" + auftuebItem.getData()[0][4] + "\",\n"
+        + "            \"le\": \"" + auftuebItem.getData()[0][5] + "\",\n"
+        + "            \"LAGERORTBEZ\": \"" + auftuebItem.getData()[0][6] + "\",\n"
+        + "            \"ZONEAKTUELL\": \"" + auftuebItem.getData()[0][7] + "\"\n"
+        + "          },\n"
+        + "          {\n"
+        + "            \"mandant\": \"" + auftuebItem.getData()[1][0] + "\",\n"
+        + "            \"hersteller\": \"" + auftuebItem.getData()[1][1] + "\",\n"
+        + "            \"teilenummer\": \"" + auftuebItem.getData()[1][2] + "\",\n"
+        + "            \"HERSTELLERTEILENUMMER\": \"" + auftuebItem.getData()[1][3] + "\",\n"
+        + "            \"TEILBEZ\": \"" + auftuebItem.getData()[1][4] + "\",\n"
+        + "            \"le\": \"" + auftuebItem.getData()[1][5] + "\",\n"
+        + "            \"LAGERORTBEZ\": \"" + auftuebItem.getData()[1][6] + "\",\n"
+        + "            \"ZONEAKTUELL\": \"" + auftuebItem.getData()[1][7] + "\"\n"
+        + "          }\n"
+        + "        ]\n"
+        + "      }\n"
+        + "";
+         */
+      }
+
+      MyLogger.log(className, "jsonString: " + jsonString);
       out.println(jsonString);
     }
   }

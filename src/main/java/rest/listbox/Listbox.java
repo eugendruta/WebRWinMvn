@@ -61,6 +61,7 @@ public class Listbox extends HttpServlet {
     String s_anzeige_txt;
 
     response.setContentType("text/html;charset=UTF-8");
+    response.setHeader("Access-Control-Allow-Origin", "*");
 
     String _response = "";
     //Param: "typ": "Konst", "table": "V_UX_KONSTANTEN", "constkey": "LE.DispoStatus"
@@ -131,8 +132,8 @@ public class Listbox extends HttpServlet {
           //fehler: jsonString: [{"id":"-1", "name":"typ ist falsch"}, {"id":"2", "name":"LB #2" } ]
           jsonString = "[{\"id\": \"-1\", \"name\": \"fehler: typ falsch\"}]";
           //MyLogger.log(className, "typ: " + typ + "; table: " + table
-                  //+ "; constkey: " + constkey + "; jsonStringlength(): "
-                  //+ jsonString.length() + "; jsonString: " + jsonString);
+          //+ "; constkey: " + constkey + "; jsonStringlength(): "
+          //+ jsonString.length() + "; jsonString: " + jsonString);
           out.println(jsonString);
         }
         return;
@@ -190,6 +191,8 @@ public class Listbox extends HttpServlet {
       }
     }
 
+    MyLogger.log(className, "cachefound: " + cachefound);
+    cachefound = false;
     if (!cachefound) {
       //MyLogger.log(className, "kein cacheeintrag für: " + _table);
       //MyLogger.log(className, "cntstmt: " + cntstmt);
@@ -212,8 +215,8 @@ public class Listbox extends HttpServlet {
         rs = stmt.executeQuery(selstmt);
         int anzCol = rs.getMetaData().getColumnCount();
         //MyLogger.log(className, "WWWW table: " + table + "; anzRow: " + anzRow
-                //+ "; anzCol: " + anzCol + "; _table: " + _table
-                //+ "; constkey: " + constkey + "; constkeyval: " + constkeyval);
+        //+ "; anzCol: " + anzCol + "; _table: " + _table
+        //+ "; constkey: " + constkey + "; constkeyval: " + constkeyval);
 
         int i = 0;
         ArrayList<Object> columns;
@@ -223,10 +226,10 @@ public class Listbox extends HttpServlet {
             columns.add(rs.getObject(j));
           }
           dependency = null;
-          if (anzCol == 3) { 
+          if (anzCol == 3) {
             dependency = rs.getObject(3).toString();
             //MyLogger.log(className, "anzCol == 3:  table: " + table + "; anzRow: " + anzRow
-                    //+ "; anzCol: " + anzCol + "; dependency: " + dependency);
+            //+ "; anzCol: " + anzCol + "; dependency: " + dependency);
           }
 
           options[i] = new DropdownItem(columns);
@@ -369,9 +372,15 @@ public class Listbox extends HttpServlet {
     try (PrintWriter out = response.getWriter()) {
       //korrekt: jsonString: [{"id":"1", "name":"LB #1"}, {"id":"2", "name":"LB #2" } ]
       MyLogger.log(className, "typ: " + typ + "; table: " + table
-              + "; constkey: " + constkey + "; jsonStringlength(): "
-              + jsonString.length());
-      //+ jsonString.length() + "; jsonString: " + jsonString);      
+              + "; constkey: " + constkey + "; constkeyval: " + constkeyval 
+              + "; jsonStringlength(): " + jsonString.length());
+      if (typ.equals("depends")) {
+        MyLogger.log(className, "jsonString: " + jsonString);
+      }
+      if (jsonString.length() == 0) {
+        //Keine daten gefunden
+        jsonString = "[{\"id\":\"-1\", \"name\":\"NO_DATA_FOUND\"}]";
+      }
       out.println(jsonString);
     }
   }
