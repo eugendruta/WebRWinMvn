@@ -43,7 +43,8 @@ var data = [
     label: 'Bestandsverwaltung',
     children: [
       {label: 'BSUEB: Bestands-Übersicht'},
-      {label: 'AVUEB: Auftragsübersicht'}
+      {label: 'AVUEB: Auftragsübersicht'},
+      {label: 'BPROT: Bestandsprotokoll'}      
     ]
   }, {
     label: 'Wareneingang',
