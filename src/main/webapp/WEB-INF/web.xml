@@ -9,6 +9,14 @@
         </init-param>
     </servlet>
     <servlet>
+        <servlet-name>Auftdet</servlet-name>
+        <servlet-class>rest.auftdet.Auftdet</servlet-class>
+        <init-param>
+            <param-name>status</param-name>
+            <param-value>1</param-value>
+        </init-param>
+    </servlet>    
+    <servlet>
         <servlet-name>testnodb</servlet-name>
         <servlet-class>rest.test.testnodb</servlet-class>
         <init-param>
@@ -52,6 +60,10 @@
         <servlet-name>Auftueb</servlet-name>
         <url-pattern>/Auftueb</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Auftdet</servlet-name>
+        <url-pattern>/Auftdet</url-pattern>
+    </servlet-mapping>    
     <servlet-mapping>
         <servlet-name>testnodb</servlet-name>
         <url-pattern>/testnodb</url-pattern>

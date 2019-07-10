@@ -185,6 +185,12 @@ public class Auftdet extends HttpServlet {
         anzRow = rs.getInt(1);
       }
 
+      //Anzahl Records
+      if ( anzRow <= 0) {
+        //Keine daten gefunden
+        
+      }
+      
       rs = stmt.executeQuery(sqlstm);
       MyLogger.log(className, "ABCDEF: sqlstm: " + sqlstm);
       anzCol = rs.getMetaData().getColumnCount();
@@ -278,9 +284,9 @@ public class Auftdet extends HttpServlet {
            "2017-10-04 17:34:18.084"]]}      
        */
       MyLogger.log(className, "XYZZ: jsonString: " + jsonString);
-      MyLogger.log(className, "XYZW: LE: jsonString.data[0][5]: "
-              + auftdetItem.getData()[0][5] + "; LE: jsonString.data[1][5]: "
-              + auftdetItem.getData()[1][5]);
+      //MyLogger.log(className, "XYZW: LE: jsonString.data[0][5]: "
+              //+ auftdetItem.getData()[0][5] + "; LE: jsonString.data[1][5]: "
+              //+ auftdetItem.getData()[1][5]);
 
       rs.close();
       stmt.close();

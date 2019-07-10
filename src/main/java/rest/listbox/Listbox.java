@@ -112,7 +112,7 @@ public class Listbox extends HttpServlet {
          */
         selstmt = table;
         if ((constkey != null) && (constkeyval != null)) {
-          selstmt += " WHERE " + constkey + "='" + constkeyval + "'";
+          selstmt += " WHERE " + constkey + "=" + constkeyval;
         }
         //MyLogger.log(className, "YYY selstmt: " + selstmt);
         _name = selstmt.split(" ")[1].substring(0, (selstmt.split(" ")[1].length() - 1));
@@ -123,7 +123,7 @@ public class Listbox extends HttpServlet {
           String _where = selstmt.split("WHERE")[1];
           cntstmt += " WHERE " + _where;
         }
-        //MyLogger.log(className, "YYY cntstmt: " + cntstmt);
+        MyLogger.log(className, "YYY cntstmt: " + cntstmt);
         break;
       default:
         //MyLogger.log(className, "typ: " + typ + " ist falsch; table: " + table                + "; constkey: " + constkey);

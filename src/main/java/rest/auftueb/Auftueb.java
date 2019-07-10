@@ -1,5 +1,6 @@
 package rest.auftueb;
 
+import rest.auftdet.AuftdetItem;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -59,7 +60,7 @@ public class Auftueb extends HttpServlet {
     double start;
     double ende;
     double duration;
-    AuftuebItem auftuebItem = new AuftuebItem(1, 1);
+    AuftdetItem auftuebItem = new AuftdetItem(1, 1);
 
     response.setContentType("text/html;charset=UTF-8");
     response.setHeader("Access-Control-Allow-Origin", "*");
@@ -245,7 +246,7 @@ public class Auftueb extends HttpServlet {
         }
         i++;
       }
-      auftuebItem = new AuftuebItem(anzRow, anzCol);
+      auftuebItem = new AuftdetItem(anzRow, anzCol);
       for (int j = 0; j < data.length; j++) {
         String[] strings = data[j];
         for (int k = 0; k < strings.length; k++) {

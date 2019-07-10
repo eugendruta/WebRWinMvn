@@ -1,7 +1,5 @@
 package rest.callux;
 
-import rest.auftueb.*;
-
 public class LoginItem {
 
   /* result: 
