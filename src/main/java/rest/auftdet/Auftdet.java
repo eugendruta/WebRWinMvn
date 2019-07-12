@@ -1,5 +1,6 @@
 package rest.auftdet;
 
+import rest.auftdetail.AuftdetailItem;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -59,7 +60,7 @@ public class Auftdet extends HttpServlet {
     double start;
     double ende;
     double duration;
-    AuftdetItem auftdetItem = new AuftdetItem(1, 1);
+    AuftdetailItem auftdetItem = new AuftdetailItem(1, 1);
 
     response.setContentType("text/html;charset=UTF-8");
     response.setHeader("Access-Control-Allow-Origin", "*");
@@ -234,7 +235,7 @@ public class Auftdet extends HttpServlet {
               attribute = context.getAttribute(key);
               if (attribute == null) {
                 //Cache leer: eintragen
-                //MyLogger.log(className, "Cache leer: key: " + key);
+                MyLogger.log(className, "Cache leer: key: " + key);
                 //String[] _val = new String[1];
                 //_val[0] = "";
                 //context.setAttribute(key, _val);
@@ -251,7 +252,7 @@ public class Auftdet extends HttpServlet {
         }
         i++;
       }
-      auftdetItem = new AuftdetItem(anzRow, anzCol);
+      auftdetItem = new AuftdetailItem(anzRow, anzCol);
       for (int j = 0; j < data.length; j++) {
         String[] strings = data[j];
         for (int k = 0; k < strings.length; k++) {

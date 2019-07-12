@@ -15,7 +15,15 @@
             <param-name>status</param-name>
             <param-value>1</param-value>
         </init-param>
-    </servlet>    
+    </servlet>
+    <servlet>
+        <servlet-name>Auftdetail</servlet-name>
+        <servlet-class>rest.auftdetail.Auftdetail</servlet-class>
+        <init-param>
+            <param-name>status</param-name>
+            <param-value>1</param-value>
+        </init-param>
+    </servlet>
     <servlet>
         <servlet-name>testnodb</servlet-name>
         <servlet-class>rest.test.testnodb</servlet-class>
@@ -63,7 +71,7 @@
     <servlet-mapping>
         <servlet-name>Auftdet</servlet-name>
         <url-pattern>/Auftdet</url-pattern>
-    </servlet-mapping>    
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>testnodb</servlet-name>
         <url-pattern>/testnodb</url-pattern>
@@ -100,10 +108,14 @@
         <servlet-name>Longpolling</servlet-name>
         <url-pattern>/Longpolling</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Auftdetail</servlet-name>
+        <url-pattern>/Auftdetail</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
-        </session-timeout>
+      30
+    </session-timeout>
     </session-config>
     <welcome-file-list>
         <welcome-file>webrw.html</welcome-file>

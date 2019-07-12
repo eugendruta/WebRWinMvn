@@ -1,6 +1,5 @@
-package rest.auftueb;
+package rest.auftdetail;
 
-import rest.auftdetail.AuftdetailItem;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import util.MyLogger;
 
-public class Auftueb extends HttpServlet {
+public class Auftdetail extends HttpServlet {
 
   @Resource(name = "elvisdev")
   private DataSource elvisdev;
@@ -60,7 +59,7 @@ public class Auftueb extends HttpServlet {
     double start;
     double ende;
     double duration;
-    AuftdetailItem auftuebItem = new AuftdetailItem(1, 1);
+    AuftdetailItem auftdetItem = new AuftdetailItem(1, 1);
 
     response.setContentType("text/html;charset=UTF-8");
     response.setHeader("Access-Control-Allow-Origin", "*");
@@ -186,6 +185,12 @@ public class Auftueb extends HttpServlet {
         anzRow = rs.getInt(1);
       }
 
+      //Anzahl Records
+      if ( anzRow <= 0) {
+        //Keine daten gefunden
+        
+      }
+      
       rs = stmt.executeQuery(sqlstm);
       MyLogger.log(className, "ABCDEF: sqlstm: " + sqlstm);
       anzCol = rs.getMetaData().getColumnCount();
@@ -229,7 +234,7 @@ public class Auftueb extends HttpServlet {
               attribute = context.getAttribute(key);
               if (attribute == null) {
                 //Cache leer: eintragen
-                //MyLogger.log(className, "Cache leer: key: " + key);
+                MyLogger.log(className, "Cache leer: key: " + key);
                 //String[] _val = new String[1];
                 //_val[0] = "";
                 //context.setAttribute(key, _val);
@@ -246,7 +251,7 @@ public class Auftueb extends HttpServlet {
         }
         i++;
       }
-      auftuebItem = new AuftdetailItem(anzRow, anzCol);
+      auftdetItem = new AuftdetailItem(anzRow, anzCol);
       for (int j = 0; j < data.length; j++) {
         String[] strings = data[j];
         for (int k = 0; k < strings.length; k++) {
@@ -255,10 +260,10 @@ public class Auftueb extends HttpServlet {
         }
       }
 
-      auftuebItem.setData(data);
+      auftdetItem.setData(data);
 
       Gson gson = new Gson();
-      jsonString = gson.toJson(auftuebItem);
+      jsonString = gson.toJson(auftdetItem);
       /* jsonString: {
         "data":[
           ["INTERN","ASTON MARTIN","adsf","adsf","asd","7005100","16 17 01 A 1",
@@ -279,9 +284,9 @@ public class Auftueb extends HttpServlet {
            "2017-10-04 17:34:18.084"]]}      
        */
       MyLogger.log(className, "XYZZ: jsonString: " + jsonString);
-      MyLogger.log(className, "XYZW: LE: jsonString.data[0][5]: "
-              + auftuebItem.getData()[0][5] + "; LE: jsonString.data[1][5]: "
-              + auftuebItem.getData()[1][5]);
+      //MyLogger.log(className, "XYZW: LE: jsonString.data[0][5]: "
+              //+ auftdetItem.getData()[0][5] + "; LE: jsonString.data[1][5]: "
+              //+ auftdetItem.getData()[1][5]);
 
       rs.close();
       stmt.close();
@@ -396,17 +401,17 @@ public class Auftueb extends HttpServlet {
                 + "        \"data\": \n"
                 + "        [\n";
 
-        for (int i = 0; i < auftuebItem.getData().length; i++) {
+        for (int i = 0; i < auftdetItem.getData().length; i++) {
           jsonString += "{\n"
-                  + "            \"mandant\": \"" + auftuebItem.getData()[i][0] + "\",\n"
-                  + "            \"hersteller\": \"" + auftuebItem.getData()[i][1] + "\",\n"
-                  + "            \"teilenummer\": \"" + auftuebItem.getData()[i][2] + "\",\n"
-                  + "            \"HERSTELLERTEILENUMMER\": \"" + auftuebItem.getData()[i][3] + "\",\n"
-                  + "            \"TEILBEZ\": \"" + auftuebItem.getData()[i][4] + "\",\n"
-                  + "            \"le\": \"" + auftuebItem.getData()[i][5] + "\",\n"
-                  + "            \"LAGERORTBEZ\": \"" + auftuebItem.getData()[i][6] + "\",\n"
-                  + "            \"ZONEAKTUELL\": \"" + auftuebItem.getData()[i][7] + "\"\n";
-          if (i == (auftuebItem.getData().length - 1)) {
+                  + "            \"mandant\": \"" + auftdetItem.getData()[i][0] + "\",\n"
+                  + "            \"hersteller\": \"" + auftdetItem.getData()[i][1] + "\",\n"
+                  + "            \"teilenummer\": \"" + auftdetItem.getData()[i][2] + "\",\n"
+                  + "            \"HERSTELLERTEILENUMMER\": \"" + auftdetItem.getData()[i][3] + "\",\n"
+                  + "            \"TEILBEZ\": \"" + auftdetItem.getData()[i][4] + "\",\n"
+                  + "            \"le\": \"" + auftdetItem.getData()[i][5] + "\",\n"
+                  + "            \"LAGERORTBEZ\": \"" + auftdetItem.getData()[i][6] + "\",\n"
+                  + "            \"ZONEAKTUELL\": \"" + auftdetItem.getData()[i][7] + "\"\n";
+          if (i == (auftdetItem.getData().length - 1)) {
             jsonString += "}\n";
           } else {
             jsonString += "},\n";
@@ -417,24 +422,24 @@ public class Auftueb extends HttpServlet {
 
         /*
         jsonString += "{\n"
-        + "            \"mandant\": \"" + auftuebItem.getData()[0][0] + "\",\n"
-        + "            \"hersteller\": \"" + auftuebItem.getData()[0][1] + "\",\n"
-        + "            \"teilenummer\": \"" + auftuebItem.getData()[0][2] + "\",\n"
-        + "            \"HERSTELLERTEILENUMMER\": \"" + auftuebItem.getData()[0][3] + "\",\n"
-        + "            \"TEILBEZ\": \"" + auftuebItem.getData()[0][4] + "\",\n"
-        + "            \"le\": \"" + auftuebItem.getData()[0][5] + "\",\n"
-        + "            \"LAGERORTBEZ\": \"" + auftuebItem.getData()[0][6] + "\",\n"
-        + "            \"ZONEAKTUELL\": \"" + auftuebItem.getData()[0][7] + "\"\n"
+        + "            \"mandant\": \"" + auftdetItem.getData()[0][0] + "\",\n"
+        + "            \"hersteller\": \"" + auftdetItem.getData()[0][1] + "\",\n"
+        + "            \"teilenummer\": \"" + auftdetItem.getData()[0][2] + "\",\n"
+        + "            \"HERSTELLERTEILENUMMER\": \"" + auftdetItem.getData()[0][3] + "\",\n"
+        + "            \"TEILBEZ\": \"" + auftdetItem.getData()[0][4] + "\",\n"
+        + "            \"le\": \"" + auftdetItem.getData()[0][5] + "\",\n"
+        + "            \"LAGERORTBEZ\": \"" + auftdetItem.getData()[0][6] + "\",\n"
+        + "            \"ZONEAKTUELL\": \"" + auftdetItem.getData()[0][7] + "\"\n"
         + "          },\n"
         + "          {\n"
-        + "            \"mandant\": \"" + auftuebItem.getData()[1][0] + "\",\n"
-        + "            \"hersteller\": \"" + auftuebItem.getData()[1][1] + "\",\n"
-        + "            \"teilenummer\": \"" + auftuebItem.getData()[1][2] + "\",\n"
-        + "            \"HERSTELLERTEILENUMMER\": \"" + auftuebItem.getData()[1][3] + "\",\n"
-        + "            \"TEILBEZ\": \"" + auftuebItem.getData()[1][4] + "\",\n"
-        + "            \"le\": \"" + auftuebItem.getData()[1][5] + "\",\n"
-        + "            \"LAGERORTBEZ\": \"" + auftuebItem.getData()[1][6] + "\",\n"
-        + "            \"ZONEAKTUELL\": \"" + auftuebItem.getData()[1][7] + "\"\n"
+        + "            \"mandant\": \"" + auftdetItem.getData()[1][0] + "\",\n"
+        + "            \"hersteller\": \"" + auftdetItem.getData()[1][1] + "\",\n"
+        + "            \"teilenummer\": \"" + auftdetItem.getData()[1][2] + "\",\n"
+        + "            \"HERSTELLERTEILENUMMER\": \"" + auftdetItem.getData()[1][3] + "\",\n"
+        + "            \"TEILBEZ\": \"" + auftdetItem.getData()[1][4] + "\",\n"
+        + "            \"le\": \"" + auftdetItem.getData()[1][5] + "\",\n"
+        + "            \"LAGERORTBEZ\": \"" + auftdetItem.getData()[1][6] + "\",\n"
+        + "            \"ZONEAKTUELL\": \"" + auftdetItem.getData()[1][7] + "\"\n"
         + "          }\n"
         + "        ]\n"
         + "      }\n"
