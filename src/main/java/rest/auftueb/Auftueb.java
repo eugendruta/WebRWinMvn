@@ -279,10 +279,13 @@ public class Auftueb extends HttpServlet {
            "2017-10-04 17:34:18.084"]]}      
        */
       MyLogger.log(className, "XYZZ: jsonString: " + jsonString);
-      MyLogger.log(className, "XYZW: LE: jsonString.data[0][5]: "
-              + auftuebItem.getData()[0][5] + "; LE: jsonString.data[1][5]: "
-              + auftuebItem.getData()[1][5]);
-
+      if (auftuebItem.getData().length == 0) {
+        jsonString = "NO_DATA_FOUND";
+      } else {
+        MyLogger.log(className, "XYZW: LE: jsonString.data[0][5]: "
+                + auftuebItem.getData()[0][5] + "; LE: jsonString.data[1][5]: "
+                + auftuebItem.getData()[1][5]);
+      }
       rs.close();
       stmt.close();
     } catch (SQLException ex) {
