@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+  <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <style>
+      .btn-space {
+        margin-right: 15px;
+      }
+      .text-underline {
+        text-decoration: underline;
+      }
+    </style>    
+  </head>
+  <body>
+    <div class="container">
+      <h2 align="center" class="text-muted">Timing Events in JavaScript</h2>
+      <hr />
+
+      <!-- JavaScript Timing Events Example -->
+      <div id="title">
+        <h4 class="text-info">Definition</h4>
+        <ul>
+          <li>In javascript, <span class="text-underline">a piece of code can be executed at specified time intervals</span>. This concept is called as <mark>Timing events</mark>.</li>
+          <li><code>setInterval(function, delay)</code>: Executes a specified function repeatedly at specific time intervals. The <code>function</code> parameter specifies the function name and <code>delay</code> parameter specifies the time in milliseconds before calling the specified function.</li>
+          <li><code>setTimeout(function, delay)</code>: Executes a specified function after waiting for a specified number of milliseconds. The <code>function</code> parameter specifies the function name and <code>delay</code> parameter specifies the time in milliseconds to wait before calling the specified function.</li>
+          <li><code>clearInterval(timerVar)</code>: Stops the constant execution of a method set by the <code>setInterval()</code> method.</li>
+        </ul>
+        <div> </div>
+
+        <h4 class="text-info">Usage</h4>
+        <div id="clock">
+          <button type="button" class="btn btn-success btn-space" onclick="startClock();">Start Clock</button>
+          <button type="button" class="btn btn-danger" onclick="stopClock();">Stop Clock</button>
+        </div>
+        <div> </div>
+
+        <div id="result" class="display-4"></div>
+      </div>
+    </div>
+    <script>
+      // JavaScript timing events.
+      var intervalId;
+
+      function startClock() {
+        console.log("Clock started!");
+        intervalId = setInterval(getCurrentDateTime, 1000);
+      }
+      function stopClock() {
+        console.log("Clock stopped!");
+        clearInterval(intervalId);
+        document.getElementById("result").innerHTML = "";
+      }
+      function getCurrentDateTime() {
+        var mydate = new Date();
+        document.getElementById("result").innerHTML = mydate.toLocaleTimeString();
+      }
+    </script>
+  </body>
+</html>
