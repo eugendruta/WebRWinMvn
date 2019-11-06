@@ -56,14 +56,6 @@
         <servlet-name>Clientdata</servlet-name>
         <servlet-class>rest.callux.Clientdata</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>Sse</servlet-name>
-        <servlet-class>rest.callux.Sse</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>Longpolling</servlet-name>
-        <servlet-class>rest.callux.Longpolling</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>Auftueb</servlet-name>
         <url-pattern>/Auftueb</url-pattern>
@@ -99,14 +91,6 @@
     <servlet-mapping>
         <servlet-name>Clientdata</servlet-name>
         <url-pattern>/Clientdata</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Sse</servlet-name>
-        <url-pattern>/sse</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Longpolling</servlet-name>
-        <url-pattern>/Longpolling</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Auftdetail</servlet-name>
