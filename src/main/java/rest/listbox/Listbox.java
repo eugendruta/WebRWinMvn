@@ -372,7 +372,7 @@ public class Listbox extends HttpServlet {
     try (PrintWriter out = response.getWriter()) {
       //korrekt: jsonString: [{"id":"1", "name":"LB #1"}, {"id":"2", "name":"LB #2" } ]
       MyLogger.log(className, "typ: " + typ + "; table: " + table
-              + "; constkey: " + constkey + "; constkeyval: " + constkeyval 
+              + "; constkey: " + constkey + "; constkeyval: " + constkeyval
               + "; jsonStringlength(): " + jsonString.length());
       if (typ.equals("depends")) {
         MyLogger.log(className, "jsonString: " + jsonString);
