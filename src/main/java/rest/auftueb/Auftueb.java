@@ -296,9 +296,11 @@ public class Auftueb extends HttpServlet {
         //Close DB Connection
         if (conn != null) {
           conn.close();
+          conn = null;
         }
       } catch (SQLException ex) {
         MyLogger.log(className, "Close DB Connection: SQLException: " + ex.getMessage());
+        conn = null;
       }
     }
 

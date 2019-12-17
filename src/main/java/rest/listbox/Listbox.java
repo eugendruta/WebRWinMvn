@@ -300,9 +300,11 @@ public class Listbox extends HttpServlet {
           //Close DB Connection
           if (conn != null) {
             conn.close();
+            conn = null;
           }
         } catch (SQLException ex) {
           Logger.getLogger(Listbox.class.getName()).log(Level.SEVERE, null, ex);
+          conn = null;
         }
       }
     }
